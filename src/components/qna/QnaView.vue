@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import QnaCommentFormItem from "./item/QnaCommentFormItem.vue";
+import QnaCommentListItem from "./item/QnaCommentListItem.vue";
 import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
 
 const route = useRoute();
@@ -97,6 +99,8 @@ function onDeleteInquiry() {
             </button>
           </div>
         </div>
+        <QnaCommentFormItem />
+        <QnaCommentListItem />
       </div>
     </div>
   </div>
