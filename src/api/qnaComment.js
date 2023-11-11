@@ -25,17 +25,12 @@ function deleteComment(qnaNo, commentNo, success, fail) {
   local.delete(`${url}/${qnaNo}/comments/${commentNo}`).then(success).catch(fail);
 }
 
-// function getModifyInquiry(qnaNo, success, fail) {
-//   local.get(`${url}/${qnaNo}`).then(success).catch(fail);
-// }
-
-// function modifyInquiry(qnaNo, inquiry, success, fail) {
-//   local.put(`${url}/${qnaNo}`, JSON.stringify(inquiry)).then(success).catch(fail);
-// }
-
-// function deleteInquiry(qnaNo, success, fail) {
-//   local.delete(`${url}/${qnaNo}`).then(success).catch(fail);
-// }
+function modifyQnaComment(qnaNo, commentNo, comment, success, fail) {
+  local
+    .put(`${url}/${qnaNo}/comments/${commentNo}`, JSON.stringify(comment))
+    .then(success)
+    .catch(fail);
+}
 
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
-export { createQnaComment, getCommentListByInquiryNo, deleteComment };
+export { createQnaComment, getCommentListByInquiryNo, deleteComment, modifyQnaComment };

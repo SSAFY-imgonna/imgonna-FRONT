@@ -52,6 +52,7 @@ function writeComment() {
       // alert("댓글 작성이 완료되었습니다.");
       // router.push({ name: "qna-view" });
       insertEvent();
+      comment.value.content = "";
     },
     (error) => {
       console.log(error);
