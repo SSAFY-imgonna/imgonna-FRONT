@@ -8,6 +8,10 @@ const route = useRoute();
 
 const { qnaNo } = route.params;
 
+const emit = defineEmits(["insertComment"]);
+const insertEvent = function () {
+  emit("insertComment");
+};
 const comment = ref({
   qnaNo: qnaNo,
   content: "",
@@ -46,7 +50,8 @@ function writeComment() {
     ({ data }) => {
       console.log(data);
       // alert("댓글 작성이 완료되었습니다.");
-      router.push({ name: "qna-view" });
+      // router.push({ name: "qna-view" });
+      insertEvent();
     },
     (error) => {
       console.log(error);
