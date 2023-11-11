@@ -12,11 +12,10 @@ const props = defineProps({ type: String });
 const isUseId = ref(false);
 
 const inquiry = ref({
-  // qnaNo: 0,
-  title: "",
+  qnaNo: 0,
   content: "",
   createdTime: "",
-  modifiedTiem: "",
+  modifiedTime: "",
   id: "ssafy", // 이거 나중에 ssafy에서 바꿔야!!
 });
 
