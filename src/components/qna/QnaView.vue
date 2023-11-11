@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import QnaCommentFormItem from "./item/QnaCommentFormItem.vue";
 import QnaCommentListItem from "./item/QnaCommentListItem.vue";
-import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
+import { getInquiryByInquiryNo, deleteInquiry, getCommentListByInquiryNo } from "@/api/qna";
 
 const route = useRoute();
 const router = useRouter();
@@ -11,9 +11,11 @@ const router = useRouter();
 const { qnaNo } = route.params;
 
 const inquiry = ref({});
+const commentList = ref({});
 
 onMounted(() => {
   getInquiry();
+  getComments();
 });
 
 const getInquiry = () => {
@@ -24,6 +26,20 @@ const getInquiry = () => {
     ({ data }) => {
       console.log(data);
       inquiry.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
+const getComments = () => {
+  console.log(qnaNo + "번글 댓글 얻으러 가자!!!");
+  getCommentListByInquiryNo(
+    qnaNo,
+    ({ data }) => {
+      console.log(data);
+      commentList.value = data;
     },
     (error) => {
       console.log(error);
@@ -100,7 +116,11 @@ function onDeleteInquiry() {
           </div>
         </div>
         <QnaCommentFormItem />
-        <QnaCommentListItem />
+        <QnaCommentListItem
+          v-for="comment in commentList"
+          :key="comment.commentNo"
+          :comment="comment"
+        />
       </div>
     </div>
   </div>

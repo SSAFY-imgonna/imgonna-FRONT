@@ -29,6 +29,10 @@ function deleteInquiry(qnaNo, success, fail) {
   local.delete(`${url}/${qnaNo}`).then(success).catch(fail);
 }
 
+function getCommentListByInquiryNo(qnaNo, success, fail) {
+  local.get(`${url}/${qnaNo}/comments`).then(success).catch(fail);
+}
+
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
 export {
   getInquiryList,
@@ -37,4 +41,5 @@ export {
   getModifyInquiry,
   modifyInquiry,
   deleteInquiry,
+  getCommentListByInquiryNo,
 };
