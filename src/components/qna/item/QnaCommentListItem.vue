@@ -73,6 +73,9 @@ const cancelEditing = () => {
     <!-- <b><h5>data.list[idx].id</h5></b> -->
     <!-- 기존 댓글 -->
     <div v-if="!isEditing" class="sub-item">
+      <b
+        ><h5>{{ comment.id }}</h5></b
+      >
       <div class="mb-2 mContent">{{ comment.content }}</div>
       <span class="reg-date">{{ comment.createdTime }} </span>
 

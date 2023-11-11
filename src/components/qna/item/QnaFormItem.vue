@@ -13,6 +13,7 @@ const isUseId = ref(false);
 
 const inquiry = ref({
   qnaNo: 0,
+  title: "",
   content: "",
   createdTime: "",
   modifiedTime: "",
