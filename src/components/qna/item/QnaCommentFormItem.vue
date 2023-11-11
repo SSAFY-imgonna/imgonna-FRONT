@@ -1,4 +1,59 @@
-<script setup></script>
+<script setup>
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { createQnaComment } from "@/api/qnaComment";
+
+const router = useRouter();
+const route = useRoute();
+
+const { qnaNo } = route.params;
+
+const comment = ref({
+  qnaNo: qnaNo,
+  content: "",
+  createdTime: "",
+  modifiedTime: "",
+  id: "ssafy", // 이거 나중에 ssafy에서 바꿔야!!
+});
+
+const contentErrMsg = ref("");
+watch(
+  () => comment.value.content,
+  (value) => {
+    let len = value.length;
+    if (len == 0 || len > 100) {
+      contentErrMsg.value = "내용을 확인해 주세요!!!";
+    } else contentErrMsg.value = "";
+  },
+  // 처음 페이지 들어왔을때는 감시 안됨 => immediate:true로 처음 들어오자마자 한번 실행하고 감시
+  { immediate: true }
+);
+
+function onSubmit() {
+  if (contentErrMsg.value) {
+    alert(contentErrMsg.value);
+  } else {
+    writeComment();
+  }
+}
+
+function writeComment() {
+  console.log("댓글등록하자!!", comment.value);
+  // API 호출
+  createQnaComment(
+    qnaNo,
+    comment.value,
+    ({ data }) => {
+      console.log(data);
+      // alert("댓글 작성이 완료되었습니다.");
+      router.push({ name: "qna-view" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+</script>
 
 <template>
   <div id="comment-div" class="mt-0">
@@ -6,12 +61,13 @@
       <span class="comm-title" style="font-size: 15pt">댓글</span>&nbsp;
       <span id="comm-first"><span class="letter-count">50/50</span></span>
     </div>
-    <form id="form-comm">
+    <form id="form-comm" @submit.prevent="onSubmit">
       <div class="inner-text">
         <textarea
           class="form-control comm-content inner-text"
           name="commContent"
           id="commContent"
+          v-model="comment.content"
         ></textarea>
         <button type="submit" class="btn btn-outline-primary" id="inner-submit">
           <font-awesome-icon icon="fa-solid fa-reply" />
