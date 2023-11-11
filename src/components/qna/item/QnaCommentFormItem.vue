@@ -8,6 +8,10 @@ const route = useRoute();
 
 const { qnaNo } = route.params;
 
+const emit = defineEmits(["insertComment"]);
+const insertEvent = function () {
+  emit("insertComment");
+};
 const comment = ref({
   qnaNo: qnaNo,
   content: "",
