@@ -3,7 +3,8 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import QnaCommentFormItem from "./item/QnaCommentFormItem.vue";
 import QnaCommentListItem from "./item/QnaCommentListItem.vue";
-import { getInquiryByInquiryNo, deleteInquiry, getCommentListByInquiryNo } from "@/api/qna";
+import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
+import { getCommentListByInquiryNo, deleteComment } from "@/api/qnaComment";
 
 const route = useRoute();
 const router = useRouter();
@@ -115,11 +116,12 @@ function onDeleteInquiry() {
             </button>
           </div>
         </div>
-        <QnaCommentFormItem />
+        <QnaCommentFormItem @insert-comment="getComments" />
         <QnaCommentListItem
           v-for="comment in commentList"
           :key="comment.commentNo"
           :comment="comment"
+          @get-comments="getComments"
         />
       </div>
     </div>

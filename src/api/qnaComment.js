@@ -17,6 +17,14 @@ function createQnaComment(qnaNo, comment, success, fail) {
   local.post(`${url}/${qnaNo}/comments`, JSON.stringify(comment)).then(success).catch(fail);
 }
 
+function getCommentListByInquiryNo(qnaNo, success, fail) {
+  local.get(`${url}/${qnaNo}/comments`).then(success).catch(fail);
+}
+
+function deleteComment(qnaNo, commentNo, success, fail) {
+  local.delete(`${url}/${qnaNo}/comments/${commentNo}`).then(success).catch(fail);
+}
+
 // function getModifyInquiry(qnaNo, success, fail) {
 //   local.get(`${url}/${qnaNo}`).then(success).catch(fail);
 // }
@@ -30,4 +38,4 @@ function createQnaComment(qnaNo, comment, success, fail) {
 // }
 
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
-export { createQnaComment };
+export { createQnaComment, getCommentListByInquiryNo, deleteComment };
