@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { createInquiry } from "@/api/qna";
+import { createInquiry, getModifyInquiry, modifyInquiry } from "@/api/qna";
 
 const router = useRouter();
 const route = useRoute();
@@ -25,6 +25,10 @@ if (props.type === "modify") {
   console.log(qnaNo + "번글 얻어와서 수정할거야");
   // API 호출
   isUseId.value = true;
+  getModifyInquiry(qnaNo, ({ data }) => {
+    console.log(data);
+    inquiry.value = data;
+  });
 }
 
 const titleErrMsg = ref("");
@@ -72,6 +76,7 @@ function writeInquiry() {
     inquiry.value,
     ({ data }) => {
       console.log(data);
+      alert("글 작성이 완료되었습니다.");
       router.push({ name: "qna-list" });
     },
     (error) => {
@@ -82,7 +87,19 @@ function writeInquiry() {
 
 function updateInquiry() {
   console.log(inquiry.value.inquiryNo + "번글 수정하자!!", inquiry.value);
+  let { qnaNo } = route.params;
   // API 호출
+  modifyInquiry(
+    qnaNo,
+    inquiry.value,
+    ({ data }) => {
+      console.log(data);
+      router.push({ name: "qna-view", params: qnaNo });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 }
 
 function moveList() {

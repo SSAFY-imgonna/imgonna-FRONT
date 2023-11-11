@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getInquiryByInquiryNo } from "@/api/qna";
+import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
 
 const route = useRoute();
 const router = useRouter();
@@ -38,8 +38,19 @@ function moveModify() {
 }
 
 function onDeleteInquiry() {
-  console.log(articleno + "번글 삭제하러 가자!!!");
+  console.log(qnaNo + "번글 삭제하러 가자!!!");
   // API 호출
+  deleteInquiry(
+    qnaNo,
+    ({ data }) => {
+      console.log(data);
+      alert("글 삭제가 완료되었습니다.");
+      router.push({ name: "qna-list" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 }
 </script>
 

@@ -17,17 +17,24 @@ function createInquiry(inquiry, success, fail) {
   local.post(`${url}`, JSON.stringify(inquiry)).then(success).catch(fail);
 }
 
-// function getModifyArticle(articleno, success, fail) {
-//   local.get(`${url}/modify/${articleno}`).then(success).catch(fail);
-// }
+function getModifyInquiry(qnaNo, success, fail) {
+  local.get(`${url}/${qnaNo}`).then(success).catch(fail);
+}
 
-// function modifyArticle(article, success, fail) {
-//   local.put(`${url}`, JSON.stringify(article)).then(success).catch(fail);
-// }
+function modifyInquiry(qnaNo, inquiry, success, fail) {
+  local.put(`${url}/${qnaNo}`, JSON.stringify(inquiry)).then(success).catch(fail);
+}
 
-// function deleteArticle(articleno, success, fail) {
-//   local.delete(`${url}/${articleno}`).then(success).catch(fail);
-// }
+function deleteInquiry(qnaNo, success, fail) {
+  local.delete(`${url}/${qnaNo}`).then(success).catch(fail);
+}
 
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
-export { getInquiryList, getInquiryByInquiryNo, createInquiry };
+export {
+  getInquiryList,
+  getInquiryByInquiryNo,
+  createInquiry,
+  getModifyInquiry,
+  modifyInquiry,
+  deleteInquiry,
+};
