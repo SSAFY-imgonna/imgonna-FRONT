@@ -9,14 +9,34 @@ const router = createRouter({
       name: "main",
       component: TheMainView,
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    {
+      path: "/qna",
+      name: "qna",
+      component: () => import("../views/QnaView.vue"),
+      redirect: { name: "qna-list" },
+      children: [
+        {
+          path: "",
+          name: "qna-list",
+          component: () => import("@/components/qna/QnaList.vue"),
+        },
+        {
+          path: ":qnaNo",
+          name: "qna-view",
+          component: () => import("@/components/qna/QnaView.vue"),
+        },
+        {
+          path: "",
+          name: "qna-write",
+          component: () => import("@/components/qna/QnaWrite.vue"),
+        },
+        {
+          path: ":qnaNo",
+          name: "qna-modify",
+          component: () => import("@/components/qna/QnaModify.vue"),
+        },
+      ],
+    },
   ],
 });
 

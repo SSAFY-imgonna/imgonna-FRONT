@@ -11,4 +11,6 @@ import TheFooter from "./components/layout/TheFooter.vue";
   </div>
 </template>
 
-<style scoped></style>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Roboto+Mono&display=swap");
+</style>

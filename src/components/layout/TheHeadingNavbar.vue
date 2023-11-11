@@ -11,10 +11,10 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid px-5">
-      <a class="navbar-brand" href="/">
+      <router-link :to="{ name: 'main' }" class="navbar-brand">
         <font-awesome-icon icon="fa-solid fa-plane-departure" />
         <span id="indexTitle" class="fw-bolder"> EnjoyTrip</span>
-      </a>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -34,7 +34,9 @@
           <li class="nav-item"><a class="nav-link" href="#">핫플자랑하기</a></li>
           <li class="nav-item"><a class="nav-link" href="#">여행정보공유</a></li>
           <li class="nav-item"><a class="nav-link" href="/accompany/list">동행구하기</a></li>
-          <li class="nav-item"><a class="nav-link" href="/qna">QnA</a></li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
+          </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 nnav">
           <!-- <c:if test="${empty sessionScope.memberDto}">
