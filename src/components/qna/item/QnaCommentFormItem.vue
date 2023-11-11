@@ -50,8 +50,7 @@ function writeComment() {
     ({ data }) => {
       console.log(data);
       // alert("댓글 작성이 완료되었습니다.");
-      // router.push({ name: "qna-view" });
-      insertEvent();
+      router.push({ name: "qna-view" });
     },
     (error) => {
       console.log(error);
