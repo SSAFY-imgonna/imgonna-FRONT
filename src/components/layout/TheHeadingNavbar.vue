@@ -2,14 +2,11 @@
 import { ref } from "vue";
 // if (`${msg}` != null) {
 //   alert(`${msg}`);
-// const isShownLoginModal = ref(false);
 import MemberLogin from "../members/MemberLogin.vue";
-const isModalOpen = ref(false);
+const isShownLoginModal = ref(false);
 
 const getLoginModal = () => {
-  console.log("press button");
-  isModalOpen.value = true;
-  console.log(isModalOpen.value);
+  isShownLoginModal.value = !isShownLoginModal.value;
 };
 // }
 </script>
@@ -48,8 +45,7 @@ const getLoginModal = () => {
             <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
           </li>
           <li class="nav-item">
-            <button @click="getLoginModal">로그인</button>
-            <!-- <router-link :to="{ name: 'login' }" class="nav-link">로그인</router-link> -->
+            <li class="nav-item"><a class="nav-link" href="#" @click="getLoginModal">로그인</a></li>
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 nnav">
@@ -78,7 +74,7 @@ const getLoginModal = () => {
       </div>
     </div>
   </nav>
-  <MemberLogin :is-modal-open="isModalOpen" />
+  <MemberLogin :is-shown-login-modal="isShownLoginModal" @close-modal="getLoginModal" />
 </template>
 
 <style scoped>
