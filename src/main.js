@@ -12,7 +12,6 @@ app.use(router);
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
-
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
 /* import font awesome icon component */

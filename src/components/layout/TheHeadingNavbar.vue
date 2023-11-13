@@ -1,6 +1,16 @@
 <script setup>
+import { ref } from "vue";
 // if (`${msg}` != null) {
 //   alert(`${msg}`);
+// const isShownLoginModal = ref(false);
+import MemberLogin from "../members/MemberLogin.vue";
+const isModalOpen = ref(false);
+
+const getLoginModal = () => {
+  console.log("press button");
+  isModalOpen.value = true;
+  console.log(isModalOpen.value);
+};
 // }
 </script>
 
@@ -37,6 +47,10 @@
           <li class="nav-item">
             <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
           </li>
+          <li class="nav-item">
+            <button @click="getLoginModal">로그인</button>
+            <!-- <router-link :to="{ name: 'login' }" class="nav-link">로그인</router-link> -->
+          </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 nnav">
           <!-- <c:if test="${empty sessionScope.memberDto}">
@@ -64,6 +78,7 @@
       </div>
     </div>
   </nav>
+  <MemberLogin :is-modal-open="isModalOpen" />
 </template>
 
 <style scoped>
