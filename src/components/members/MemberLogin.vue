@@ -1,6 +1,7 @@
 <script setup>
-const loginId = "";
-const loginPwd = "";
+import { ref } from "vue";
+import { doLogin } from "@/api/member";
+import Swal from "sweetalert2";
 
 defineProps({
   isShownLoginModal: Boolean,
@@ -11,6 +12,28 @@ const emit = defineEmits(["closeModal"]);
 const closeModal = () => {
   emit("closeModal");
 };
+
+const loginParam = ref({ id: "", password: "" });
+
+const loginSubmit = () => {
+  doLogin(
+    loginParam.value,
+    ({ data }) => {
+      console.log(data);
+      closeModal();
+    },
+    (error) => {
+      loginParam.value.id = "";
+      loginParam.value.password = "";
+      closeModal();
+      Swal.fire({
+        icon: "error",
+        title: "로그인 실패",
+        text: "다시 로그인해주세요!",
+      });
+    }
+  );
+};
 </script>
 
 <template>
@@ -18,39 +41,40 @@ const closeModal = () => {
     <div id="modalContent">
       <div id="modalBody">
         <span id="closeBtn" @click="closeModal">&times;</span>
-        <h2 class="fs-5">로그인</h2>
+        <p class="fs-3">로그인</p>
         <form action="" method="post" id="loginForm">
           <div class="input-group mb-1" id="input-group">
             <span class="input-group-text">아이디</span>
             <input
               type="text"
               class="form-control"
-              id="loginId"
               placeholder="아이디를 입력하세요"
-              name="loginId"
-              v-model="loginId"
+              name="id"
+              v-model="loginParam.id"
             />
           </div>
-          <input type="checkbox" name="saveId" value="checked" /> 아이디저장
+          <input class="form-check-input" type="checkbox" name="saveId" value="checked" />
+          아이디저장
           <div class="input-group mt-3" id="input-group">
             <span class="input-group-text">비밀번호</span>
             <input
               type="password"
               class="form-control"
-              id="loginPw"
               placeholder="비밀번호를 입력하세요"
-              name="loginPwd"
-              v-model="loginPwd"
+              name="password"
+              v-model="loginParam.password"
             />
           </div>
         </form>
-        <button type="button" @click="loginSubmit" class="btn btn-outline-primary">로그인</button>
-        <button type="button" class="btn btn-outline-warning">
-          <a style="text-decoration: none" @click="openFindIdModal">아이디찾기</a>
-        </button>
-        <button type="button" class="btn btn-outline-warning">
-          <a style="text-decoration: none" @click="openFindPwModal">비밀번호찾기</a>
-        </button>
+        <div id="footer">
+          <button type="button" class="btn me-1 btn">
+            <a style="text-decoration: none" @click="openFindIdModal">아이디찾기</a>
+          </button>
+          <button type="button" class="btn me-5 btn">
+            <a style="text-decoration: none" @click="openFindPwModal">비밀번호찾기</a>
+          </button>
+          <button type="button" @click="loginSubmit" class="btn ms-5 btn-secondary">LOGIN</button>
+        </div>
       </div>
     </div>
   </div>
@@ -93,6 +117,7 @@ const closeModal = () => {
   margin: 0 auto;
   border: 1px solid #777;
   background-color: #fff;
+  border-radius: 20px 20px 20px 20px;
 }
 
 #closeBtn {
@@ -101,5 +126,10 @@ const closeModal = () => {
   color: #777;
   font-size: 25px;
   cursor: pointer;
+}
+
+#footer {
+  text-align: center;
+  margin-top: 30px;
 }
 </style>
