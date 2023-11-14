@@ -33,7 +33,7 @@
           <li class="nav-item"><a class="nav-link" href="#">나의여행계획</a></li>
           <li class="nav-item"><a class="nav-link" href="#">핫플자랑하기</a></li>
           <li class="nav-item"><a class="nav-link" href="#">여행정보공유</a></li>
-          <li class="nav-item"><a class="nav-link" href="/accompany/list">동행구하기</a></li>
+          <li class="nav-item"><a class="nav-link" href="/accompany">동행구하기</a></li>
           <li class="nav-item">
             <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
           </li>

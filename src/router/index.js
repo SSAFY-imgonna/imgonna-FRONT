@@ -9,6 +9,7 @@ const router = createRouter({
       name: "main",
       component: TheMainView,
     },
+    // qna
     {
       path: "/qna",
       name: "qna",
@@ -34,6 +35,35 @@ const router = createRouter({
           path: ":qnaNo",
           name: "qna-modify",
           component: () => import("@/components/qna/QnaModify.vue"),
+        },
+      ],
+    },
+    // accompany
+    {
+      path: "/accompany",
+      name: "accompany",
+      component: () => import("../views/AccompanyView.vue"),
+      redirect: { name: "accompany-list" },
+      children: [
+        {
+          path: "",
+          name: "accompany-list",
+          component: () => import("@/components/accompany/AccompanyList.vue"),
+        },
+        {
+          path: ":accompanyNo",
+          name: "accompany-view",
+          component: () => import("@/components/accompany/AccompanyView.vue"),
+        },
+        {
+          path: "",
+          name: "accompany-write",
+          component: () => import("@/components/accompany/AccompanyWrite.vue"),
+        },
+        {
+          path: ":accompanyNo",
+          name: "accompany-modify",
+          component: () => import("@/components/accompany/AccompanyModify.vue"),
         },
       ],
     },
