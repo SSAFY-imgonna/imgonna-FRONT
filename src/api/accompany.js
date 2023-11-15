@@ -29,8 +29,15 @@ function getModifyAccompany(accompanyNo, success, fail) {
   local.get(`${url}/${accompanyNo}`).then(success).catch(fail);
 }
 
-function modifyAccompany(accompanyNo, accompany, success, fail) {
-  local.put(`${url}/${accompanyNo}`, JSON.stringify(accompany)).then(success).catch(fail);
+function modifyAccompany(accompanyNo, formData, success, fail) {
+  local
+    .put(`${url}/${accompanyNo}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(success)
+    .catch(fail);
 }
 
 function deleteAccompany(accompanyNo, success, fail) {
