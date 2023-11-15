@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { deleteComment, modifyQnaComment } from "@/api/qnaComment";
+import { deleteComment, modifyAccompanyComment } from "@/api/accompanyComment";
 
 const props = defineProps({
   comment: Object,
@@ -14,12 +14,12 @@ const getComments = () => {
 
 const onDeleteComment = (comment) => {
   console.log("comment: " + comment);
-  const qnaNo = comment.qnaNo;
+  const accompanyNo = comment.accompanyNo;
   const commentNo = comment.commentNo;
-  console.log(qnaNo + "번글 " + commentNo + "번 댓글 삭제하러 가자!!!");
+  console.log(accompanyNo + "번글 " + commentNo + "번 댓글 삭제하러 가자!!!");
   // API 호출
   deleteComment(
-    qnaNo,
+    accompanyNo,
     commentNo,
     ({ data }) => {
       console.log(data);
@@ -40,17 +40,17 @@ const ModifyComment = () => {
 const editingContent = ref(props.comment.content);
 
 const saveChanges = () => {
-  const qnaNo = props.comment.qnaNo;
+  const accompanyNo = props.comment.accompanyNo;
   const commentNo = props.comment.commentNo;
   props.comment.content = editingContent;
   console.log(props.comment.content);
   // API 호출
-  modifyQnaComment(
-    qnaNo,
+  modifyAccompanyComment(
+    accompanyNo,
     commentNo,
     props.comment,
     ({ data }) => {
-      // router.push({ name: "qna-view", params: qnaNo });
+      // router.push({ name: "accompany-view", params: accompanyNo });
       getComments();
     },
     (error) => {
@@ -62,6 +62,7 @@ const saveChanges = () => {
 };
 
 const cancelEditing = () => {
+  editingContent.value = props.comment.content;
   // 수정을 취소하면 isEditing을 false로 설정
   isEditing.value = false;
 };

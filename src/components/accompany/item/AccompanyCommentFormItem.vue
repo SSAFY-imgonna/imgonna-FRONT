@@ -1,19 +1,19 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { createQnaComment } from "@/api/qnaComment";
+import { createAccompanyComment } from "@/api/accompanyComment";
 
 const router = useRouter();
 const route = useRoute();
 
-const { qnaNo } = route.params;
+const { accompanyNo } = route.params;
 
 const emit = defineEmits(["insertComment"]);
 const insertEvent = function () {
   emit("insertComment");
 };
 const comment = ref({
-  qnaNo: qnaNo,
+  accompanyNo: accompanyNo,
   content: "",
   createdTime: "",
   modifiedTime: "",
@@ -44,13 +44,11 @@ function onSubmit() {
 function writeComment() {
   console.log("댓글등록하자!!", comment.value);
   // API 호출
-  createQnaComment(
-    qnaNo,
+  createAccompanyComment(
+    accompanyNo,
     comment.value,
     ({ data }) => {
       console.log(data);
-      // alert("댓글 작성이 완료되었습니다.");
-      // router.push({ name: "qna-view" });
       insertEvent();
       comment.value.content = "";
     },

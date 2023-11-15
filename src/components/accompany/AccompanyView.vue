@@ -7,7 +7,7 @@ import { useRoute, useRouter } from "vue-router";
 import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
 import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
 import { getAccompanyByAccompanyNo, deleteAccompany } from "@/api/accompany";
-// import { getCommentListByInquiryNo, deleteComment } from "@/api/qnaComment";
+import { getCommentListByAccompanyNo } from "@/api/accompanyComment";
 
 const route = useRoute();
 const router = useRouter();
@@ -19,7 +19,7 @@ const commentList = ref({});
 
 onMounted(() => {
   getAccompany();
-  // getComments();
+  getComments();
 });
 
 const getAccompany = () => {
@@ -37,19 +37,19 @@ const getAccompany = () => {
   );
 };
 
-// const getComments = () => {
-//   console.log(accompanyNo + "번글 댓글 얻으러 가자!!!");
-//   getCommentListByAccompanyNo(
-//     qnaNo,
-//     ({ data }) => {
-//       console.log(data);
-//       commentList.value = data;
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// };
+const getComments = () => {
+  console.log(accompanyNo + "번글 댓글 얻으러 가자!!!");
+  getCommentListByAccompanyNo(
+    accompanyNo,
+    ({ data }) => {
+      console.log(data);
+      commentList.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
 
 function moveList() {
   router.push({ name: "accompany-list" });
@@ -194,6 +194,15 @@ function onDeleteAccompany() {
                   </c:if> -->
           </div>
           <hr class="hr-style col-12 mt-3" size="1" width="100%" />
+          <!-- 댓글 폼 -->
+          <AccompanyCommentFormItem @insert-comment="getComments" />
+          <!-- 댓글 목록 -->
+          <AccompanyCommentListItem
+            v-for="comment in commentList"
+            :key="comment.commentNo"
+            :comment="comment"
+            @get-comments="getComments"
+          />
         </div>
       </div>
     </div>
