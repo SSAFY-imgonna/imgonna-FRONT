@@ -11,6 +11,16 @@ const router = createRouter({
     },
     // qna
     {
+      path: "/attractions",
+      name: "attraction",
+      component: () => import("@/views/TheAttractionView.vue"),
+    },
+    // {
+    //   path: "/members",
+    //   name: "members",
+    //   component: () => import("@/components/members/MemberLogin.vue"),
+    // },
+    {
       path: "/qna",
       name: "qna",
       component: () => import("../views/QnaView.vue"),

@@ -1,21 +1,30 @@
 <script setup>
-defineProps({ heads: Array, datas: Array });
+defineProps({ attractions: array });
+emit = defineEmits(["viewAttraction"]);
+const viewAttraction = (attraction) => {
+  emit(attraction);
+};
 </script>
 
 <template>
   <table class="table table-hover">
     <thead>
       <tr class="text-center">
-        <th scope="col" v-for="(head, index) in heads" :key="index">{{ head }}</th>
+        <th scope="col">관광지명</th>
+        <th scope="col">위치</th>
+        <th scope="col">전화번호</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="text-center">
-        <!-- <th>{{ article.articleNo }}</th>
-        <td>{{ article.subject }}</td>
-        <td>{{ article.userName }}</td>
-        <td>{{ article.hit }}</td>
-        <td>{{ article.registerDate }}</td> -->
+      <tr
+        class="text-center"
+        v-for="attraction in attractions"
+        :key="attraction.contentId"
+        @click="viewAttraction(attraction)"
+      >
+        <th>{{ attraction.title }}</th>
+        <td>{{ attraction.addr1 }}</td>
+        <td>{{ attraction.tel }}</td>
       </tr>
     </tbody>
   </table>

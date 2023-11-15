@@ -1,18 +1,18 @@
 import { createApp } from "vue";
-// import { createPinia } from "pinia";
+import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
 
 const app = createApp(App);
+const pinia = createPinia();
 
-// app.use(createPinia());
+app.use(pinia);
 app.use(router);
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
-
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
 /* import font awesome icon component */
