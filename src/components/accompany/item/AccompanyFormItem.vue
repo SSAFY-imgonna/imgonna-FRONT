@@ -32,9 +32,9 @@ if (props.type === "modify") {
   console.log(accompanyNo + "번글 얻어와서 수정할거야");
   // API 호출
   isUseId.value = true;
-  getModifyInquiry(accompanyNo, ({ data }) => {
+  getModifyAccompany(accompanyNo, ({ data }) => {
     console.log(data);
-    accompanyNo.value = data;
+    accompany.value = data;
   });
 }
 
@@ -128,6 +128,19 @@ function updateAccompany() {
     }
   );
 }
+
+function deleteDiv() {
+  let fileNameDiv = document.getElementById("fileNameDiv");
+  fileNameDiv.style.display = "none";
+  let originFile = document.getElementById("originFile");
+  originalFile.value = "";
+  removeFile();
+}
+
+function removeFile() {
+  let upfile = document.getElementById("upfile");
+  upfile.value = "";
+}
 </script>
 
 <template>
@@ -184,6 +197,20 @@ function updateAccompany() {
       <label for="upfile" class="form-label">사진</label>
       <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
     </div>
+
+    <div
+      class="file-input ms-1"
+      id="fileNameDiv"
+      v-if="accompany.fileInfos && accompany.fileInfos.length > 0"
+    >
+      <font-awesome-icon icon="fa-solid fa-camera" />
+      {{ accompany.fileInfos[0].originalFile }}
+      <a class="text-danger ms-1" @click="deleteDiv">
+        <font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #ec3609" />
+      </a>
+    </div>
+    <input type="hidden" value="{{accompany.originalFile}}" id="originFile" name="originFile" />
+
     <div class="col-12">
       <label for="status" class="form-label">모집상태</label>
       <div>
@@ -250,4 +277,8 @@ function updateAccompany() {
   </form>
 </template>
 
-<style scoped></style>
+<style scoped>
+a.text-danger:hover {
+  cursor: pointer;
+}
+</style>

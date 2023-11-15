@@ -6,9 +6,9 @@ const router = useRouter();
 
 const { accompany } = defineProps({ accompany: Object });
 
-if (accompany.fileInfos && accompany.fileInfos.length > 0) {
-  const file = accompany.fileInfos[0];
-}
+// if (accompany.fileInfos && accompany.fileInfos.length > 0) {
+//   const file = accompany.fileInfos[0];
+// }
 
 const moveView = () => {
   router.push({ name: "accompany-view", params: { accompanyNo: accompany.accompanyNo } });
@@ -24,28 +24,28 @@ const moveView = () => {
       </span>
       <!-- 저장된 이미지가 있는 경우 -->
       <span v-else>
-        <!-- require 사용해서 이미지의 상대 경로를 절대 경로로 변환 -->
         <img
           class="card-img-top"
           alt="place Image"
           :src="`${imageUrl}/${accompany.fileInfos[0].saveFolder}/${accompany.fileInfos[0].saveFile}`"
         />
-        <!-- <img src="`/${file.saveFolder}/${file.saveFile}`" class="card-img-top" alt="..." /> -->
       </span>
       <div class="card-body">
         <div class="card-text">
           <b>{{ accompany.title }}</b>
         </div>
         <div class="d-flex align-items-center my-2">
-          <i class="bi bi-geo-alt-fill me-2"></i>{{ accompany.addr }}
+          <font-awesome-icon icon="fa-solid fa-location-dot" class="me-2" />
+          {{ accompany.addr }}
         </div>
         <div class="d-flex align-items-center my-2">
-          <i class="bi bi-calendar2-week me-2"></i>{{ accompany.joinTime }}
+          <font-awesome-icon icon="fa-solid fa-calendar-days" class="me-2" />
+          {{ accompany.joinTime }}
         </div>
         <div class="d-flex align-items-center my-2">
-          <i class="bi bi-people-fill me-2"></i>
+          <font-awesome-icon icon="fa-solid fa-user-group" class="me-2" />
           {{ accompany.currentNum }} / {{ accompany.limitNum }}명
-          <font-awesome-icon icon="fa-solid fa-eye" />
+          <font-awesome-icon icon="fa-solid fa-eye" class="mx-2" />
           {{ accompany.hit }}
         </div>
         <div class="d-flex justify-content-between align-items-center">
@@ -63,7 +63,8 @@ const moveView = () => {
             <span class="text-danger me-2"><b>내가 쓴 글</b></span>
             <span class="text-body-secondary">
               <!-- 눈깔 안보임;; -->
-              <i class="fa-solid fa-eye"></i> {{ accompany.id }}
+              <font-awesome-icon icon="fa-solid fa-circle-user" />
+              {{ accompany.id }}
             </span>
           </div>
         </div>
@@ -75,6 +76,8 @@ const moveView = () => {
 <style scoped>
 /* 목록 부분 */
 .card-img-top {
+  width: auto;
+  height: auto;
   width: 100%;
   height: 225px;
 }
