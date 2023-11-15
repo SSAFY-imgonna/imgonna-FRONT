@@ -160,7 +160,7 @@ function onDeleteAccompany() {
               type="button"
               id="btn-delete"
               class="btn btn-outline-danger mb-3 ms-1"
-              @click="onDeleteInquiry"
+              @click="onDeleteAccompany"
             >
               글삭제
             </button>
