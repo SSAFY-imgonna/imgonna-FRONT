@@ -132,10 +132,6 @@ const mbtiList = ref([
   { text: "INTJ", value: "intj" },
   { text: "INFJ", value: "infj" },
 ]);
-
-const onSelectMbti = () => {
-  signUpParam.value.mbti = key.value;
-};
 </script>
 
 <template>
@@ -208,9 +204,9 @@ const onSelectMbti = () => {
 
           <div class="input-group mb-3">
             <span class="input-group-text">MBTI</span>
-            <select class="form-select" @change="onSelectMbti">
+            <select class="form-select" v-model="signUpParam.mbti">
               <option selected disabled>MBTI 선택</option>
-              <option v-for="mbti in mbtiList" :key="mbti.text" value="mbti.value">
+              <option v-for="mbti in mbtiList" :key="mbti.text" :value="mbti.value">
                 {{ mbti.text }}
               </option>
             </select>

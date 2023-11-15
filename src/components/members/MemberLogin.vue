@@ -1,11 +1,18 @@
 <script setup>
 import { ref } from "vue";
-import { doLogin } from "@/api/member";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+
 import Swal from "sweetalert2";
 
 defineProps({
   isShownLoginModal: Boolean,
 });
+
+const memberStore = useMemberStore();
+
+const { isLogin } = storeToRefs(memberStore);
+const { userLogin, getUserInfo } = memberStore;
 
 const emit = defineEmits(["closeModal"]);
 
@@ -13,27 +20,51 @@ const closeModal = () => {
   emit("closeModal");
 };
 
+const showWarning = (text) => {
+  Swal.fire({
+    icon: "warning",
+    text: text,
+  });
+};
 const loginParam = ref({ id: "", password: "" });
 
-const loginSubmit = () => {
-  doLogin(
-    loginParam.value,
-    ({ data }) => {
-      console.log(data);
-      closeModal();
-    },
-    (error) => {
-      loginParam.value.id = "";
-      loginParam.value.password = "";
-      closeModal();
-      Swal.fire({
-        icon: "error",
-        title: "로그인 실패",
-        text: "다시 로그인해주세요!",
-      });
+const loginSubmit = async () => {
+  if (!loginParam.value.id) {
+    showWarning("아이디를 입력해주세요!");
+  } else if (!loginParam.value.password) {
+    showWarning("비밀번호를 입력해주세요!");
+  } else {
+    await userLogin(loginParam.value);
+    closeModal();
+    let token = sessionStorage.getItem("accessToken");
+    console.log("1. ", token);
+    // console.log("isLogin: ", isLogin.value);
+    if (isLogin) {
+      getUserInfo(token);
     }
-  );
+  }
+  // router.push("/");s
 };
+
+// const loginSubmit = () => {
+//   doLogin(
+//     loginParam.value,
+//     ({ data }) => {
+//       console.log(data);
+//       closeModal();
+//     },
+//     (error) => {
+//       loginParam.value.id = "";
+//       loginParam.value.password = "";
+//       closeModal();
+//       Swal.fire({
+//         icon: "error",
+//         title: "로그인 실패",
+//         text: "다시 로그인해주세요!",
+//       });
+//     }
+//   );
+// };
 </script>
 
 <template>

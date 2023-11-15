@@ -2,9 +2,14 @@
 import { ref } from "vue";
 import MemberLogin from "../members/MemberLogin.vue";
 import MemberSignUp from "../members/MemberSignUp.vue";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 import Swal from "sweetalert2";
 const isShownLoginModal = ref(false);
 const isShownSignUpModal = ref(false);
+const memberStore = useMemberStore();
+const { userLogout } = memberStore;
+const { isLogin, userInfo } = storeToRefs(memberStore);
 
 const getLoginModal = () => {
   isShownLoginModal.value = !isShownLoginModal.value;
@@ -12,6 +17,10 @@ const getLoginModal = () => {
 
 const getSignUpModal = () => {
   isShownSignUpModal.value = !isShownSignUpModal.value;
+};
+
+const doLogout = async () => {
+  await userLogout(userInfo.value.id);
 };
 // }
 </script>
@@ -51,9 +60,14 @@ const getSignUpModal = () => {
           <li class="nav-item">
             <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
           </li>
-          <li class="nav-item"><a class="nav-link" href="#" @click="getLoginModal">로그인</a></li>
-          <li class="nav-item">
+          <li class="nav-item" v-show="!isLogin">
+            <a class="nav-link" href="#" @click="getLoginModal">로그인</a>
+          </li>
+          <li class="nav-item" v-show="!isLogin">
             <a class="nav-link" href="#" @click="getSignUpModal">회원가입</a>
+          </li>
+          <li class="nav-item" v-show="isLogin">
+            <a class="nav-link" href="#" @click="doLogout">로그아웃</a>
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 nnav">
