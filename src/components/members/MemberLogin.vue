@@ -17,6 +17,8 @@ const { userLogin, getUserInfo } = memberStore;
 const emit = defineEmits(["closeModal"]);
 
 const closeModal = () => {
+  loginParam.value.id = "";
+  loginParam.value.password = "";
   emit("closeModal");
 };
 
@@ -35,6 +37,7 @@ const loginSubmit = async () => {
     showWarning("비밀번호를 입력해주세요!");
   } else {
     await userLogin(loginParam.value);
+
     closeModal();
     let token = sessionStorage.getItem("accessToken");
     console.log("1. ", token);
