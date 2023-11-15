@@ -1,6 +1,10 @@
-<script></script>
-
-<script setup></script>
+<script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { vShow } from "vue";
+const memberStore = useMemberStore();
+const { isLogin, userInfo } = storeToRefs(memberStore);
+</script>
 
 <template>
   <section class="banner" id="top">
@@ -16,6 +20,9 @@
               <c:if test="${empty sessionScope.memberDto}">
                 <h6>There you go</h6>
               </c:if> -->
+            <h6 id="greeting" v-show="isLogin">
+              {{ userInfo.nickname }}({{ userInfo.id }})님 반갑습니다!
+            </h6>
             <div class="line-dec"></div>
             <h1 id="indexTitle">Enjoy Trip</h1>
             <div class="white-border-button">
@@ -48,4 +55,10 @@
 
 <style>
 /* @import "../assets/css/indexstyles.css"; */
+#greeting {
+  background-color: white;
+  display: inline-block;
+  border: 5px solid white;
+  color: green;
+}
 </style>
