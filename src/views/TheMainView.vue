@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
-import { vShow } from "vue";
 const memberStore = useMemberStore();
 const { isLogin, userInfo } = storeToRefs(memberStore);
 </script>
@@ -20,7 +19,7 @@ const { isLogin, userInfo } = storeToRefs(memberStore);
               <c:if test="${empty sessionScope.memberDto}">
                 <h6>There you go</h6>
               </c:if> -->
-            <h6 id="greeting" v-show="isLogin">
+            <h6 id="greeting" v-if="isLogin">
               {{ userInfo.nickname }}({{ userInfo.id }})님 반갑습니다!
             </h6>
             <div class="line-dec"></div>
