@@ -1,0 +1,239 @@
+<script setup>
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
+const accompanyCss = new URL("@/assets/css/", import.meta.url).href;
+
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
+import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
+import { getAccompanyByAccompanyNo, deleteAccompany } from "@/api/accompany";
+// import { getCommentListByInquiryNo, deleteComment } from "@/api/qnaComment";
+
+const route = useRoute();
+const router = useRouter();
+
+const { accompanyNo } = route.params;
+
+const accompany = ref({});
+const commentList = ref({});
+
+onMounted(() => {
+  getAccompany();
+  // getComments();
+});
+
+const getAccompany = () => {
+  console.log(accompanyNo + "번글 얻으러 가자!!!");
+  // API 호출
+  getAccompanyByAccompanyNo(
+    accompanyNo,
+    ({ data }) => {
+      console.log(data);
+      accompany.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
+// const getComments = () => {
+//   console.log(accompanyNo + "번글 댓글 얻으러 가자!!!");
+//   getCommentListByAccompanyNo(
+//     qnaNo,
+//     ({ data }) => {
+//       console.log(data);
+//       commentList.value = data;
+//     },
+//     (error) => {
+//       console.log(error);
+//     }
+//   );
+// };
+
+function moveList() {
+  router.push({ name: "accompany-list" });
+}
+
+function moveModify() {
+  router.push({ name: "accompany-modify", params: { accompanyNo } });
+}
+
+function onDeleteAccompany() {
+  console.log(accompanyNo + "번글 삭제하러 가자!!!");
+  // API 호출
+  deleteAccompany(
+    accompanyNo,
+    ({ data }) => {
+      console.log(data);
+      alert("글 삭제가 완료되었습니다.");
+      router.push({ name: "accompany-list" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+</script>
+
+<template>
+  <div class="container">
+    <div class="row justify-content-center mt-4 mt-lg-5">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="row my-2">
+          <h2 class="px-2">{{ accompany.title }}</h2>
+        </div>
+        <div class="row">
+          <hr class="hr-style col-12" size="1" width="100%" />
+          <div class="col-8 align-content-center">
+            <div class="clearfix align-content-center">
+              <img
+                class="avatar me-2 float-md-start bg-light p-2"
+                src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+              />
+              <div>
+                <span class="fw-bold">{{ accompany.id }}</span> <br />
+                <span class="text-secondary fw-light me-2">
+                  작성일 : {{ accompany.createdTime }}
+                </span>
+                <span
+                  ><font-awesome-icon icon="fa-solid fa-eye" class="mx-2" /> {{ accompany.hit }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- 댓글 개수 부분 나중에 동적으로 수정해야 -->
+          <div class="col-4 align-self-center text-end">
+            댓글 : <span id="commentCount">1개</span>
+          </div>
+          <div class="divider mb-3"></div>
+          <hr class="hr-style col-12" size="1" width="100%" />
+          <div class="divider mb-3"></div>
+          <div>
+            <!-- 이미지가 있을때만 보여지게 -->
+            <div class="mt-3" v-if="accompany.fileInfos && accompany.fileInfos.length > 0">
+              <img
+                class="col-8 imgFile"
+                alt="place Image"
+                :src="`${imageUrl}/${accompany.fileInfos[0].saveFolder}/${accompany.fileInfos[0].saveFile}`"
+              />
+            </div>
+            <div class="mb-4">
+              <div class="d-flex align-items-center my-2">
+                <font-awesome-icon icon="fa-solid fa-location-dot" class="me-2" /> 장소 :
+                {{ accompany.addr }}
+              </div>
+              <div class="d-flex align-items-center my-2">
+                <font-awesome-icon icon="fa-solid fa-calendar-days" class="me-2" /> 시간 :
+                {{ accompany.joinTime }}
+              </div>
+              <div class="d-flex align-items-center my-2">
+                <font-awesome-icon icon="fa-solid fa-user-group" class="me-2" /> 현재 인원 :
+                {{ accompany.currentNum }} / {{ accompany.limitNum }}명
+              </div>
+            </div>
+            {{ accompany.content }}
+          </div>
+          <div class="divider mt-3 mb-3"></div>
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              id="btn-list"
+              class="btn btn-outline-primary mb-3"
+              @click="moveList"
+            >
+              글목록
+            </button>
+            <!-- 로그인되었을때 -->
+
+            <!-- 글 작성자 일때 -->
+
+            <button
+              type="button"
+              id="btn-mv-modify"
+              class="btn btn-outline-success mb-3 ms-1"
+              @click="moveModify"
+            >
+              글수정
+            </button>
+            <button
+              type="button"
+              id="btn-delete"
+              class="btn btn-outline-danger mb-3 ms-1"
+              @click="onDeleteInquiry"
+            >
+              글삭제
+            </button>
+
+            <!-- 글 작성자가 아닐때 -->
+
+            <!-- 이미 신청하였을때 -->
+
+            <!-- <c:if test="${isJoin == true}">
+                  <button type="button" id="btn-join" class="btn btn-outline-secondary mb-3 ms-1"
+                    onclick="location.href='${root}/accompany/joinCancel?accompanyNo=${accompanyDto.accompanyNo}'"
+                    >
+                      신청취소
+                  </button>                
+                </c:if> -->
+            <!-- 아직 신청하지 않았을때 -->
+
+            <!-- 정원 아직 꽉 차지 않았다면 신청하기 버튼 -->
+            <!-- <c:if test="${accompanyDto.accompanyNum != accompanyDto.accompanyTotal}">
+                    <button type="button" id="btn-join" class="btn btn-outline-success mb-3 ms-1"
+                      onclick="location.href='${root}/accompany/join?accompanyNo=${accompanyDto.accompanyNo}'">
+                        신청하기
+                    </button>                
+                  </c:if> -->
+            <!-- 정원 꽉 찼으면 모집마감 버튼 -->
+            <!-- <c:if test="${accompanyDto.accompanyNum == accompanyDto.accompanyTotal}">
+                    <button type="button" id="btn-join" class="btn btn-outline-secondary mb-3 ms-1"
+                      onclick="return false;">
+                        모집마감
+                    </button> 
+                  </c:if> -->
+          </div>
+          <hr class="hr-style col-12 mt-3" size="1" width="100%" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+/* 상세 부분 */
+.imgFile {
+  width: auto;
+  height: auto;
+  max-width: 400px;
+  max-height: 400px;
+}
+/* 댓글 부분 */
+div.inner-text {
+  display: inline-block;
+  position: relative;
+}
+.inner-text {
+  display: block;
+  height: 130px;
+  width: 100%;
+  resize: none;
+}
+#inner-submit {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  border: none;
+}
+#comment-div {
+  padding: 20px 10px 20px 10px;
+  margin-top: 10px;
+  background-color: #fafafa;
+  border-radius: 5px;
+}
+/* 얘는 쓰일지 안쓰일지 몰라유 ㅠㅠ */
+div#loading,
+div.paging-button {
+  text-align: center;
+}
+</style>
