@@ -12,12 +12,10 @@ function getAccompanyByAccompanyNo(accompanyNo, success, fail) {
   local.get(`${url}/${accompanyNo}`).then(success).catch(fail);
 }
 
-function createAccompany(accompanyRequestDto, success, fail) {
-  const formData = new FormData();
-  formData.append("upfile", accompanyRequestDto.file);
-  console.log("accompanyjs accompany", accompanyRequestDto);
+async function createAccompany(formData, success, fail) {
+  console.log("accompanyjs accompany", formData);
 
-  local
+  await local
     .post(`${url}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",

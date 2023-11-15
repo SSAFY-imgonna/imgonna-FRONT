@@ -34,10 +34,6 @@ if (props.type === "modify") {
   isUseId.value = true;
   getModifyInquiry(accompanyNo, ({ data }) => {
     console.log(data);
-    // accompany.accompanyNo = data.accompanyNo;
-    // accompany.title = data.title;
-    // accompany.content = data.content;
-    // accompany.addr = data.addr;
     accompanyNo.value = data;
   });
 }
@@ -81,10 +77,30 @@ function onSubmit() {
 
 function writeAccompany() {
   console.log("글등록하자!!", accompany.value);
+  const formData = new FormData();
+
+  formData.append("title", accompany.value.title);
+  formData.append("content", accompany.value.content);
+  formData.append("addr", accompany.value.addr);
+  formData.append("date", accompany.value.date);
+  formData.append("time", accompany.value.time);
+  formData.append("limitNum", accompany.value.limitNum);
+  formData.append("status", accompany.value.status);
+  formData.append("themeNo", accompany.value.themeNo);
+
+  // Get the file input element
+  const upfileInput = document.getElementById("upfile");
+  console.log(upfileInput.files[0]);
+  // Check if a file is selected
+  if (upfileInput.files.length > 0) {
+    // Append the first selected file to the FormData object
+    formData.append("upfile", upfileInput.files[0]);
+  }
+  console.log(formData);
   // API 호출
   isUseId.value = true;
   createAccompany(
-    accompany.value,
+    formData,
     ({ data }) => {
       console.log(data);
       alert("글 작성이 완료되었습니다.");
@@ -150,7 +166,7 @@ function updateAccompany() {
     </div>
     <div class="col-6">
       <label for="time" class="form-label">시간</label>
-      <input type="time" class="form-control" id="time" name="time" v-model="accompany.tune" />
+      <input type="time" class="form-control" id="time" name="time" v-model="accompany.time" />
     </div>
     <div class="col-12">
       <label for="limitNum" class="form-label">모집인원</label>
@@ -166,7 +182,7 @@ function updateAccompany() {
     </div>
     <div class="col-12">
       <label for="upfile" class="form-label">사진</label>
-      <input class="form-control" type="file" id="upfile" name="upfile" />
+      <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
     </div>
     <div class="col-12">
       <label for="status" class="form-label">모집상태</label>

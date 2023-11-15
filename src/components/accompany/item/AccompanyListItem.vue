@@ -1,4 +1,6 @@
 <script setup>
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
+
 import { useRouter } from "vue-router";
 const router = useRouter();
 
@@ -22,7 +24,13 @@ const moveView = () => {
       </span>
       <!-- 저장된 이미지가 있는 경우 -->
       <span v-else>
-        <img src="`/${file.saveFolder}/${file.saveFile}`" class="card-img-top" alt="..." />
+        <!-- require 사용해서 이미지의 상대 경로를 절대 경로로 변환 -->
+        <img
+          class="card-img-top"
+          alt="place Image"
+          :src="`${imageUrl}/${accompany.fileInfos[0].saveFolder}/${accompany.fileInfos[0].saveFile}`"
+        />
+        <!-- <img src="`/${file.saveFolder}/${file.saveFile}`" class="card-img-top" alt="..." /> -->
       </span>
       <div class="card-body">
         <div class="card-text">
@@ -37,7 +45,7 @@ const moveView = () => {
         <div class="d-flex align-items-center my-2">
           <i class="bi bi-people-fill me-2"></i>
           {{ accompany.currentNum }} / {{ accompany.limitNum }}명
-          <i class="bi bi-eye-fill me-1"></i>
+          <font-awesome-icon icon="fa-solid fa-eye" />
           {{ accompany.hit }}
         </div>
         <div class="d-flex justify-content-between align-items-center">
