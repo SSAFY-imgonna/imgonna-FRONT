@@ -78,7 +78,7 @@ const doLogout = async () => {
               aria-expanded="false"
             >
               <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" />
-              <strong v-if="isLogin">{{ userInfo.nickname }}님</strong>
+              <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
             </a>
             <ul class="dropdown-menu text-small shadow">
               <li>

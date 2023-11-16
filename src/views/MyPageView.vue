@@ -24,7 +24,7 @@
         </li>
       </ul>
     </div>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column pt-5" style="width: 70%">
       <RouterView></RouterView>
     </div>
   </main>
