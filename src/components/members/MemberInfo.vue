@@ -26,24 +26,23 @@ const { isLogin, userInfo } = storeToRefs(memberStore);
 
       <div class="d-flex justify-content-center align-items-center">
         <div class="order-md-1 mt-3">
-          <input type="hidden" name="action" value="modify" />
-          <div class="form-floating mb-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text">아이디</span>
             <input type="text" class="form-control" :value="userInfo.id" readonly />
-            <label for="id">아이디</label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text">이름</span>
             <input type="text" class="form-control" :value="userInfo.name" readonly />
-            <label for="name">이름</label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text">닉네임</span>
             <input type="text" class="form-control" :value="userInfo.nickname" readonly />
-            <label for="nickname">닉네임</label>
           </div>
-          <div class="form-floating mb-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text">mbti</span>
             <input type="text" class="form-control" :value="userInfo.mbti" readonly />
-            <label for="mbti">mbti</label>
           </div>
 
           <div class="input-group mb-3">

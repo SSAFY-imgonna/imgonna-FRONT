@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Roboto+Mono&family=IBM+Plex+Sans+KR:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Roboto+Mono&family=IBM+Plex+Sans+KR:wght@500&display=swap");
+@import "./main.css";
+
 
 /* 
 
@@ -11,7 +13,7 @@ https://templatemo.com/tm-513-avalon
 #indexTitle {
   /* font-family: 'Roboto Mono', monospace; */
 
-    font-weight: 600;
+    font-weight: 00;
 }
 
 * {

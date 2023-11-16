@@ -3,13 +3,16 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
+import Antd from "ant-design-vue";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 const app = createApp(App);
 const pinia = createPinia();
-
-app.use(pinia);
+app.use(pinia.use(piniaPluginPersistedstate));
 app.use(router);
+app.use(Antd);
 
+import "ant-design-vue/dist/reset.css";
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
@@ -19,14 +22,29 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 /* import specific icons */
 import {
-    faPlaneDeparture, faReply, faEye, faUserGroup,
-    faLocationDot, faCalendarDays, faCircleUser, faCamera,
-    faXmark
+  faPlaneDeparture,
+  faReply,
+  faEye,
+  faUserGroup,
+  faLocationDot,
+  faCalendarDays,
+  faCircleUser,
+  faCamera,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
-library.add(faPlaneDeparture, faReply, faEye, faUserGroup,
-    faLocationDot, faCalendarDays, faCircleUser, faCamera, faXmark);
+library.add(
+  faPlaneDeparture,
+  faReply,
+  faEye,
+  faUserGroup,
+  faLocationDot,
+  faCalendarDays,
+  faCircleUser,
+  faCamera,
+  faXmark
+);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 
