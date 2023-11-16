@@ -27,7 +27,7 @@ const doLogout = async () => {
 
 <template>
   <nav
-    class="navbar navbar-expand-lg navbar-light bg-light d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3"
+    class="navbar navbar-expand-lg navbar-light bg-light d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom"
   >
     <div class="container-fluid px-5">
       <button
@@ -61,7 +61,11 @@ const doLogout = async () => {
           <li><a class="nav-link px-2 link-body-emphasis" href="#">나의여행계획</a></li>
           <li><a class="nav-link px-2 link-body-emphasis" href="#">핫플자랑하기</a></li>
           <li><a class="nav-link px-2 link-body-emphasis" href="#">여행정보공유</a></li>
-          <li><a class="nav-link px-2 link-body-emphasis" href="/accompany">동행구하기</a></li>
+          <li>
+            <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'accompany' }"
+              >동행구하기</router-link
+            >
+          </li>
           <li>
             <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'qna' }"
               >QnA</router-link
@@ -109,7 +113,7 @@ const doLogout = async () => {
   <MemberSignUp :is-shown-sign-up-modal="isShownSignUpModal" @close-modal="getSignUpModal" />
 </template>
 
-<style scoped>
+<style>
 @import "../css/indexstyles.css";
 .text-small {
   font-size: 85%;

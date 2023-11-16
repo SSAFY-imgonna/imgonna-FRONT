@@ -1,8 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import { ref } from "vue";
 const memberStore = useMemberStore();
-const { isLogin, userInfo } = storeToRefs(memberStore);
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
+
+import { SmileOutlined } from "@ant-design/icons-vue";
 </script>
 
 <template>
@@ -11,15 +15,8 @@ const { isLogin, userInfo } = storeToRefs(memberStore);
       <div class="row">
         <div class="left-banner-content">
           <div class="text-content">
-            <!-- <c:if test="${not empty sessionScope.memberDto}">
-                <h6>
-                  ${sessionScope.memberDto.nickname}(${sessionScope.memberDto.id})님 반갑습니다!
-                </h6>
-              </c:if>
-              <c:if test="${empty sessionScope.memberDto}">
-                <h6>There you go</h6>
-              </c:if> -->
-            <h6 id="greeting" v-if="isLogin">
+            <h6 id="greeting" v-if="member != null">
+              <SmileOutlined />
               {{ userInfo.nickname }}({{ userInfo.id }})님 반갑습니다!
             </h6>
             <div class="line-dec"></div>
@@ -29,24 +26,6 @@ const { isLogin, userInfo } = storeToRefs(memberStore);
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-4">
-          <div class="right-banner-content">
-            <div class="logo">
-              <a href="/"> </a>
-            </div>
-            <h3>문의하기</h3>
-            <span>이름과 연락처를 남겨주세요</span>
-            <div class="line-dec"></div>
-            <form>
-              <input type="text" class="form-control" placeholder="이름" />
-              <br />
-              <input type="tel" class="form-control" placeholder="전화번호" /> <br />
-              <input type="checkbox" class="form-check-input mt-0" /> <span> 정보제공동의함 </span>
-              <br />
-              <input type="submit" class="btn btn-outline-secondary mt-5" value="보내기" />
-            </form>
-          </div>
-        </div> -->
       </div>
     </div>
   </section>

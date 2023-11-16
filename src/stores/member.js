@@ -19,7 +19,6 @@ export const useMemberStore = defineStore("memberStore", () => {
     await doLogin(
       loginUser,
       (response) => {
-        console.log("data", response);
         let accessToken = response.data.accessToken;
         let refreshToken = response.data.refreshToken;
         console.log("accessToken", accessToken);

@@ -12,7 +12,7 @@
       <hr />
       <ul class="nav nav-pills flex-column mb-auto">
         <li>
-          <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'member-info' }"
+          <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-info' }"
             >내 정보 조회</router-link
           >
         </li>

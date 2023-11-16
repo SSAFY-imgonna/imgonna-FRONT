@@ -75,7 +75,7 @@ const loginSubmit = async () => {
     <div id="modalContent">
       <div id="modalBody">
         <span id="closeBtn" @click="closeModal">&times;</span>
-        <p class="fs-3">로그인</p>
+        <p class="fs-3 mb-4">로그인</p>
         <form action="" method="post" id="loginForm">
           <div class="input-group mb-1" id="input-group">
             <span class="input-group-text">아이디</span>
@@ -135,7 +135,7 @@ const loginSubmit = async () => {
 #modalWrap {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 150px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -146,7 +146,7 @@ const loginSubmit = async () => {
 
 #modalBody {
   width: 500px;
-  height: 300px;
+  height: 280px;
   padding: 30px 30px;
   margin: 0 auto;
   border: 1px solid #777;
@@ -164,6 +164,6 @@ const loginSubmit = async () => {
 
 #footer {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 </style>
