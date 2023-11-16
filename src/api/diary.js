@@ -12,6 +12,11 @@ const url = "/diary";
 //   local.get(`${url}/${accompanyNo}`).then(success).catch(fail);
 // }
 
+function getAttractionList(title, success, fail) {
+  console.log("검색하는 관광지명 : " + title);
+  local.get(`${url}/${title}`).then(success).catch(fail);
+}
+
 async function createDiary(formData, success, fail) {
   console.log("accompanyjs accompany", formData);
 
@@ -46,10 +51,11 @@ async function createDiary(formData, success, fail) {
 
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
 export {
-//   getDiaryList,
-//   getDiaryByDiaryNo,
+  getAttractionList,
+  //   getDiaryList,
+  //   getDiaryByDiaryNo,
   createDiary,
-//   getModifyDiary,
-//   modifyDiary,
-//   deleteDiary,
+  //   getModifyDiary,
+  //   modifyDiary,
+  //   deleteDiary,
 };
