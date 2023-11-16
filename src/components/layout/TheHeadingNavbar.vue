@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import MemberLogin from "../members/MemberLogin.vue";
-import MemberSignUp from "../members/MemberSignUp.vue";
+import MemberLogin from "../members/modal/MemberLogin.vue";
+import MemberSignUp from "../members/modal/MemberSignUp.vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import Swal from "sweetalert2";
@@ -26,80 +26,96 @@ const doLogout = async () => {
 </script>
 
 <template>
-  <title>Enjoy Trip</title>
-  <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3"
+  >
     <div class="container-fluid px-5">
-      <router-link :to="{ name: 'main' }" class="navbar-brand">
-        <font-awesome-icon icon="fa-solid fa-plane-departure" />
-        <span id="indexTitle" class="fw-bolder"> EnjoyTrip</span>
-      </router-link>
       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
+        data-bs-target="#navbars"
+        aria-controls="navbars"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nnav"> -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 nnav">
-          <li class="nav-item">
-            <router-link :to="{ name: 'attraction' }" class="nav-link">지역별여행지</router-link>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">나의여행계획</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">핫플자랑하기</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">여행정보공유</a></li>
-          <li class="nav-item"><a class="nav-link" href="/accompany">동행구하기</a></li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'qna' }" class="nav-link">QnA</router-link>
-          </li>
-          <li class="nav-item" v-show="!isLogin">
-            <a class="nav-link" href="#" @click="getLoginModal">로그인</a>
-          </li>
-          <li class="nav-item" v-show="!isLogin">
-            <a class="nav-link" href="#" @click="getSignUpModal">회원가입</a>
-          </li>
-          <li class="nav-item" v-show="isLogin">
-            <a class="nav-link" href="#" @click="doLogout">로그아웃</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0 nnav">
-          <!-- <c:if test="${empty sessionScope.memberDto}">
-            <li class="nav-item" id="func1">
-              <a
-                class="nav-link"
-                id="register"
-                data-bs-toggle="modal"
-                data-bs-target="#registerModal"
-                >회원가입</a
-              >
-            </li>
-            <li class="nav-item" id="func2">
-              <a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a>
-            </li>
-          </c:if>
 
-          <c:if test="${not empty sessionScope.memberDto}">
-            <li class="nav-item">
-              <a class="nav-link" href="/members/mypage">마이페이지</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="/members/logout">로그아웃</a></li>
-          </c:if> -->
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="#" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <router-link :to="{ name: 'main' }" class="navbar-brand">
+            <font-awesome-icon icon="fa-solid fa-plane-departure" />
+            <span id="indexTitle" class="fw-bolder"> EnjoyTrip</span>
+          </router-link>
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbars">
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li>
+            <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'attraction' }"
+              >지역별여행지</router-link
+            >
+          </li>
+          <li><a class="nav-link px-2 link-body-emphasis" href="#">나의여행계획</a></li>
+          <li><a class="nav-link px-2 link-body-emphasis" href="#">핫플자랑하기</a></li>
+          <li><a class="nav-link px-2 link-body-emphasis" href="#">여행정보공유</a></li>
+          <li><a class="nav-link px-2 link-body-emphasis" href="/accompany">동행구하기</a></li>
+          <li>
+            <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'qna' }"
+              >QnA</router-link
+            >
+          </li>
         </ul>
+
+        <div class="col-md-3 text-end align-items-center">
+          <div v-if="isLogin" class="dropdown">
+            <a
+              href="#"
+              class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle ms-5"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" />
+              <strong v-if="isLogin">{{ userInfo.nickname }}님</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><router-link :to="{ name: 'mypage' }" class="nav-link"
+                    >마이페이지</router-link
+                  ></a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><a class="nav-link" href="#" @click="doLogout">로그아웃</a></a
+                >
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <button class="btn btn-outline-secondary me-2" @click="getLoginModal">로그인</button>
+            <button class="btn btn-secondary" @click="getSignUpModal">회원가입</button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
+
   <MemberLogin :is-shown-login-modal="isShownLoginModal" @close-modal="getLoginModal" />
   <MemberSignUp :is-shown-sign-up-modal="isShownSignUpModal" @close-modal="getSignUpModal" />
 </template>
 
 <style scoped>
 @import "../css/indexstyles.css";
+.text-small {
+  font-size: 85%;
+}
+
+.dropdown-toggle:not(:focus) {
+  outline: 0;
+}
 </style>

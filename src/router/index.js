@@ -15,11 +15,24 @@ const router = createRouter({
       name: "attraction",
       component: () => import("@/views/TheAttractionView.vue"),
     },
-    // {
-    //   path: "/members",
-    //   name: "members",
-    //   component: () => import("@/components/members/MemberLogin.vue"),
-    // },
+    {
+      path: "/mypage",
+      name: "mypage",
+      component: () => import("@/views/MyPageView.vue"),
+      redirect: { name: "member-info" },
+      children: [
+        {
+          path: "",
+          name: "member-info",
+          component: () => import("@/components/members/MemberInfo.vue"),
+        },
+        {
+          path: "",
+          name: "member-modify",
+          component: () => import("@/components/members/MemberModify.vue"),
+        },
+      ],
+    },
     {
       path: "/qna",
       name: "qna",
