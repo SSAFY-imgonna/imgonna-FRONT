@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import MemberDelete from "./modal/MemberDelete.vue";
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -19,7 +20,7 @@ const getDeleteModal = () => {
   <section id="book-a-table" class="book-a-table">
     <div class="container" data-aos="fade-up">
       <div class="text-center">
-        <svg
+        <!-- <svg
           xmlns="http://www.w3.org/2000/svg"
           width="70"
           height="70"
@@ -32,9 +33,22 @@ const getDeleteModal = () => {
             fill-rule="evenodd"
             d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
           />
-        </svg>
+        </svg> -->
 
         <div class="text-align-center">
+          <span v-if="!member.photo">
+            <img src="/no_image.png" width="100" height="100" class="rounded-circle me-2" />
+          </span>
+          <!-- 저장된 이미지가 있는 경우 -->
+          <span v-else>
+            <img
+              :src="`${imageUrl}/${member.photo}`"
+              alt=""
+              width="100"
+              height="100"
+              class="rounded-circle me-2"
+            />
+          </span>
           <div class="order-md-1 mt-3">
             <div class="input-row">
               <div class="input-group col-6 col-lg-6 col-md-12">

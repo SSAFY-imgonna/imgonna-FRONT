@@ -4,9 +4,19 @@ const local = localAxios(); // axios instance
 
 const url = "/members";
 
-function doSignUp(input, success, fail) {
-  local.post(`${url}`, JSON.stringify(input)).then(success).catch(fail);
+async function doSignUp(formData, success, fail) {
+  await local
+    .post(`${url}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(success)
+    .catch(fail);
 }
+
+//   local.post(`${url}`, JSON.stringify(input)).then(success).catch(fail);
+// }
 
 function checkId(param, success, fail) {
   local.get(`${url}/check/id`, { params: param }).then(success).catch(fail);

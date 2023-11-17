@@ -48,19 +48,23 @@ const signUpParam = ref({
 const checkIdResultMsg = ref("");
 const checkIdResultFlag = ref(false);
 const checkDuplicateId = () => {
-  checkId(
-    { id: signUpParam.value.id },
-    ({ data }) => {
-      console.log(data);
-      checkIdResultMsg.value = "사용 가능한 아이디입니다.";
-      checkIdResultFlag.value = true;
-    },
-    (error) => {
-      checkIdResultMsg.value = "사용 불가능한 아이디입니다.";
-      checkIdResultFlag.value = false;
-      signUpParam.value.id = "";
-    }
-  );
+  if (!signUpParam.value.id) {
+    showWarning("아이디 입력은 필수입니다!");
+  } else {
+    checkId(
+      { id: signUpParam.value.id },
+      ({ data }) => {
+        console.log(data);
+        checkIdResultMsg.value = "사용 가능한 아이디입니다.";
+        checkIdResultFlag.value = true;
+      },
+      (error) => {
+        checkIdResultMsg.value = "사용 불가능한 아이디입니다.";
+        checkIdResultFlag.value = false;
+        signUpParam.value.id = "";
+      }
+    );
+  }
 };
 
 const showWarning = (text) => {
@@ -90,8 +94,28 @@ const signUpSubmit = () => {
   } else {
     signUpParam.value.email = email.value.id + email.value.domain;
     console.log(signUpParam.value);
+
+    // 파일
+    const formData = new FormData();
+    formData.append("id", signUpParam.value.id);
+    formData.append("password", signUpParam.value.password);
+    formData.append("name", signUpParam.value.name);
+    formData.append("nickname", signUpParam.value.nickname);
+    formData.append("phone", signUpParam.value.phone);
+    formData.append("mbti", signUpParam.value.mbti);
+    formData.append("email", signUpParam.value.email);
+
+    // Get the file input element
+    const upfileInput = document.getElementById("upfile");
+    console.log(upfileInput.files[0]);
+    // Check if a file is selected
+    if (upfileInput.files.length > 0) {
+      // Append the first selected file to the FormData object
+      formData.append("upfile", upfileInput.files[0]);
+    }
+
     doSignUp(
-      signUpParam.value,
+      formData,
       ({ data }) => {
         console.log(data);
         closeModal();
@@ -244,8 +268,27 @@ const mbtiList = ref([
           <div id="showMessageElementEmail" class="mb-3"></div>
           <div class="input-group mb-3">
             <span class="input-group-text">프로필사진</span>
-            <input type="file" class="form-control" id="inputGroupFile02" />
+            <input type="file" class="form-control" id="upfile" name="upfile" accept="image/*" />
           </div>
+
+          <!-- <div
+            class="file-input ms-1"
+            id="fileNameDiv"
+            v-if="fileParam.fileInfos && fileParam.fileInfos.length > 0"
+          >
+            <font-awesome-icon icon="fa-solid fa-camera" />
+            {{ fileParam.fileInfos[0].originalFile }}
+            <a class="text-danger ms-1" @click="deleteDiv">
+              <font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #ec3609" />
+            </a>
+          </div>
+          <input
+            type="hidden"
+            value="{{fileParam.originalFile}}"
+            id="originFile"
+            name="originFile"
+          /> -->
+
           <!-- <div class="form-check mb-3">
                   <label class="form-check-label">
                       <input class="form-check-input" type="checkbox" name="showMemberPw"> 비밀번호 보이기
@@ -319,7 +362,7 @@ const mbtiList = ref([
 #modalWrap {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 10px; /* Location of the box */
+  padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
