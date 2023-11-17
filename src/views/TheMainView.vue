@@ -2,11 +2,10 @@
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import { ref } from "vue";
+import { SmileOutlined } from "@ant-design/icons-vue";
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
-
-import { SmileOutlined } from "@ant-design/icons-vue";
 </script>
 
 <template>

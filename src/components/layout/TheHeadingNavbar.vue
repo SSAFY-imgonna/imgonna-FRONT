@@ -6,7 +6,8 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import "../js/main.js";
 import GLightbox from "glightbox";
-import Swal from "sweetalert2";
+import { UserOutlined } from "@ant-design/icons-vue";
+
 const isShownLoginModal = ref(false);
 const isShownSignUpModal = ref(false);
 const memberStore = useMemberStore();
@@ -72,7 +73,8 @@ const doLogout = async () => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" />
+            <!-- <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" /> -->
+            <UserOutlined class="me-2" />
             <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
@@ -81,6 +83,7 @@ const doLogout = async () => {
                 ><router-link :to="{ name: 'mypage' }" class="nav-link">마이페이지</router-link></a
               >
             </li>
+
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item" href="#"
@@ -95,7 +98,7 @@ const doLogout = async () => {
         </div>
       </div>
 
-      <a class="btn-book-a-table" href="#book-a-table">Book a Table</a>
+      <!-- <a class="btn-book-a-table" href="#book-a-table">Book a Table</a> -->
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
     </div>

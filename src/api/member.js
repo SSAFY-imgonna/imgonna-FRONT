@@ -4,16 +4,28 @@ const local = localAxios(); // axios instance
 
 const url = "/members";
 
-// function doLogin(input, success, fail) {
-//   local.post(`${url}/login`, JSON.stringify(input)).then(success).catch(fail);
-// }
-
 function doSignUp(input, success, fail) {
   local.post(`${url}`, JSON.stringify(input)).then(success).catch(fail);
 }
 
 function checkId(param, success, fail) {
   local.get(`${url}/check/id`, { params: param }).then(success).catch(fail);
+}
+
+function userFindId(data, success, fail) {
+  local.post(`${url}/find/id`, JSON.stringify(data)).then(success).catch(fail);
+}
+
+function userFindPassword(data, success, fail) {
+  local.post(`${url}/find/pw`, JSON.stringify(data)).then(success).catch(fail);
+}
+
+function doModify(data, success, fail) {
+  local.put(`${url}/${data.id}`, JSON.stringify(data)).then(success).catch(fail);
+}
+
+function doModifyPassword(id, data, success, fail) {
+  local.put(`${url}/${id}/pw`, data).then(success).catch(fail);
 }
 
 async function doLogin(param, success, fail) {
@@ -35,4 +47,15 @@ async function logout(id, success, fail) {
   await local.get(`${url}/logout/${id}`).then(success).catch(fail);
 }
 
-export { doSignUp, checkId, doLogin, findById, tokenRegeneration, logout };
+export {
+  doSignUp,
+  checkId,
+  doModify,
+  doModifyPassword,
+  doLogin,
+  findById,
+  tokenRegeneration,
+  logout,
+  userFindId,
+  userFindPassword,
+};

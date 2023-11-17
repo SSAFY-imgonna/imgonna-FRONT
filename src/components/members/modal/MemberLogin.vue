@@ -4,6 +4,8 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 
 import Swal from "sweetalert2";
+import MemberFindId from "./MemberFindId.vue";
+import MemberFindPassword from "./MemberFindPassword.vue";
 
 defineProps({
   isShownLoginModal: Boolean,
@@ -20,7 +22,10 @@ const closeModal = () => {
   loginParam.value.id = "";
   loginParam.value.password = "";
   emit("closeModal");
+  modalType.value = "login";
 };
+
+const modalType = ref("login");
 
 const showWarning = (text) => {
   Swal.fire({
@@ -39,35 +44,22 @@ const loginSubmit = async () => {
     await userLogin(loginParam.value);
 
     closeModal();
-    let token = sessionStorage.getItem("accessToken");
-    console.log("1. ", token);
     // console.log("isLogin: ", isLogin.value);
     if (isLogin) {
+      let token = sessionStorage.getItem("accessToken");
+      console.log("1. ", token);
       getUserInfo(token);
     }
   }
   // router.push("/");s
 };
 
-// const loginSubmit = () => {
-//   doLogin(
-//     loginParam.value,
-//     ({ data }) => {
-//       console.log(data);
-//       closeModal();
-//     },
-//     (error) => {
-//       loginParam.value.id = "";
-//       loginParam.value.password = "";
-//       closeModal();
-//       Swal.fire({
-//         icon: "error",
-//         title: "로그인 실패",
-//         text: "다시 로그인해주세요!",
-//       });
-//     }
-//   );
-// };
+const openFindIdModal = () => {
+  modalType.value = "findId";
+};
+const openFindPwModal = () => {
+  modalType.value = "findPw";
+};
 </script>
 
 <template>
@@ -75,40 +67,44 @@ const loginSubmit = async () => {
     <div id="modalContent">
       <div id="modalBody">
         <span id="closeBtn" @click="closeModal">&times;</span>
-        <p class="fs-3 mb-4">로그인</p>
-        <form action="" method="post" id="loginForm">
-          <div class="input-group mb-1" id="input-group">
-            <span class="input-group-text">아이디</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="아이디를 입력하세요"
-              name="id"
-              v-model="loginParam.id"
-            />
+        <div v-if="modalType == 'login'">
+          <p class="fs-3 mb-4">로그인</p>
+          <form action="" method="post" id="loginForm">
+            <div class="input-group mb-1" id="input-group">
+              <span class="input-group-text">아이디</span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="아이디를 입력하세요"
+                name="id"
+                v-model="loginParam.id"
+              />
+            </div>
+            <input class="form-check-input" type="checkbox" name="saveId" value="checked" />
+            아이디저장
+            <div class="input-group mt-3" id="input-group">
+              <span class="input-group-text">비밀번호</span>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="비밀번호를 입력하세요"
+                name="password"
+                v-model="loginParam.password"
+              />
+            </div>
+          </form>
+          <div id="footer">
+            <button type="button" class="btn me-1 btn">
+              <a style="text-decoration: none" @click="openFindIdModal">아이디찾기</a>
+            </button>
+            <button type="button" class="btn me-5 btn">
+              <a style="text-decoration: none" @click="openFindPwModal">비밀번호찾기</a>
+            </button>
+            <button type="button" @click="loginSubmit" class="btn ms-5 btn-secondary">LOGIN</button>
           </div>
-          <input class="form-check-input" type="checkbox" name="saveId" value="checked" />
-          아이디저장
-          <div class="input-group mt-3" id="input-group">
-            <span class="input-group-text">비밀번호</span>
-            <input
-              type="password"
-              class="form-control"
-              placeholder="비밀번호를 입력하세요"
-              name="password"
-              v-model="loginParam.password"
-            />
-          </div>
-        </form>
-        <div id="footer">
-          <button type="button" class="btn me-1 btn">
-            <a style="text-decoration: none" @click="openFindIdModal">아이디찾기</a>
-          </button>
-          <button type="button" class="btn me-5 btn">
-            <a style="text-decoration: none" @click="openFindPwModal">비밀번호찾기</a>
-          </button>
-          <button type="button" @click="loginSubmit" class="btn ms-5 btn-secondary">LOGIN</button>
         </div>
+        <MemberFindId v-if="modalType == 'findId'" @finished="closeModal" />
+        <MemberFindPassword v-if="modalType == 'findPw'" @finished="closeModal" />
       </div>
     </div>
   </div>

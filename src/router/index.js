@@ -9,7 +9,6 @@ const router = createRouter({
       name: "main",
       component: TheMainView,
     },
-    // qna
     {
       path: "/attractions",
       name: "attraction",
@@ -30,6 +29,11 @@ const router = createRouter({
           path: "",
           name: "member-modify",
           component: () => import("@/components/members/MemberModify.vue"),
+        },
+        {
+          path: "",
+          name: "member-modify-pw",
+          component: () => import("@/components/members/MemberModifyPw.vue"),
         },
       ],
     },

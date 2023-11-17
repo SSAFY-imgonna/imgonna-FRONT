@@ -1,33 +1,41 @@
 <script setup></script>
 
 <template>
-  <main class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 15%">
-      <a
-        href="/"
-        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
-      >
-        <div class="fs-4">마이페이지</div>
-      </a>
-      <hr />
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li>
-          <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-info' }"
-            >내 정보 조회</router-link
+  <section id="menu" class="menu">
+    <div class="container" data-aos="fade-up">
+      <main class="d-flex flex-nowrap">
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 15%">
+          <a
+            href="/"
+            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
           >
-        </li>
-        <li>
-          <a href="#" class="nav-link link-body-emphasis"> 내 정보 수정 </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link link-body-emphasis"> 비밀번호 변경 </a>
-        </li>
-      </ul>
+            <div class="fs-4">마이페이지</div>
+          </a>
+          <hr />
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li>
+              <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-info' }"
+                >내 정보 조회</router-link
+              >
+            </li>
+            <li>
+              <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-modify' }"
+                >내 정보 수정</router-link
+              >
+            </li>
+            <li>
+              <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-modify-pw' }"
+                >비밀번호 변경</router-link
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex flex-column pt-5" style="width: 70%">
+          <RouterView></RouterView>
+        </div>
+      </main>
     </div>
-    <div class="d-flex flex-column pt-5" style="width: 70%">
-      <RouterView></RouterView>
-    </div>
-  </main>
+  </section>
 </template>
 
 <style scoped>
