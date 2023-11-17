@@ -14,6 +14,8 @@ const memberStore = useMemberStore();
 const { userLogout } = memberStore;
 const { isLogin, userInfo } = storeToRefs(memberStore);
 
+const member = ref(userInfo);
+
 const getLoginModal = () => {
   isShownLoginModal.value = !isShownLoginModal.value;
 };
@@ -78,21 +80,21 @@ const doLogout = async () => {
             aria-expanded="false"
           >
             <!-- <UserOutlined class="me-2" /> -->
-            <i v-if="!userInfo.photo" class="bi bi-person-circle me-2"></i>
+            <i v-if="!member.photo" class="bi bi-person-circle me-2"></i>
             <!-- <img
-              v-if="!userInfo.photo"
+              v-if="!member.photo"
               src="/no_image.png"
               width="30"
               class="rounded-circle img-fluid me-2"
             /> -->
             <img
               v-else
-              :src="`${imageUrl}/${userInfo.photo}`"
+              :src="`${imageUrl}/${member.photo}`"
               alt=""
               width="30"
               class="rounded-circle img-fluid me-2"
             />
-            <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
+            <strong v-if="isLogin && member != null">{{ member.nickname }}님</strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
             <li>
@@ -184,7 +186,7 @@ const doLogout = async () => {
               aria-expanded="false"
             >
               <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" />
-              <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
+              <strong v-if="isLogin && member != null">{{ member.nickname }}님</strong>
             </a>
             <ul class="dropdown-menu text-small shadow">
               <li>
