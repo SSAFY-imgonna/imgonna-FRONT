@@ -15,6 +15,7 @@ app.use(pinia);
 app.use(router);
 app.use(Antd);
 
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "ant-design-vue/dist/reset.css";
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";

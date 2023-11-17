@@ -94,6 +94,35 @@ const router = createRouter({
         },
       ],
     },
+    // diary
+    {
+      path: "/diary",
+      name: "diary",
+      component: () => import("../views/DiaryView.vue"),
+      redirect: { name: "diary-list" },
+      children: [
+        {
+          path: "",
+          name: "diary-list",
+          component: () => import("@/components/diary/DiaryList.vue"),
+        },
+        // {
+        //   path: "/contentNo",
+        //   name: "diary-view",
+        //   component: () => import("@/components/diary/DiaryView.vue"),
+        // },
+        {
+          path: "",
+          name: "diary-write",
+          component: () => import("@/components/diary/DiaryWrite.vue"),
+        },
+        // {
+        //   path: "",
+        //   name: "diary-modify",
+        //   component: () => import("@/components/diary/DiaryModify.vue"),
+        // },
+      ],
+    },    
   ],
 });
 

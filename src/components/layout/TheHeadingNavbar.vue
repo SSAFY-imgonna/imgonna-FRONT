@@ -62,6 +62,9 @@ const doLogout = async () => {
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
           </li>
+          <li>
+            <router-link class="text-decoration-none" :to="{ name: 'diary' }">여행일기</router-link>
+          </li>
         </ul>
       </nav>
       <!-- .navbar -->
@@ -158,6 +161,11 @@ const doLogout = async () => {
             <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'accompany' }"
               >동행구하기</router-link
             >
+          </li>
+          <li>
+            <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'diary' }">
+              여행일기
+            </router-link>
           </li>
           <li>
             <router-link class="nav-link px-2 link-body-emphasis" :to="{ name: 'qna' }"

@@ -88,12 +88,10 @@ function writeAccompany() {
   formData.append("status", accompany.value.status);
   formData.append("themeNo", accompany.value.themeNo);
 
-  // Get the file input element
   const upfileInput = document.getElementById("upfile");
   console.log(upfileInput.files[0]);
-  // Check if a file is selected
   if (upfileInput.files.length > 0) {
-    // Append the first selected file to the FormData object
+    // 업로드할 파일이 존재하면, formData에 추가함
     formData.append("upfile", upfileInput.files[0]);
   }
   console.log(formData);
@@ -114,11 +112,41 @@ function writeAccompany() {
 
 function updateAccompany() {
   console.log(accompany.value.accompanyNo + "번글 수정하자!!", accompany.value);
+  const formData = new FormData();
+
+  formData.append("title", accompany.value.title);
+  formData.append("content", accompany.value.content);
+  formData.append("addr", accompany.value.addr);
+  formData.append("date", accompany.value.date);
+  formData.append("time", accompany.value.time);
+  formData.append("limitNum", accompany.value.limitNum);
+  formData.append("status", accompany.value.status);
+  formData.append("themeNo", accompany.value.themeNo);
+
+  const upfileInput = document.getElementById("upfile"); // 새 파일
+  console.log(upfileInput.files[0]);
+
+  if (accompany.value.fileInfos.length > 0) {
+    const originFile = accompany.value.fileInfos[0].originalFile; // 기존 파일
+    console.log(originFile);
+
+    // 기존 파일이 존해하면, formData에 추가함
+    if (originFile != null && originFile.length > 0) {
+      formData.append("originFile", originFile);
+      console.log("originFile 추가됨");
+    }
+  }
+  // 업로드할 파일이 존재하면, formData에 추가함
+  if (upfileInput.files.length > 0) {
+    formData.append("upfile", upfileInput.files[0]);
+    console.log("새 File 추가됨");
+  }
+  console.log(accompany);
   let { accompanyNo } = route.params;
   // API 호출
   modifyAccompany(
     accompanyNo,
-    accompany.value,
+    formData,
     ({ data }) => {
       console.log(data);
       router.push({ name: "accompany-view", params: accompanyNo });
@@ -132,15 +160,16 @@ function updateAccompany() {
 function deleteDiv() {
   let fileNameDiv = document.getElementById("fileNameDiv");
   fileNameDiv.style.display = "none";
-  let originFile = document.getElementById("originFile");
-  originalFile.value = "";
-  removeFile();
+  accompany.value.fileInfos[0].originalFile = "";
+  // let originFile = document.getElementById("originFile");
+  // originFile.value = "";
+  // removeFile();
 }
 
-function removeFile() {
-  let upfile = document.getElementById("upfile");
-  upfile.value = "";
-}
+// function removeFile() {
+//   let upfile = document.getElementById("upfile");
+//   upfile.value = "";
+// }
 </script>
 
 <template>
@@ -209,7 +238,7 @@ function removeFile() {
         <font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #ec3609" />
       </a>
     </div>
-    <input type="hidden" value="{{accompany.originalFile}}" id="originFile" name="originFile" />
+    <!-- <input type="hidden" value="{{accompany.originalFile}}" id="originFile" name="originFile" /> -->
 
     <div class="col-12">
       <label for="status" class="form-label">모집상태</label>
