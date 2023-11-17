@@ -5,7 +5,6 @@ import MemberSignUp from "../members/modal/MemberSignUp.vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import "../js/main.js";
-import GLightbox from "glightbox";
 import { UserOutlined } from "@ant-design/icons-vue";
 
 const isShownLoginModal = ref(false);

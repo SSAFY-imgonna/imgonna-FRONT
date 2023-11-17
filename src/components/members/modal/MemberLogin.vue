@@ -44,9 +44,9 @@ const loginSubmit = async () => {
     await userLogin(loginParam.value);
 
     closeModal();
+    let token = sessionStorage.getItem("accessToken");
     // console.log("isLogin: ", isLogin.value);
     if (isLogin) {
-      let token = sessionStorage.getItem("accessToken");
       console.log("1. ", token);
       getUserInfo(token);
     }
