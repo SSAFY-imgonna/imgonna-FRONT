@@ -2,9 +2,17 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import MemberDelete from "./modal/MemberDelete.vue";
+
 const memberStore = useMemberStore();
-const { isLogin, userInfo } = storeToRefs(memberStore);
+const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
+
+const isShownDeleteModal = ref(false);
+
+const getDeleteModal = () => {
+  isShownDeleteModal.value = !isShownDeleteModal.value;
+};
 </script>
 
 <template>
@@ -26,54 +34,62 @@ const member = ref(userInfo);
           />
         </svg>
 
-        <div class="d-flex justify-content-center align-items-center">
-          <!-- <div class="order-md-1 mt-3"> -->
-          <div class="row">
-            <div class="input-group col-6 col-lg-6 col-md-12">
-              <span class="input-group-text">아이디</span>
-              <input type="text" class="form-control" :value="member.id" readonly />
+        <div class="text-align-center">
+          <div class="order-md-1 mt-3">
+            <div class="input-row">
+              <div class="input-group col-6 col-lg-6 col-md-12">
+                <span class="input-group-text">아이디</span>
+                <input type="text" class="form-control" :value="member.id" readonly />
+              </div>
+
+              <div class="input-group col-6 col-lg-6 col-md-12">
+                <span class="input-group-text">이름</span>
+                <input type="text" class="form-control" :value="member.name" readonly />
+              </div>
+
+              <div class="input-group col-6 col-lg-6 col-md-12">
+                <span class="input-group-text">닉네임</span>
+                <input type="text" class="form-control" :value="member.nickname" readonly />
+              </div>
+              <div class="input-group col-6 col-lg-6 col-md-12">
+                <span class="input-group-text">mbti</span>
+                <input type="text" class="form-control" :value="member.mbti" readonly />
+              </div>
+
+              <div class="input-group col-6 col-lg-6 col-md-12">
+                <span class="input-group-text">연락처</span>
+                <input type="text" class="form-control" :value="member.phone" readonly />
+              </div>
+
+              <div class="input-group col-lg-6 col-md-12">
+                <span class="input-group-text">이메일</span>
+                <input type="text" class="form-control" :value="member.email" readonly />
+              </div>
             </div>
 
-            <div class="input-group col-6 col-lg-6 col-md-12">
-              <span class="input-group-text">이름</span>
-              <input type="text" class="form-control" :value="member.name" readonly />
-            </div>
-          </div>
-
-          <div class="row gy-12">
-            <div class="input-group col-lg-6 col-md-12">
-              <span class="input-group-text">닉네임</span>
-              <input type="text" class="form-control" :value="member.nickname" readonly />
-            </div>
-            <div class="input-group col-lg-6 col-md-12">
-              <span class="input-group-text">mbti</span>
-              <input type="text" class="form-control" :value="member.mbti" readonly />
-            </div>
-          </div>
-
-          <div class="row gy-12">
-            <div class="input-group col-lg-6 col-md-12">
-              <span class="input-group-text">연락처</span>
-              <input type="text" class="form-control" :value="member.phone" readonly />
+            <div class="input-group mb-3 input-row">
+              <span class="input-group-text">소개글</span>
+              <textarea class="form-control" type="text" rows="3" cols="30">{{
+                member.introduction
+              }}</textarea>
             </div>
 
-            <div class="input-group col-lg-6 col-md-12">
-              <span class="input-group-text">이메일</span>
-              <input type="text" class="form-control" :value="member.email" readonly />
-            </div>
-          </div>
-
-          <div class="input-group mb-3">
-            <span class="input-group-text">소개글</span>
-            <textarea class="form-control" type="text" rows="3" cols="30">{{
-              member.introduction
-            }}</textarea>
+            <button class="btn btn-danger" @click="getDeleteModal">회원 탈퇴</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- </div> -->
   </section>
+  <MemberDelete :is-shown-delete-modal="isShownDeleteModal" @close-modal="getDeleteModal" />
 </template>
 
-<style scoped></style>
+<style scoped>
+#container {
+  text-align: center;
+  margin-block: 10px;
+}
+.input-row {
+  width: 60%;
+  margin-block: 10px;
+}
+</style>

@@ -47,6 +47,10 @@ async function logout(id, success, fail) {
   await local.get(`${url}/logout/${id}`).then(success).catch(fail);
 }
 
+async function doDelete(id, data, success, fail) {
+  await local.post(`${url}/${id}`, JSON.stringify(data)).then(success).catch(fail);
+}
+
 export {
   doSignUp,
   checkId,
@@ -58,4 +62,5 @@ export {
   logout,
   userFindId,
   userFindPassword,
+  doDelete,
 };

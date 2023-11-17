@@ -5,7 +5,7 @@ import { useMemberStore } from "@/stores/member";
 import { doModifyPassword } from "@/api/member";
 import Swal from "sweetalert2";
 const memberStore = useMemberStore();
-const { userLogout, userInfo } = storeToRefs(memberStore);
+const { isLogin, isValidToken, userInfo } = storeToRefs(memberStore);
 
 const newPasswordConfirm = ref("");
 
@@ -41,7 +41,9 @@ const modifyPassword = () => {
           title: "비밀번호 변경 성공",
           text: "다시 로그인 해주세요!",
         });
-        userLogout;
+        isLogin.value = false;
+        userInfo.value = null;
+        isValidToken.value = false;
         location.href = "/";
       },
       (error) => {
