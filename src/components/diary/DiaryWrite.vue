@@ -4,6 +4,7 @@ import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getAttractionList, createDiary } from "@/api/diary";
+import Swal from "sweetalert2";
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -28,31 +29,67 @@ const diary = ref({
   isPublic: false,
 });
 
+const showWarning = (text) => {
+  Swal.fire({
+    icon: "warning",
+    text: text,
+  });
+};
+
 function writeDiary() {
-  if (member.value != null) {
-    diary.value.id = member.value.id;
-  }
-  console.log("글등록하자!!", diary.value);
-  const formData = new FormData();
+  if (!diary.value.travelTime) {
+    showWarning("날짜는 필수 입력값입니다!");
+  } else if (!diary.value.title) {
+    showWarning("제목은 필수 입력값입니다!");
+  } else if (!diary.value.content) {
+    showWarning("내용은 필수 입력값입니다!");
+  } else if (!diary.value.weather) {
+    showWarning("날씨는 필수 입력값입니다!");
+    return;
+  } else if (!diary.value.emotion) {
+    showWarning("만족도는 필수 입력값입니다!");
+    return;
+  } else {
+    if (member.value != null) {
+      diary.value.id = member.value.id;
+    }
+    console.log("글등록하자!!", diary.value);
+    const formData = new FormData();
 
-  formData.append("travelTime", diary.value.travelTime);
-  formData.append("attactionName", diary.value.attactionName);
-  formData.append("id", diary.value.id);
-  formData.append("contentId", diary.value.contentId);
-  formData.append("title", diary.value.title);
-  formData.append("content", diary.value.content);
-  formData.append("content", diary.value.content);
-  formData.append("emotion", diary.value.emotion);
-  formData.append("isPublic", diary.value.isPublic);
+    formData.append("travelTime", diary.value.travelTime);
+    formData.append("attactionName", diary.value.attactionName);
+    formData.append("id", diary.value.id);
+    formData.append("contentId", diary.value.contentId);
+    formData.append("title", diary.value.title);
+    formData.append("content", diary.value.content);
+    formData.append("weather", diary.value.weather);
+    formData.append("emotion", diary.value.emotion);
+    if (diary.value.isPublic == true) {
+      formData.append("isPublic", 1);
+    } else {
+      formData.append("isPublic", 0);
+    }
 
-  const upfileInput = document.getElementById("upfile");
-  console.log(upfileInput.files[0]);
-  if (upfileInput.files.length > 0) {
-    // 업로드할 파일이 존재하면, formData에 추가함
-    formData.append("upfile", upfileInput.files[0]);
+    const upfileInput = document.getElementById("upfile");
+    console.log(upfileInput.files[0]);
+    if (upfileInput.files.length > 0) {
+      // 업로드할 파일이 존재하면, formData에 추가함
+      formData.append("upfile", upfileInput.files[0]);
+    }
+    console.log(formData);
+    // API 통신
+    createDiary(
+      formData,
+      ({ data }) => {
+        console.log(data);
+        alert("글 작성이 완료되었습니다.");
+        router.push({ name: "diary-list" });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
-  console.log(formData);
-  // API 통신
 }
 
 function findAttraction() {

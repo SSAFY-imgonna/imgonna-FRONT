@@ -18,7 +18,7 @@ function getAttractionList(title, success, fail) {
 }
 
 async function createDiary(formData, success, fail) {
-  console.log("accompanyjs accompany", formData);
+  console.log("diaryjs accompany", formData);
 
   await local
     .post(`${url}`, formData, {
