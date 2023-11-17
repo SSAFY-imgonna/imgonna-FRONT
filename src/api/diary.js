@@ -4,9 +4,9 @@ const local = localAxios(); // axios instance
 
 const url = "/diary";
 
-// function getDiaryList(param, success, fail) {
-//   local.get(`${url}`, { params: param }).then(success).catch(fail);
-// }
+function getDiaryList(param, success, fail) {
+  local.get(`${url}`, { params: param }).then(success).catch(fail);
+}
 
 // function getDiaryByDiaryNo(accompanyNo, success, fail) {
 //   local.get(`${url}/${accompanyNo}`).then(success).catch(fail);
@@ -52,7 +52,7 @@ async function createDiary(formData, success, fail) {
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
 export {
   getAttractionList,
-  //   getDiaryList,
+  getDiaryList,
   //   getDiaryByDiaryNo,
   createDiary,
   //   getModifyDiary,

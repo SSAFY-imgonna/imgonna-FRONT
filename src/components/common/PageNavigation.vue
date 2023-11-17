@@ -37,6 +37,23 @@ function onPageChange(pg) {
 
 <template>
   <div class="row">
+    <div class="col-lg-12">
+      <ul class="pagination">
+        <li>
+          <a @click="onPageChange(startPage == 1 ? 1 : startPage - 1)">&lt;&lt;</a>
+        </li>
+        <template v-for="pg in range(startPage, endPage)" :key="pg">
+          <li :class="currentPage === pg ? 'is_active' : ''">
+            <a @click="onPageChange(pg)">{{ pg }}</a>
+          </li>
+        </template>
+        <li>
+          <a @click="onPageChange(endRange ? totalPage : endPage + 1)">&gt;&gt;</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- <div class="row">
     <ul class="pagination justify-content-center">
       <li class="page-item">
         <a class="page-link" @click="onPageChange(1)">최신</a>
@@ -54,11 +71,41 @@ function onPageChange(pg) {
       </li>
       <li class="page-item"><a class="page-link" @click="onPageChange(totalPage)">마지막</a></li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
 a {
   cursor: pointer;
+}
+li a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #1e1e1e !important;
+  color: #fff !important;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+.properties ul.pagination li {
+  display: inline-block;
+  margin: 0px 5px;
+}
+
+.properties ul.pagination li a:hover,
+.properties ul.pagination li a.is_active {
+  background-color: #74b359 !important;
+  color: #fff !important;
+}
+
+.properties ul.pagination {
+  margin-top: 50px;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
 }
 </style>
