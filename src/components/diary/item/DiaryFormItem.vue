@@ -17,6 +17,13 @@ const props = defineProps({ type: String });
 
 const attractions = ref([]);
 
+// ref를 사용하여 upfileInput 변수를 생성
+const upfile = ref(null);
+
+const fileChange = () => {
+  console.log(upfile.value.files[0]);
+};
+
 const diary = ref({
   travelTime: "",
   attactionName: "",
@@ -72,11 +79,9 @@ function writeDiary() {
       formData.append("isPublic", 0);
     }
 
-    const upfileInput = document.getElementById("upfile");
-    console.log(upfileInput.files[0]);
-    if (upfileInput.files.length > 0) {
+    if (upfile.value.files.length > 0) {
       // 업로드할 파일이 존재하면, formData에 추가함
-      formData.append("upfile", upfileInput.files[0]);
+      formData.append("upfile", upfile.value.files[0]);
     }
     console.log(formData);
     // API 통신
@@ -372,7 +377,15 @@ function selectEmotion(emotion) {
       <div class="col-12">
         <fieldset>
           <label for="upfile">사진</label>
-          <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
+          <input
+            ref="upfile"
+            class="form-control"
+            type="file"
+            id="upfile"
+            name="upfile"
+            accept="image/*"
+            @change="fileChange"
+          />
         </fieldset>
       </div>
 

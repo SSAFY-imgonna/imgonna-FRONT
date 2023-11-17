@@ -8,6 +8,12 @@ const route = useRoute();
 
 const props = defineProps({ type: String });
 
+const upfile = ref(null);
+
+const fileChange = () => {
+  console.log(upfile.value.files[0]);
+};
+
 const accompany = ref({
   accompanyNo: 0,
   title: "",
@@ -88,11 +94,9 @@ function writeAccompany() {
   formData.append("status", accompany.value.status);
   formData.append("themeNo", accompany.value.themeNo);
 
-  const upfileInput = document.getElementById("upfile");
-  console.log(upfileInput.files[0]);
-  if (upfileInput.files.length > 0) {
+  if (upfile.value.files.length > 0) {
     // 업로드할 파일이 존재하면, formData에 추가함
-    formData.append("upfile", upfileInput.files[0]);
+    formData.append("upfile", upfile.value.files[0]);
   }
   console.log(formData);
   // API 호출
@@ -224,7 +228,15 @@ function deleteDiv() {
     </div>
     <div class="col-12">
       <label for="upfile" class="form-label">사진</label>
-      <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
+      <input
+        ref="upfile"
+        class="form-control"
+        type="file"
+        id="upfile"
+        name="upfile"
+        accept="image/*"
+        @change="fileChange"
+      />
     </div>
 
     <div
