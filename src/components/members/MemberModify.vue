@@ -38,6 +38,7 @@ const modifySubmit = () => {
     formData.append("mbti", modifyParam.value.mbti);
     formData.append("email", modifyParam.value.email);
     formData.append("introduction", modifyParam.value.introduction);
+    formData.append("photo", modifyParam.value.photo);
 
     // Get the file input element
     const upfileInput = document.getElementById("upfile2");
