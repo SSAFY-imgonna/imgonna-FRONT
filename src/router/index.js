@@ -95,13 +95,13 @@ const router = createRouter({
       path: "/diary",
       name: "diary",
       component: () => import("../views/DiaryView.vue"),
-      redirect: { name: "diary-write" },
+      redirect: { name: "diary-list" },
       children: [
-        // {
-        //   path: "",
-        //   name: "diary-list",
-        //   component: () => import("@/components/diary/DiaryList.vue"),
-        // },
+        {
+          path: "",
+          name: "diary-list",
+          component: () => import("@/components/diary/DiaryList.vue"),
+        },
         // {
         //   path: "/contentNo",
         //   name: "diary-view",
