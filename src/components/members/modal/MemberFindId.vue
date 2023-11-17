@@ -68,7 +68,7 @@ const findId = async () => {
     </div>
   </form>
   <div id="footer">
-    <button type="button" @click="findId" class="btn ms-5 btn-secondary">찾기</button>
+    <button type="button" @click="findId" class="btn btn-secondary">찾기</button>
   </div>
 </template>
 

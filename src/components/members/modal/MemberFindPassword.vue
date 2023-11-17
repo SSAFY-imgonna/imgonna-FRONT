@@ -18,10 +18,10 @@ const showWarning = (text) => {
 const param = ref({ email: "", name: "", phone: "" });
 
 const findPw = async () => {
-  if (!param.value.email) {
-    showWarning("이메일을 입력해주세요!");
-  } else if (!param.value.id) {
+  if (!param.value.id) {
     showWarning("아이디를 입력해주세요!");
+  } else if (!param.value.email) {
+    showWarning("이메일을 입력해주세요!");
   } else if (!param.value.phone) {
     showWarning("전화번호를 입력해주세요!");
   } else {
@@ -86,7 +86,7 @@ const finished = () => {
       </div>
     </form>
     <div id="footer">
-      <button type="button" @click="findPw" class="btn ms-5 btn-secondary">재설정</button>
+      <button type="button" @click="findPw" class="btn btn-secondary">재설정</button>
     </div>
   </div>
   <MemberResetPw

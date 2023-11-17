@@ -29,16 +29,18 @@
             </nav>
           </div>
         </div>
-        <RouterView></RouterView>
+        <div>
+          <RouterView></RouterView>
+        </div>
       </div>
     </section>
   </section>
 </template>
 
 <style>
+@import "../components/layout/assets/css/indexstyles.css";
 section {
   overflow: hidden;
   padding: 40px 0;
 }
-@import "../components/layout/assets/css/indexstyles.css";
 </style>

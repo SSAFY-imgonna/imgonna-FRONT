@@ -280,7 +280,7 @@ section {
   color: var(--color-primary);
 }
 
-.header .btn-outline-book-a-table,
+.header .btn-outline-book-a-table, .btn-book-a-table, .btn-book-a-table:focus,
 .header .btn-outline-book-a-table:focus {
   font-size: 14px;
   color: var(--color-primary);
@@ -291,7 +291,7 @@ section {
   transition: 0.3s;
 }
 
-.header .btn-book-a-table,
+.header .btn-book-a-table, .btn-book-a-table, .btn-book-a-table:focus,
 .header .btn-book-a-table:focus {
   font-size: 14px;
   color: #fff;
@@ -302,7 +302,7 @@ section {
   transition: 0.3s;
 }
 
-.header .btn-book-a-table:hover, .header .btn-outline-book-a-table:hover,
+.header .btn-book-a-table:hover, .header .btn-outline-book-a-table:hover, .btn-book-a-table, .btn-book-a-table:focus,
 .header .btn-book-a-table:focus:hover, .header .btn-outline-book-a-table:focus:hover {
   color: #fff;
   background: rgb(111, 163, 88);

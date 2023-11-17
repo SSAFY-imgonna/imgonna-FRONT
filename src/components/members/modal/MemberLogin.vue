@@ -80,8 +80,8 @@ const openFindPwModal = () => {
                 v-model="loginParam.id"
               />
             </div>
-            <input class="form-check-input" type="checkbox" name="saveId" value="checked" />
-            아이디저장
+            <!-- <input class="form-check-input" type="checkbox" name="saveId" value="checked" />
+            아이디저장 -->
             <div class="input-group mt-3" id="input-group">
               <span class="input-group-text">비밀번호</span>
               <input
@@ -160,6 +160,6 @@ const openFindPwModal = () => {
 
 #footer {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 </style>

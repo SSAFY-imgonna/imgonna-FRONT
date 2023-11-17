@@ -64,7 +64,7 @@ const modifyPassword = () => {
 </script>
 
 <template>
-  <div class="input-group mb-3">
+  <div class="input-group mx-5 my-3">
     <form>
       <div class="input-group mb-3">
         <span class="input-group-text">기존 비밀번호</span>
@@ -88,9 +88,21 @@ const modifyPassword = () => {
         <span class="input-group-text">변경할 비밀번호 재입력</span>
         <input type="password" class="form-control" name="password" v-model="newPasswordConfirm" />
       </div>
-      <input type="button" class="btn btn-secondary" @click="modifyPassword" value="확인" />
+      <div id="footer">
+        <input
+          type="button"
+          class="p-2 px-4 btn-book-a-table"
+          @click="modifyPassword"
+          value="확인"
+        />
+      </div>
     </form>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#footer {
+  text-align: right;
+  margin-top: 20px;
+}
+</style>

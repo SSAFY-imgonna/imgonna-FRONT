@@ -21,12 +21,14 @@ const getDeleteModal = () => {
     <div class="col-lg-4">
       <div class="card mb-4">
         <div class="card-body text-center">
-          <img
+          <!-- <img
             v-if="!member.photo"
             src="/no_image.png"
             style="width: 150px"
             class="rounded-circle img-fluid me-2"
-          />
+          /> -->
+          <i v-if="!userInfo.photo" style="font-size: 120px" class="bi bi-person-circle"></i>
+
           <img
             v-else
             :src="`${imageUrl}/${member.photo}`"

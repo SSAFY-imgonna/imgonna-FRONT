@@ -67,64 +67,126 @@ const mbtiList = ref([
   { text: "INTJ", value: "INTJ" },
   { text: "INFJ", value: "INFJ" },
 ]);
+
+const removePhoto = () => {
+  modifyParam.value.photo = "";
+};
 </script>
 
 <template>
   <section id="book-a-table" class="book-a-table">
-    <div class="container" id="modify-form" data-aos="fade-up">
-      <form method="post">
-        <div class="input-group mb-3">
-          <span class="input-group-text">아이디</span>
-          <input type="text" class="form-control" v-model="modifyParam.id" readonly />
-        </div>
+    <div class="row">
+      <div class="col-lg-3 ms-5 mx-3">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <p class="my-3 fs-5">프로필사진</p>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">이름</span>
-          <input type="text" class="form-control" v-model="modifyParam.name" />
-          <span class="input-group-text">닉네임</span>
-          <input type="text" class="form-control" v-model="modifyParam.nickname" />
-        </div>
+            <i v-if="!modifyParam.photo" style="font-size: 120px" class="bi bi-person-circle"></i>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">연락처</span>
-          <input type="tel" class="form-control" v-model="modifyParam.phone" />
-        </div>
+            <img
+              v-else
+              :src="`${imageUrl}/${member.photo}`"
+              alt=""
+              style="width: 150px"
+              class="rounded-circle img-fluid me-2"
+            />
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">MBTI</span>
-          <select class="form-select" v-model="modifyParam.mbti">
-            <option selected disabled>MBTI 선택</option>
-            <option v-for="mbti in mbtiList" :key="mbti.text" :value="mbti.value">
-              {{ mbti.text }}
-            </option>
-          </select>
-        </div>
+            <div class="input-group mb-3">
+              <div class="col-sm-10 ms-4">
+                <input type="file" class="form-control p-1" id="inputGroupFile02" />
+              </div>
+            </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">이메일</span>
-          <input type="tel" class="form-control" v-model="modifyParam.email" readonly />
+            <button class="btn btn-outline-danger p-1 mb-3" @click="removePhoto">사진 삭제</button>
+          </div>
         </div>
-
-        <!-- <div class="input-group mb-3">
-            <span class="input-group-text">소개글</span>
-            <textarea
-              class="form-control"
-              id="introduction"
-              type="text"
-              maxlength="255"
-              rows="3"
-              cols="30"
-              name="introduction"
-            ></textarea>
-          </div> -->
-
-        <div class="input-group mb-3">
-          <span class="input-group-text">프로필사진</span>
-          <input type="file" class="form-control" id="inputGroupFile02" />
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4 p-5">
+          <div class="card-body">
+            <div class="row">
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">아이디</p>
+                </div>
+                <div class="col-sm-5">
+                  <input
+                    type="text"
+                    class="form-control-plaintext"
+                    v-model="modifyParam.id"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">이메일</p>
+                </div>
+                <div class="col-sm-5">
+                  <input
+                    type="text"
+                    class="form-control-plaintext"
+                    v-model="modifyParam.email"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">이름</p>
+                </div>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control p-1" v-model="modifyParam.name" />
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">연락처</p>
+                </div>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control p-1" v-model="modifyParam.phone" />
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">MBTI</p>
+                </div>
+                <div class="col-sm-5">
+                  <select class="form-select p-1" v-model="modifyParam.mbti">
+                    <option selected disabled>MBTI 선택</option>
+                    <option v-for="mbti in mbtiList" :key="mbti.text" :value="mbti.value">
+                      {{ mbti.text }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="col-sm-2">
+                  <p class="mb-0 fs-6">소개글</p>
+                </div>
+                <div class="col-sm-5">
+                  <textarea
+                    class="form-control p-1"
+                    id="introduction"
+                    type="text"
+                    maxlength="255"
+                    rows="3"
+                    cols="30"
+                    v-model="modifyParam.introduction"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <div id="footer">
-        <input type="button" class="btn btn-secondary" @click="modifySubmit" value="수정" />
+        <div id="footer">
+          <input
+            type="button"
+            class="p-2 px-4 btn-book-a-table"
+            @click="modifySubmit"
+            value="수정"
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -137,8 +199,7 @@ const mbtiList = ref([
   box-sizing: border-box;
 }
 
-#modify-form {
-  width: 50%;
+#book-a-table {
 }
 
 .isValid {
@@ -157,6 +218,6 @@ const mbtiList = ref([
 
 #footer {
   text-align: right;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 </style>

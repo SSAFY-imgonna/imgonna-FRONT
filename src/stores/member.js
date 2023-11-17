@@ -124,6 +124,7 @@ export const useMemberStore = defineStore(
               title: "로그아웃 성공",
               text: "이용해주셔서 감사합니다!",
             });
+            router.replace = "/";
           } else {
             console.error("유저 정보 없음!!!!");
           }

@@ -78,12 +78,13 @@ const doLogout = async () => {
             aria-expanded="false"
           >
             <!-- <UserOutlined class="me-2" /> -->
-            <img
+            <i v-if="!userInfo.photo" class="bi bi-person-circle me-2"></i>
+            <!-- <img
               v-if="!userInfo.photo"
               src="/no_image.png"
               width="30"
               class="rounded-circle img-fluid me-2"
-            />
+            /> -->
             <img
               v-else
               :src="`${imageUrl}/${userInfo.photo}`"
