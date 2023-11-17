@@ -6,6 +6,7 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import "../js/main.js";
 import { UserOutlined } from "@ant-design/icons-vue";
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 
 const isShownLoginModal = ref(false);
 const isShownSignUpModal = ref(false);
@@ -38,7 +39,8 @@ const doLogout = async () => {
         :to="{ name: 'main' }"
         class="logo d-flex align-items-center me-auto me-lg-0 text-decoration-none"
       >
-        <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" />
+        <img src="/img/imgonna_logo.gif" style="width: 40px" class="img-fluid me-2" />
+        <!-- <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" /> -->
         <h1>i<span>'</span>mgonna</h1>
       </router-link>
 
@@ -72,8 +74,20 @@ const doLogout = async () => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <!-- <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" /> -->
-            <UserOutlined class="me-2" />
+            <!-- <UserOutlined class="me-2" /> -->
+            <img
+              v-if="!userInfo.photo"
+              src="/no_image.png"
+              width="30"
+              class="rounded-circle img-fluid me-2"
+            />
+            <img
+              v-else
+              :src="`${imageUrl}/${userInfo.photo}`"
+              alt=""
+              width="30"
+              class="rounded-circle img-fluid me-2"
+            />
             <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
