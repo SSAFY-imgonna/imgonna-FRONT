@@ -29,6 +29,7 @@ const reset = () => {
   signUpParam.value.password = "";
   signUpParam.value.name = "";
   signUpParam.value.nickname = "";
+  signUpParam.value.introduction = "";
   signUpParam.value.phone = "";
   signUpParam.value.mbti = "";
   signUpParam.value.email = "";
@@ -44,6 +45,7 @@ const signUpParam = ref({
   phone: "",
   mbti: "",
   email: "",
+  introduction: "",
 });
 const checkIdResultMsg = ref("");
 const checkIdResultFlag = ref(false);
@@ -104,6 +106,7 @@ const signUpSubmit = () => {
     formData.append("phone", signUpParam.value.phone);
     formData.append("mbti", signUpParam.value.mbti);
     formData.append("email", signUpParam.value.email);
+    formData.append("introduction", signUpParam.value.introduction);
 
     // Get the file input element
     const upfileInput = document.getElementById("upfile");

@@ -121,21 +121,22 @@ const viewAttraction = (attraction) => {
 </script>
 
 <template>
-  <div class="container text-center mt-3">
-    <div class="alert alert-primary mt-3 text-center fw-bold" role="alert">전국 관광지 정보</div>
-    <div class="row mb-2">
-      <div class="col d-flex flex-row-reverse">
+  <div class="container text-center pt-4">
+    <div class="row text-center mb-4">
+      <div class="col-4">
         <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" />
       </div>
-      <div class="col d-flex">
+      <div class="col-4">
         <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" />
       </div>
-      <div class="col">
+      <div class="col-4">
         <VSelect :selectOption="contentsList" @onKeySelect="onChangeContents" />
       </div>
     </div>
-    <VKakaoMap :attractions="attractions" :select-attraction="selectAttraction" />
-
+    <div class="container">
+      <VKakaoMap :attractions="attractions" :select-attraction="selectAttraction" />
+    </div>
+    <!-- 
     <table class="table table-hover" v-show="attractions.length != 0">
       <thead>
         <tr class="text-center">
@@ -156,7 +157,7 @@ const viewAttraction = (attraction) => {
           <td>{{ attraction.tel }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </template>
 

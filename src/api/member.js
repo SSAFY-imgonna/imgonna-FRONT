@@ -30,8 +30,15 @@ function userFindPassword(data, success, fail) {
   local.post(`${url}/find/pw`, JSON.stringify(data)).then(success).catch(fail);
 }
 
-function doModify(data, success, fail) {
-  local.put(`${url}/${data.id}`, JSON.stringify(data)).then(success).catch(fail);
+async function doModify(id, data, success, fail) {
+  await local
+    .put(`${url}/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(success)
+    .catch(fail);
 }
 
 function doModifyPassword(id, data, success, fail) {

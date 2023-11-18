@@ -14,6 +14,8 @@ const memberStore = useMemberStore();
 const { userLogout } = memberStore;
 const { isLogin, userInfo } = storeToRefs(memberStore);
 
+const member = ref(userInfo);
+
 const getLoginModal = () => {
   isShownLoginModal.value = !isShownLoginModal.value;
 };
@@ -41,15 +43,19 @@ const doLogout = async () => {
       >
         <img src="/img/imgonna_logo.gif" style="width: 40px" class="img-fluid me-2" />
         <!-- <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" /> -->
-        <h1>i<span>'</span>mgonna</h1>
+        <!-- <h1>i<span>'</span>mgonna</h1> -->
+        <h1 style="font-family: 'Raleway', sans-serif">i<span>'</span>mgonna</h1>
       </router-link>
 
       <nav id="navbar" class="navbar">
         <ul>
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'attraction' }"
-              >관광지정보</router-link
+              >여행지도</router-link
             >
+          </li>
+          <li>
+            <router-link class="text-decoration-none" :to="{ name: 'area' }">여행정보</router-link>
           </li>
           <!-- <li><a href="#">나의여행계획</a></li>
           <li><a href="#">핫플자랑하기</a></li>
@@ -60,10 +66,10 @@ const doLogout = async () => {
             >
           </li>
           <li>
-            <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
+            <router-link class="text-decoration-none" :to="{ name: 'diary' }">여행일기</router-link>
           </li>
           <li>
-            <router-link class="text-decoration-none" :to="{ name: 'diary' }">여행일기</router-link>
+            <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
           </li>
         </ul>
       </nav>
@@ -78,21 +84,21 @@ const doLogout = async () => {
             aria-expanded="false"
           >
             <!-- <UserOutlined class="me-2" /> -->
-            <i v-if="!userInfo.photo" class="bi bi-person-circle me-2"></i>
+            <i v-if="!member.photo" class="bi bi-person-circle me-2"></i>
             <!-- <img
-              v-if="!userInfo.photo"
+              v-if="!member.photo"
               src="/no_image.png"
               width="30"
               class="rounded-circle img-fluid me-2"
             /> -->
             <img
               v-else
-              :src="`${imageUrl}/${userInfo.photo}`"
+              :src="`${imageUrl}/${member.photo}`"
               alt=""
               width="30"
               class="rounded-circle img-fluid me-2"
             />
-            <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
+            <strong v-if="isLogin && member != null">{{ member.nickname }}님</strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
             <li>
@@ -184,7 +190,7 @@ const doLogout = async () => {
               aria-expanded="false"
             >
               <img src="/no_image.png" alt="" width="32" height="32" class="rounded-circle me-2" />
-              <strong v-if="isLogin && userInfo != null">{{ userInfo.nickname }}님</strong>
+              <strong v-if="isLogin && member != null">{{ member.nickname }}님</strong>
             </a>
             <ul class="dropdown-menu text-small shadow">
               <li>
