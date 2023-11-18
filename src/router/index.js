@@ -106,23 +106,23 @@ const router = createRouter({
           name: "diary-list",
           component: () => import("@/components/diary/DiaryList.vue"),
         },
-        // {
-        //   path: "/contentNo",
-        //   name: "diary-view",
-        //   component: () => import("@/components/diary/DiaryView.vue"),
-        // },
+        {
+          path: ":diaryNo",
+          name: "diary-view",
+          component: () => import("@/components/diary/DiaryView.vue"),
+        },
         {
           path: "",
           name: "diary-write",
           component: () => import("@/components/diary/DiaryWrite.vue"),
         },
-        // {
-        //   path: "",
-        //   name: "diary-modify",
-        //   component: () => import("@/components/diary/DiaryModify.vue"),
-        // },
+        {
+          path: ":diaryNo",
+          name: "diary-modify",
+          component: () => import("@/components/diary/DiaryModify.vue"),
+        },
       ],
-    },    
+    },
   ],
 });
 
