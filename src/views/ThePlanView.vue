@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div style="margin-top: 350px">
+  <div style="margin-top: 100px">
     <router-view></router-view>
   </div>
 </template>

@@ -60,8 +60,8 @@ watch(
 <style scoped>
 .alist {
   position: absolute;
-  top: 90px;
-  bottom: 10px;
+  top: 150px;
+  bottom: 300px;
   overflow-y: scroll;
 }
 

@@ -30,53 +30,55 @@ const addAttraction = (attraction) => {
 </script>
 
 <template>
-  <fieldset>
-    <span class="search-input-container">
-      <input
-        type="text"
-        name="name"
-        id="name"
-        placeholder="관광지를 검색해보세요!"
-        autocomplete="on"
-        v-model="searchAttractionName"
-      />
-      <i class="bi bi-search" @click="findAttraction" type="button"></i>
-    </span>
-  </fieldset>
-  <div style="height: 500px">
-    <div class="alist overflow-auto">
-      <div
-        class="card ms-4 mb-3 attraction-info"
-        v-for="attraction in attractions"
-        :key="attraction.contentId"
-        style="max-width: 540px"
-      >
-        <div class="row g-0" v-if="attraction" @click="selectAttraction(attraction)">
-          <div class="col-md-4">
-            <img
-              v-if="attraction.firstImage && attraction.firstImage.length > 0"
-              :src="attraction.firstImage"
-              class="img-fluid rounded-start"
-              alt="..."
-            />
-            <img
-              v-else-if="attraction.firstImage2 && attraction.firstImage2.length > 0"
-              :src="attraction.firstImage"
-              class="img-fluid rounded-start"
-              alt="..."
-            />
-            <img v-else src="/img/no_image.png" class="img-fluid rounded-start" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">
-                <b>{{ attraction.title }}</b>
-                <button id="add" @click="addAttraction(attraction)">추가</button>
-              </h5>
-              <p class="card-text">{{ attraction.addr1 }} {{ attraction.addr2 }}</p>
-              <!-- <p class="card-text">
+  <div class="row">
+    <fieldset>
+      <span class="search-input-container">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="관광지를 검색해보세요!"
+          autocomplete="on"
+          v-model="searchAttractionName"
+        />
+        <i class="bi bi-search" @click="findAttraction" type="button"></i>
+      </span>
+    </fieldset>
+    <div style="height: 500px">
+      <div class="alist overflow-auto">
+        <div
+          class="card ms-4 mb-3 attraction-info"
+          v-for="attraction in attractions"
+          :key="attraction.contentId"
+          style="max-width: 540px"
+        >
+          <div class="row g-0" v-if="attraction" @click="selectAttraction(attraction)">
+            <div class="col-md-4">
+              <img
+                v-if="attraction.firstImage && attraction.firstImage.length > 0"
+                :src="attraction.firstImage"
+                class="img-fluid rounded-start"
+                alt="..."
+              />
+              <img
+                v-else-if="attraction.firstImage2 && attraction.firstImage2.length > 0"
+                :src="attraction.firstImage"
+                class="img-fluid rounded-start"
+                alt="..."
+              />
+              <img v-else src="/img/no_image.png" class="img-fluid rounded-start" alt="..." />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <b>{{ attraction.title }}</b>
+                  <button id="add" @click="addAttraction(attraction)">추가</button>
+                </h5>
+                <p class="card-text">{{ attraction.addr1 }} {{ attraction.addr2 }}</p>
+                <!-- <p class="card-text">
                             <small class="text-body-secondary">{{ attraction.tel }}</small>
                           </p> -->
+              </div>
             </div>
           </div>
         </div>
@@ -94,8 +96,8 @@ const addAttraction = (attraction) => {
 }
 .alist {
   position: absolute;
-  top: 110px;
-  bottom: 10px;
+  top: 210px;
+  bottom: 300px;
   overflow-y: scroll;
 }
 

@@ -3,13 +3,101 @@ import { ref } from "vue";
 import SearchAttractionItem from "../attraction/searchAttractionItem.vue";
 import KakaoMapItem from "../plan/KakaoMapItem.vue";
 import PlanItem from "../plan/PlanItem.vue";
+import VSelect from "@/components/common/Vselect.vue";
+import { createPlan } from "@/api/plan";
+import Swal from "sweetalert2";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 const selectAttraction = ref({});
 const attractions = ref([]);
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
+
 const setAttraction = function (attraction) {
   selectAttraction.value = attraction;
 };
 const makePlan = function (attraction) {
   attractions.value.push(attraction);
+};
+
+const plan = ref({
+  name: "",
+  id: "",
+  startTime: "",
+  departureTime: "",
+  memo: "",
+  themeNo: "",
+  attractions: [],
+});
+
+const showWarning = (text) => {
+  Swal.fire({
+    icon: "warning",
+    text: text,
+  });
+};
+
+const themeList = ref([
+  {
+    text: "테마 선택",
+    value: "",
+  },
+  {
+    text: "우정 여행",
+    value: "1",
+  },
+  {
+    text: "가족 여행",
+    value: "2",
+  },
+  {
+    text: "데이트",
+    value: "3",
+  },
+]);
+
+function registPlan() {
+  if (!plan.value.name) {
+    showWarning("여행 계획 이름은 필수 입력값입니다!");
+  } else if (!plan.value.startTime) {
+    showWarning("출발일은 필수 입력값입니다!");
+  } else if (!plan.value.departureTime) {
+    showWarning("도착일은 필수 입력값입니다!");
+  } else if (!plan.value.themeNo) {
+    showWarning("여행 테마는 필수 입력값입니다!");
+  } else if (attractions.value == null || attractions.value.length == 0) {
+    showWarning("여행할 관광지는 0개 이상이어야합니다!");
+  } else {
+    console.log(member.value.id);
+    plan.value.id = member.value.id;
+    plan.value.attractions = attractions.value;
+
+    console.log(plan.value);
+
+    createPlan(
+      plan.value,
+      ({ data }) => {
+        console.log(data);
+        Swal.fire({
+          icon: "success",
+          title: "여행계획 등록 완료",
+        });
+      },
+      (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "여행계획 등록 실패",
+          text: "다시 시도해주세요!",
+        });
+        console.log(error);
+      }
+    );
+  }
+}
+const onSelectTheme = (val) => {
+  plan.value.themeNo = val;
 };
 </script>
 
@@ -25,6 +113,26 @@ const makePlan = function (attraction) {
             @submit.prevent="onSubmit"
           >
             <div class="row">
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="subject">제목</label>
+                  <input type="subject" autocomplete="on" v-model="plan.name" />
+                </fieldset>
+              </div>
+              <div class="col-lg-3">
+                <fieldset>
+                  <label for="name">여행 시작 날짜</label>
+                  <input type="date" autocomplete="on" v-model="plan.startTime" />
+                </fieldset>
+              </div>
+              <div class="col-lg-3">
+                <fieldset>
+                  <label for="name">여행 종료 날짜</label>
+                  <input type="date" autocomplete="on" v-model="plan.departureTime" />
+                </fieldset>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-lg-4 col-md-4">
                 <SearchAttractionItem
                   @select-attraction="setAttraction"
@@ -35,6 +143,24 @@ const makePlan = function (attraction) {
                 <KakaoMapItem :attraction="selectAttraction" />
               </div>
               <div class="col-lg-3 col-md-3"><PlanItem :attractions="attractions" /></div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-lg-9">
+                <fieldset>
+                  <label for="message">메모</label>
+                  <textarea pv-model="plan.memo"></textarea>
+                </fieldset>
+              </div>
+              <div class="col-lg-3">
+                <fieldset>
+                  <label for="message">테마</label>
+                  <VSelect :selectOption="themeList" @onKeySelect="onSelectTheme" />
+                </fieldset>
+                <br /><br /><br />
+                <fieldset style="text-align: right">
+                  <button @click="registPlan">등록</button>
+                </fieldset>
+              </div>
             </div>
           </form>
         </div>
@@ -142,7 +268,7 @@ Contact Style
 }
 
 .contact-content {
-  margin-top: -240px;
+  margin-top: 100px;
   position: relative;
   z-index: 1;
   height: 50%;
