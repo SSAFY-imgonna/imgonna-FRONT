@@ -3,8 +3,8 @@ const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).hre
 
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
 import { getDiaryByDiaryNo, deleteDiary } from "@/api/diary";
+import DiaryKakaoMap from "./item/DiaryKakaoMap.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -95,21 +95,16 @@ function onDeleteDiary() {
                   <div class="col-lg-3">
                     <div class="info-table">
                       <ul>
-                        <li>여행일 : {{ diary.travelTime }} <span> 위치</span></li>
+                        <li>
+                          <span>{{ diary.attraction }}</span>
+                        </li>
+                        <li>여행일 : {{ diary.travelTime }}</li>
                       </ul>
-                      위도 : {{ diary.latitude }}<br />
-                      위도 : {{ diary.longitude }}<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      여기에 이제 카카오 지도 들어옴<br />
-                      <!-- <li>Floor number <span>3</span></li>
-                        <li>Number of rooms <span>8</span></li>
-                        <li>Parking Available <span>Yes</span></li>
-                        <li>Payment Process <span>Bank</span></li> -->
+                      <DiaryKakaoMap
+                        :latitude="diary.latitude"
+                        :longitude="diary.longitude"
+                        s
+                      ></DiaryKakaoMap>
                     </div>
                   </div>
                   <div class="col-lg-6" v-if="diary.fileInfos && diary.fileInfos.length > 0">
@@ -197,6 +192,8 @@ ul {
 
 img.photo {
   width: 100%;
+  width: auto; /* 세로 비율을 가로 비율에 따라 자동 조정 */
+  height: 300px;
   overflow: hidden;
 }
 
@@ -276,8 +273,8 @@ Best Deal Style
 
 .best-deal .info-table ul li {
   display: block;
-  margin-bottom: 24px !important;
-  padding-bottom: 24px !important;
+  margin-bottom: 15px !important;
+  padding-bottom: 15px !important;
   border-bottom: 1px solid #eee !important;
   text-align: left;
   font-size: 15px;
@@ -295,7 +292,7 @@ Best Deal Style
   font-size: 20px;
   color: #1e1e1e;
   font-weight: 700;
-  float: right;
+  /* float: left; */
   display: inline-block;
 }
 
