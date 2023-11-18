@@ -128,6 +128,20 @@ const router = createRouter({
         },
       ],
     },
+    // plan
+    {
+      path: "/plan",
+      name: "plan",
+      component: () => import("../views/PlanView.vue"),
+      redirect: { name: "plan-view" },
+      children: [
+        {
+          path: "",
+          name: "plan-view",
+          component: () => import("../views/PlanView.vue"),
+        },
+      ],
+    },
   ],
 });
 
