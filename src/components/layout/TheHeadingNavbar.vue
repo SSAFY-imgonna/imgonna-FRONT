@@ -57,12 +57,14 @@ const doLogout = async () => {
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'area' }">여행정보</router-link>
           </li>
-          <!-- <li><a href="#">나의여행계획</a></li>
-          <li><a href="#">핫플자랑하기</a></li>
-          <li><a href="#">여행정보공유</a></li> -->
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'accompany' }"
               >동행구하기</router-link
+            >
+          </li>
+          <li>
+            <router-link class="text-decoration-none" :to="{ name: 'plan' }"
+              >여행플래너</router-link
             >
           </li>
           <li>

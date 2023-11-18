@@ -136,8 +136,8 @@ const viewAttraction = (attraction) => {
     <div class="container">
       <VKakaoMap :attractions="attractions" :select-attraction="selectAttraction" />
     </div>
-    <!-- 
-    <table class="table table-hover" v-show="attractions.length != 0">
+
+    <!-- <table class="table table-hover" v-show="attractions.length != 0">
       <thead>
         <tr class="text-center">
           <th scope="col">관광지명</th>

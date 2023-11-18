@@ -5,21 +5,34 @@ var map;
 const positions = ref([]);
 const markers = ref([]);
 const overlays = ref([]);
+const attractions = ref([]);
 
-const props = defineProps({ attractions: Array, selectAttraction: Object });
+const props = defineProps({ attraction: Object });
 
 watch(
-  () => props.selectAttraction.value,
+  () => props.attraction.value,
   () => {
+    let attr = props.attraction;
+    let lat = attr.latitude;
+    let long = attr.longtitude;
     // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(
-      props.selectAttraction.latitude,
-      props.selectAttraction.longtitude
-    );
+    // var moveLatLon = new kakao.maps.LatLng(attr.latitude, attr.longitude);
+    var moveLatLon = new kakao.maps.LatLng(lat, long);
 
     // 지도 중심을 부드럽게 이동시킵니다
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     map.panTo(moveLatLon);
+
+    positions.value = [];
+    overlays.value = [];
+    let obj = {};
+    obj.latlng = new kakao.maps.LatLng(lat, long);
+    obj.title = attr.title;
+    obj.zipcode = attr.zipcode;
+    obj.firstImage = attr.firstImage;
+    obj.addr1 = attr.addr1;
+    positions.value.push(obj);
+    loadMarkers();
   },
   { deep: true }
 );
@@ -38,30 +51,11 @@ onMounted(() => {
   }
 });
 
-watch(
-  () => props.attractions.value,
-  () => {
-    positions.value = [];
-    overlays.value = [];
-    props.attractions.forEach((attraction) => {
-      let obj = {};
-      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longtitude);
-      obj.title = attraction.title;
-      obj.zipcode = attraction.zipcode;
-      obj.firstImage = attraction.firstImage;
-      obj.addr1 = attraction.addr1;
-      positions.value.push(obj);
-    });
-    loadMarkers();
-  },
-  { deep: true }
-);
-
 const initMap = () => {
-  const container = document.getElementById("map");
+  const container = document.getElementById("map2");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
-    level: 3,
+    level: 4,
   };
   map = new kakao.maps.Map(container, options);
 
@@ -98,6 +92,12 @@ const loadMarkers = () => {
     markers.value.push(marker);
     // loadOverlay(marker, position);
 
+    // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+    function closeOverlay() {
+      console.log(close);
+      overlay.setMap(null);
+    }
+
     // 오버레이
     // 커스텀 오버레이에 표시할 컨텐츠 입니다
     // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
@@ -109,13 +109,14 @@ const loadMarkers = () => {
       image = position.firstImage;
     }
     let addr = position.addr1;
-    let zipcode = position.zipcode;
+    let tel = !position.tel ? "정보 없음" : position.tel;
     var content =
       '<div class="wrap">' +
       '    <div class="info">' +
       '        <div class="title">' +
       "            " +
       title +
+      '            <div class="close" title="닫기"></div>' +
       "        </div>" +
       '        <div class="body">' +
       '            <div class="img">' +
@@ -127,13 +128,23 @@ const loadMarkers = () => {
       '                <div class="ellipsis">' +
       addr +
       "</div>" +
-      '                <div class="jibun ellipsis">(우) ' +
-      zipcode +
+      '                <div class="jibun ellipsis">전화번호: ' +
+      tel +
       "</div>" +
+      // '<button class="button add" > 추가 </button> ' +
       "            </div>" +
       "        </div>" +
       "    </div>" +
       "</div>";
+
+    let closeBtns = document.getElementsByClassName("close");
+    for (var i = 0; i < closeBtns.length; i++) {
+      closeBtns[i].addEventListener("click", closeOverlay);
+    }
+    // let addBtns = document.getElementsByClassName("add");
+    // for (var i = 0; i < addBtns.length; i++) {
+    //   addBtns[i].addEventListener("click", addAttraction);
+    // }
 
     // 마커에 표시할 인포윈도우를 생성합니다
     var overlay = new kakao.maps.CustomOverlay({
@@ -142,36 +153,41 @@ const loadMarkers = () => {
       position: marker.getPosition(),
     });
 
-    overlay.setMap(null);
+    // overlay.setMap(null);
 
     overlays.value.push(overlay);
 
-    kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, overlay));
-    kakao.maps.event.addListener(marker, "mouseout", makeOutListener(overlay));
+    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    kakao.maps.event.addListener(marker, "click", function () {
+      overlay.setMap(map);
+    });
 
-    // 커스텀오버레이를 표시하는 함수입니다
-    function makeOverListener(map, marker, overlay) {
-      return function () {
-        overlay.setMap(map);
-      };
-    }
+    // kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, overlay));
+    // kakao.maps.event.addListener(marker, "mouseout", makeOutListener(overlay));
 
-    // 커스텀오버레이를 닫는 함수입니다
-    function makeOutListener(overlay) {
-      return function () {
-        overlay.setMap(null);
-      };
-    }
+    // // 커스텀오버레이를 표시하는 함수입니다
+    // function makeOverListener(map, marker, overlay) {
+    //   return function () {
+    //     overlay.setMap(map);
+    //   };
+    // }
+
+    // // 커스텀오버레이를 닫는 함수입니다
+    // function makeOutListener(overlay) {
+    //   return function () {
+    //     overlay.setMap(null);
+    //   };
+    // }
   });
 
-  // 4. 지도를 이동시켜주기
-  // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
-  const bounds = positions.value.reduce(
-    (bounds, position) => bounds.extend(position.latlng),
-    new kakao.maps.LatLngBounds()
-  );
+  // // 4. 지도를 이동시켜주기
+  // // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
+  // const bounds = positions.value.reduce(
+  //   (bounds, position) => bounds.extend(position.latlng),
+  //   new kakao.maps.LatLngBounds()
+  // );
 
-  map.setBounds(bounds);
+  // map.setBounds(bounds);
 };
 
 const deleteMarkers = () => {
@@ -188,14 +204,12 @@ const deleteOverlays = () => {
 </script>
 
 <template>
-  <div id="map"></div>
+  <div id="map2"></div>
 </template>
 
 <style>
-#map {
-  width: 80%;
-  height: 550px;
-  margin-left: 80px;
+#map2 {
+  height: 800px;
 }
 .wrap {
   position: absolute;

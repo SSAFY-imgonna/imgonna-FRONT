@@ -41,6 +41,6 @@
 @import "../components/layout/assets/css/indexstyles.css";
 section {
   overflow: hidden;
-  padding: 40px 0;
+  padding: 10px 0;
 }
 </style>

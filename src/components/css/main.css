@@ -1586,7 +1586,8 @@ section {
 --------------------------------------------------------------*/
 .footer {
   font-size: 14px;
-  background-color: #1f1f24;
+  background-color: #1c1f18;
+  margin-top: 50px;
   padding: 50px 0;
   color: rgba(255, 255, 255, 0.7);
 }

@@ -1,0 +1,9 @@
+<script setup></script>
+
+<template>
+  <div style="margin-top: 350px">
+    <router-view></router-view>
+  </div>
+</template>
+
+<style scoped></style>
