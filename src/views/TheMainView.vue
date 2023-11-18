@@ -31,7 +31,6 @@ const member = ref(userInfo);
 </template>
 
 <style>
-/* @import "../assets/css/indexstyles.css"; */
 #greeting {
   background-color: white;
   display: inline-block;

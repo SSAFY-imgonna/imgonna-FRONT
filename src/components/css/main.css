@@ -37,6 +37,12 @@ body {
   color: var(--color-default);
 }
 
+#main {
+  margin-top: 70px;
+  z-index: 3;
+  position: relative;
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -101,12 +107,12 @@ section {
 .breadcrumbs {
   padding: 15px 0;
   background: rgba(55, 55, 63, 0.05);
-  margin-top: 90px;
+  /* margin-top: 90px; */
 }
 
 @media (max-width: 575px) {
   .breadcrumbs {
-    margin-top: 70px;
+    /* margin-top: 70px; */
   }
 }
 
@@ -166,7 +172,7 @@ section {
   z-index: 99999;
   background: var(--color-primary);
   width: 44px;
-  height: 44px;
+  /* height: 44px; */
   border-radius: 50px;
   transition: all 0.4s;
 }

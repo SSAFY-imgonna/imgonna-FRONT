@@ -194,7 +194,8 @@ const deleteOverlays = () => {
 <style>
 #map {
   width: 80%;
-  height: 600px;
+  height: 550px;
+  margin-left: 70px;
 }
 .wrap {
   position: absolute;

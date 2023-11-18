@@ -43,15 +43,19 @@ const doLogout = async () => {
       >
         <img src="/img/imgonna_logo.gif" style="width: 40px" class="img-fluid me-2" />
         <!-- <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" /> -->
-        <h1>i<span>'</span>mgonna</h1>
+        <!-- <h1>i<span>'</span>mgonna</h1> -->
+        <h1 style="font-family: 'Raleway', sans-serif">i<span>'</span>mgonna</h1>
       </router-link>
 
       <nav id="navbar" class="navbar">
         <ul>
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'attraction' }"
-              >관광지정보</router-link
+              >여행지도</router-link
             >
+          </li>
+          <li>
+            <router-link class="text-decoration-none" :to="{ name: 'area' }">여행정보</router-link>
           </li>
           <!-- <li><a href="#">나의여행계획</a></li>
           <li><a href="#">핫플자랑하기</a></li>
@@ -62,10 +66,10 @@ const doLogout = async () => {
             >
           </li>
           <li>
-            <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
+            <router-link class="text-decoration-none" :to="{ name: 'diary' }">여행일기</router-link>
           </li>
           <li>
-            <router-link class="text-decoration-none" :to="{ name: 'diary' }">여행일기</router-link>
+            <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
           </li>
         </ul>
       </nav>
