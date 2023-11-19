@@ -25,4 +25,6 @@ import AccompanyFormItem from "./item/AccompanyFormItem.vue";
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@import "@/assets/css/accompany.css";
+</style>

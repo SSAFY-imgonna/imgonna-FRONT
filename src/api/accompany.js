@@ -44,6 +44,10 @@ function deleteAccompany(accompanyNo, success, fail) {
   local.delete(`${url}/${accompanyNo}`).then(success).catch(fail);
 }
 
+function createAccompanyJoin(accompanyNo, param, success, fail) {
+  local.post(`${url}/${accompanyNo}`, { params: param }).then(success).catch(fail);
+}
+
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
 export {
   getAccompanyList,
@@ -52,4 +56,5 @@ export {
   getModifyAccompany,
   modifyAccompany,
   deleteAccompany,
+  createAccompanyJoin,
 };

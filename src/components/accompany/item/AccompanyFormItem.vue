@@ -330,6 +330,7 @@ function deleteDiv() {
 </template>
 
 <style scoped>
+@import "@/assets/css/accompany.css";
 a.text-danger:hover {
   cursor: pointer;
 }

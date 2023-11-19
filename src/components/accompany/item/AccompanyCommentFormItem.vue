@@ -95,6 +95,7 @@ function writeComment() {
 </template>
 
 <style>
+@import "@/assets/css/accompany.css";
 /* 댓글 부분 */
 div.inner-text {
   display: inline-block;
