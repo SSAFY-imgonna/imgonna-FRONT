@@ -133,16 +133,16 @@ const onSelectTheme = (val) => {
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-4 col-md-4">
+              <div class="col-lg-3">
                 <SearchAttractionItem
                   @select-attraction="setAttraction"
                   @add-attraction="makePlan"
                 />
               </div>
-              <div class="col-lg-5 col-md-5">
+              <div class="col-lg-6 my-4">
                 <KakaoMapItem :attraction="selectAttraction" />
               </div>
-              <div class="col-lg-3 col-md-3"><PlanItem :attractions="attractions" /></div>
+              <div class="col-lg-3"><PlanItem :attractions="attractions" /></div>
             </div>
             <div class="row mt-4">
               <div class="col-lg-9">

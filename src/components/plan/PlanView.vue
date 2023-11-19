@@ -9,7 +9,7 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
         <div class="col-lg-4 offset-lg-4">
           <div class="section-heading text-center">
             <h6>| TRAVEL PLAN</h6>
-            <h2>내맘대로 여행코스!!</h2>
+            <h2>내맘대로 여행코스</h2>
           </div>
         </div>
       </div>
