@@ -8,4 +8,8 @@ function createPlan(data, success, fail) {
   local.post(`${url}`, JSON.stringify(data)).then(success).catch(fail);
 }
 
-export { createPlan };
+function getPlanList(param, success, fail) {
+  local.get(`${url}`, { params: param }).then(success).catch(fail);
+}
+
+export { createPlan, getPlanList };

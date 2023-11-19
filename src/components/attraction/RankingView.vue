@@ -31,7 +31,7 @@ onMounted(() => {
         >
           <div class="chef-member">
             <div class="member-img">
-              <RankMapView :rank="rank" :map-name="`mapName${index}`" />
+              <RankMapView :attractions="rank.attractions" :map-name="`mapName${index}`" />
               <!-- <img src="assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="" /> -->
               <div class="social">
                 <a href=""><i class="bi bi-twitter"></i></a>

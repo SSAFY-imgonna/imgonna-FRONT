@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 const props = defineProps({
-  rank: Object,
+  attractions: Array,
   mapName: String,
 });
 
@@ -11,7 +11,6 @@ const idx = 0;
 const positions = ref([]);
 const markers = ref([]);
 
-const member = ref(props.rank.member);
 const attractions = ref();
 
 onMounted(() => {
@@ -29,7 +28,7 @@ onMounted(() => {
 });
 
 watch(
-  () => props.rank.attractions.value,
+  () => props.attractions,
   () => {
     positions.value = [];
     overlays.value = [];
@@ -55,7 +54,7 @@ const initMap = () => {
   };
   map = new kakao.maps.Map(container, options);
 
-  attractions.value = props.rank.attractions;
+  attractions.value = props.attractions;
   positions.value = [];
   attractions.value.forEach((attraction) => {
     let obj = {};

@@ -1,15 +1,15 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-// import { getDiaryList } from "@/api/diary";
+import { getPlanList } from "@/api/plan";
 
 // import VSelect from "@/components/common/VSelect.vue";
 import PageNavigation from "@/components/common/PageNavigation.vue";
-// import DiaryListItem from "./item/DiaryListItem.vue";
+import DiaryListItem from "../diary/item/DiaryListItem.vue";
 
 const router = useRouter();
 
-const diarys = ref([]);
+const plans = ref([]);
 
 const currentPage = ref(1);
 const totalPage = ref(0);
@@ -21,33 +21,33 @@ const param = ref({
   word: "",
 });
 
-// onMounted(() => {
-//   DiaryList();
-// });
+onMounted(() => {
+  planList();
+});
 
-// const DiaryList = () => {
-//   console.log("서버에서 글목록 얻어오자!!!", param.value);
-//   // API 호출
-//   getDiaryList(
-//     param.value,
-//     ({ data }) => {
-//       console.log(data);
-//       diarys.value = data.diaryList;
-//       currentPage.value = data.currentPage;
-//       totalPage.value = data.totalPageCount;
-//       console.log(diarys.value);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// };
+const planList = () => {
+  console.log("서버에서 글목록 얻어오자!!!", param.value);
+  // API 호출
+  getPlanList(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      plans.value = data.planList;
+      currentPage.value = data.currentPage;
+      totalPage.value = data.totalPageCount;
+      console.log(plans.value);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
 
 const onPageChange = (val) => {
   console.log(val + "번 페이지로 이동 준비 끝!!!");
   currentPage.value = val;
   param.value.pgno = val;
-  DiaryList();
+  planList();
 };
 </script>
 
