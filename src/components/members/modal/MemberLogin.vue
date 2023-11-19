@@ -63,9 +63,9 @@ const openFindPwModal = () => {
 </script>
 
 <template>
-  <div id="modalWrap" v-show="isShownLoginModal">
+  <div id="modalWrap" v-show="isShownLoginModal" @click="closeModal">
     <div id="modalContent">
-      <div id="modalBody">
+      <div id="modalBody" @click.stop="">
         <span id="closeBtn" @click="closeModal">&times;</span>
         <div v-if="modalType == 'login'">
           <p class="fs-3 mb-4">로그인</p>
@@ -130,7 +130,7 @@ const openFindPwModal = () => {
 
 #modalWrap {
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 150px; /* Location of the box */
   left: 0;
   top: 0;
