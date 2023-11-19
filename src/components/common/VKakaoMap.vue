@@ -64,8 +64,6 @@ const initMap = () => {
     level: 3,
   };
   map = new kakao.maps.Map(container, options);
-
-  // loadMarkers();
 };
 
 const loadMarkers = () => {

@@ -49,6 +49,10 @@ function deleteDiary(diaryNo, success, fail) {
   local.delete(`${url}/${diaryNo}`).then(success).catch(fail);
 }
 
+function getRankList(param, success, fail) {
+  local.get(`${url}/rank`, { params: param }).then(success).catch(fail);
+}
+
 // 외부에서 쓸 수 있게 보내줌 -> 거기서 import해서 씀
 export {
   getAttractionList,
@@ -58,4 +62,5 @@ export {
   getModifyDiary,
   modifyDiary,
   deleteDiary,
+  getRankList,
 };

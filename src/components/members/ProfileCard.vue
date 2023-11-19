@@ -15,7 +15,7 @@ console.log(member.value);
     <div class="col col-lg-6 mb-4 mb-lg-0">
       <h6 id="greeting" class="mt-5">
         <SmileOutlined />
-        다시 만나뵙게 되어 반갑습니다!
+        다시 만나뵙게 되어 반갑습니다 {{ member.nickname }}님!
       </h6>
       <div class="line-dec"></div>
 
