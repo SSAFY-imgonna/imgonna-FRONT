@@ -78,19 +78,19 @@ const router = createRouter({
       ],
     },
     // plan
-    {
-      path: "/plan",
-      name: "plan",
-      component: () => import("../views/PlanView.vue"),
-      redirect: { name: "plan-view" },
-      children: [
-        {
-          path: "",
-          name: "plan-view",
-          component: () => import("../views/PlanView.vue"),
-        },
-      ],
-    },
+    // {
+    //   path: "/plan",
+    //   name: "plan",
+    //   component: () => import("../views/PlanView.vue"),
+    //   redirect: { name: "plan-view" },
+    //   children: [
+    //     {
+    //       path: "",
+    //       name: "plan-view",
+    //       component: () => import("../views/PlanView.vue"),
+    //     },
+    //   ],
+    // },
     {
       path: "/plan",
       name: "plan",
@@ -102,11 +102,11 @@ const router = createRouter({
           name: "plan-list",
           component: () => import("@/components/plan/PlanList.vue"),
         },
-        // // {
-        // //   path: "/contentNo",
-        // //   name: "diary-view",
-        // //   component: () => import("@/components/diary/DiaryView.vue"),
-        // // },
+        {
+          path: ":planNo",
+          name: "plan-view",
+          component: () => import("@/components/plan/PlanView.vue"),
+        },
         {
           path: "/create",
           name: "plan-write",

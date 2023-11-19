@@ -1,5 +1,5 @@
 <script setup>
-import TimelineView from "@/components/timeline/TimelineView.vue";
+import TimelineItem from "@/components/plan/item/TimelineItem.vue";
 </script>
 
 <template>
@@ -96,7 +96,7 @@ import TimelineView from "@/components/timeline/TimelineView.vue";
   </div>
 
   <!-- 여기서부터 타임라인 -->
-  <TimelineView></TimelineView>
+  <TimelineItem></TimelineItem>
 </template>
 
 <style scoped>
