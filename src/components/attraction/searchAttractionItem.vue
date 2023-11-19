@@ -31,6 +31,7 @@ const addAttraction = (attraction) => {
 
 <template>
   <div class="row">
+    <h4>관광지를 검색하세요</h4>
     <fieldset>
       <span class="search-input-container">
         <input
@@ -44,13 +45,12 @@ const addAttraction = (attraction) => {
         <i class="bi bi-search" @click="findAttraction" type="button"></i>
       </span>
     </fieldset>
-    <div style="height: 500px">
-      <div class="alist overflow-auto">
+    <div>
+      <div class="alist">
         <div
           class="card ms-4 mb-3 attraction-info"
           v-for="attraction in attractions"
           :key="attraction.contentId"
-          style="max-width: 540px"
         >
           <div class="row g-0" v-if="attraction" @click="selectAttraction(attraction)">
             <div class="col-md-4">
@@ -88,6 +88,20 @@ const addAttraction = (attraction) => {
 </template>
 
 <style scoped>
+input#name {
+  margin-bottom: 20px !important;
+}
+h4 {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
+
 #add {
   width: 60px !important;
   height: 30px !important;
@@ -95,10 +109,11 @@ const addAttraction = (attraction) => {
   padding: 0px !important;
 }
 .alist {
-  position: absolute;
-  top: 210px;
-  bottom: 300px;
+  /* position: absolute; */
+  /* top: 210px;
+  bottom: 300px; */
   overflow-y: scroll;
+  max-height: 700px;
 }
 
 .overflow-auto {
@@ -106,6 +121,6 @@ const addAttraction = (attraction) => {
 }
 
 .card {
-  width: 70%;
+  width: 90%;
 }
 </style>
