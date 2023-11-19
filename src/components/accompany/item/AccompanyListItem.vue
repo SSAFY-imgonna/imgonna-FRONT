@@ -1,14 +1,18 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+
 const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 
-import { useRouter } from "vue-router";
 const router = useRouter();
 
 const { accompany } = defineProps({ accompany: Object });
 
-// if (accompany.fileInfos && accompany.fileInfos.length > 0) {
-//   const file = accompany.fileInfos[0];
-// }
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const moveView = () => {
   router.push({ name: "accompany-view", params: { accompanyNo: accompany.accompanyNo } });
@@ -59,10 +63,11 @@ const moveView = () => {
             </button>
           </div>
           <div>
-            <!-- session의 Id와 일치한다면 -->
-            <span class="text-danger me-2"><b>내가 쓴 글</b></span>
+            <!-- 작성자의 Id와 일치한다면 -->
+            <span v-if="member && member.id == accompany.id" class="text-danger me-2"
+              ><b>내가 쓴 글</b></span
+            >
             <span class="text-body-secondary">
-              <!-- 눈깔 안보임;; -->
               <font-awesome-icon icon="fa-solid fa-circle-user" />
               {{ accompany.id }}
             </span>
