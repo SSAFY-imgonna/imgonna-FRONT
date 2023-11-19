@@ -2,9 +2,11 @@
 import { ref, onMounted, watch } from "vue";
 const props = defineProps({
   rank: Object,
+  mapName: String,
 });
 
 var map;
+const idx = 0;
 
 const positions = ref([]);
 const markers = ref([]);
@@ -26,8 +28,27 @@ onMounted(() => {
   }
 });
 
+watch(
+  () => props.rank.attractions.value,
+  () => {
+    positions.value = [];
+    overlays.value = [];
+    props.attractions.forEach((attraction) => {
+      let obj = {};
+      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
+      obj.title = attraction.title;
+      obj.zipcode = attraction.zipcode;
+      obj.firstImage = attraction.firstImage;
+      obj.addr1 = attraction.addr1;
+      positions.value.push(obj);
+    });
+    // initMap();
+  },
+  { deep: true }
+);
+
 const initMap = () => {
-  const container = document.getElementById("rankMap");
+  const container = document.getElementById(props.mapName);
   const options = {
     center: new kakao.maps.LatLng(35.5519, 126.9918), // 지도의 중심좌표
     level: 14,
@@ -74,7 +95,7 @@ const loadMarkers = () => {
   //   new kakao.maps.LatLngBounds()
   // );
 
-  map.setBounds(bounds);
+  // map.setBounds(bounds);
 };
 
 const deleteMarkers = () => {
@@ -85,7 +106,7 @@ const deleteMarkers = () => {
 </script>
 
 <template>
-  <div id="rankMap" style="width: 100%; height: 400px"></div>
+  <div :id="props.mapName" style="width: 100%; height: 400px"></div>
 </template>
 
 <style scoped></style>
