@@ -1,12 +1,25 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { createAccompany, getModifyAccompany, modifyAccompany } from "@/api/accompany";
+import Swal from "sweetalert2";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const router = useRouter();
 const route = useRoute();
 
 const props = defineProps({ type: String });
+
+const upfile = ref(null);
+
+const fileChange = () => {
+  console.log(upfile.value.files[0]);
+};
 
 const accompany = ref({
   accompanyNo: 0,
@@ -22,7 +35,7 @@ const accompany = ref({
   upfile: "",
   status: "",
   themeNo: "",
-  id: "ssafy", // 이거 나중에 ssafy에서 바꿔야!!
+  id: "",
 });
 
 const isUseId = ref(false);
@@ -76,9 +89,14 @@ function onSubmit() {
 }
 
 function writeAccompany() {
+  if (member.value != null) {
+    accompany.value.id = member.value.id;
+  }
+
   console.log("글등록하자!!", accompany.value);
   const formData = new FormData();
 
+  formData.append("id", accompany.value.id);
   formData.append("title", accompany.value.title);
   formData.append("content", accompany.value.content);
   formData.append("addr", accompany.value.addr);
@@ -88,11 +106,9 @@ function writeAccompany() {
   formData.append("status", accompany.value.status);
   formData.append("themeNo", accompany.value.themeNo);
 
-  const upfileInput = document.getElementById("upfile");
-  console.log(upfileInput.files[0]);
-  if (upfileInput.files.length > 0) {
+  if (upfile.value.files.length > 0) {
     // 업로드할 파일이 존재하면, formData에 추가함
-    formData.append("upfile", upfileInput.files[0]);
+    formData.append("upfile", upfile.value.files[0]);
   }
   console.log(formData);
   // API 호출
@@ -137,9 +153,8 @@ function updateAccompany() {
     }
   }
   // 업로드할 파일이 존재하면, formData에 추가함
-  if (upfileInput.files.length > 0) {
-    formData.append("upfile", upfileInput.files[0]);
-    console.log("새 File 추가됨");
+  if (upfile.value.files.length > 0) {
+    formData.append("upfile", upfile.value.files[0]);
   }
   console.log(accompany);
   let { accompanyNo } = route.params;
@@ -224,7 +239,15 @@ function deleteDiv() {
     </div>
     <div class="col-12">
       <label for="upfile" class="form-label">사진</label>
-      <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
+      <input
+        ref="upfile"
+        class="form-control"
+        type="file"
+        id="upfile"
+        name="upfile"
+        accept="image/*"
+        @change="fileChange"
+      />
     </div>
 
     <div

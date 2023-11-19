@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getAttractionList, createDiary } from "@/api/diary";
+import { getAttractionList, createDiary, getModifyDiary, modifyDiary } from "@/api/diary";
 import Swal from "sweetalert2";
 
 const memberStore = useMemberStore();
@@ -17,9 +17,16 @@ const props = defineProps({ type: String });
 
 const attractions = ref([]);
 
+// ref를 사용하여 upfileInput 변수를 생성
+const upfile = ref(null);
+
+const fileChange = () => {
+  console.log(upfile.value.files[0]);
+};
+
 const diary = ref({
   travelTime: "",
-  attactionName: "",
+  attraction: "",
   id: "",
   contentId: "",
   title: "",
@@ -31,6 +38,36 @@ const diary = ref({
   isPublic: false,
 });
 
+if (props.type === "modify") {
+  let { diaryNo } = route.params;
+  console.log(diaryNo + "번글 얻어와서 수정할거야");
+  // API 호출
+  getModifyDiary(diaryNo, ({ data }) => {
+    console.log(data);
+    diary.value = data;
+
+    if (diary.value.isPublic == 1) {
+      diary.value.isPublic = true;
+    } else {
+      diary.value.isPublic = false;
+    }
+
+    // 날씨 관련 처리
+    if (diary.value.weather == "sun") sun.value = true;
+    else if (diary.value.weather == "cloud") cloud.value = true;
+    else if (diary.value.weather == "lightning") lightning.value = true;
+    else if (diary.value.weather == "rain") rain.value = true;
+    else if (diary.value.weather == "snow") snow.value = true;
+
+    // 만족도 관련 처리
+    if (diary.value.emotion == "angry") angry.value = true;
+    else if (diary.value.emotion == "bad") bad.value = true;
+    else if (diary.value.emotion == "soso") soso.value = true;
+    else if (diary.value.emotion == "great") great.value = true;
+    else if (diary.value.emotion == "fun") fun.value = true;
+  });
+}
+
 const showWarning = (text) => {
   Swal.fire({
     icon: "warning",
@@ -38,7 +75,7 @@ const showWarning = (text) => {
   });
 };
 
-function writeDiary() {
+function onSubmit() {
   if (!diary.value.travelTime) {
     showWarning("날짜는 필수 입력값입니다!");
   } else if (!diary.value.title) {
@@ -52,54 +89,116 @@ function writeDiary() {
     showWarning("만족도는 필수 입력값입니다!");
     return;
   } else {
-    if (member.value != null) {
-      diary.value.id = member.value.id;
-    }
-    console.log("글등록하자!!", diary.value);
-    const formData = new FormData();
-
-    formData.append("travelTime", diary.value.travelTime);
-    formData.append("attactionName", diary.value.attactionName);
-    formData.append("id", diary.value.id);
-    formData.append("contentId", diary.value.contentId);
-    formData.append("title", diary.value.title);
-    formData.append("content", diary.value.content);
-    formData.append("weather", diary.value.weather);
-    formData.append("emotion", diary.value.emotion);
-    if (diary.value.isPublic == true) {
-      formData.append("isPublic", 1);
-    } else {
-      formData.append("isPublic", 0);
-    }
-
-    const upfileInput = document.getElementById("upfile");
-    console.log(upfileInput.files[0]);
-    if (upfileInput.files.length > 0) {
-      // 업로드할 파일이 존재하면, formData에 추가함
-      formData.append("upfile", upfileInput.files[0]);
-    }
-    console.log(formData);
-    // API 통신
-    createDiary(
-      formData,
-      ({ data }) => {
-        console.log(data);
-        alert("글 작성이 완료되었습니다.");
-        router.push({ name: "diary-list" });
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    props.type === "regist" ? writeDiary() : updateDiary();
   }
 }
 
+function writeDiary() {
+  if (member.value != null) {
+    diary.value.id = member.value.id;
+  }
+  console.log("글등록하자!!", diary.value);
+  const formData = new FormData();
+
+  formData.append("travelTime", diary.value.travelTime);
+  formData.append("attactionName", diary.value.attactionName);
+  formData.append("id", diary.value.id);
+  formData.append("contentId", diary.value.contentId);
+  formData.append("title", diary.value.title);
+  formData.append("content", diary.value.content);
+  formData.append("weather", diary.value.weather);
+  formData.append("emotion", diary.value.emotion);
+  if (diary.value.isPublic == true) {
+    formData.append("isPublic", 1);
+  } else {
+    formData.append("isPublic", 0);
+  }
+
+  if (upfile.value.files.length > 0) {
+    // 업로드할 파일이 존재하면, formData에 추가함
+    formData.append("upfile", upfile.value.files[0]);
+  }
+  console.log(formData);
+  // API 통신
+  createDiary(
+    formData,
+    ({ data }) => {
+      console.log(data);
+      alert("글 작성이 완료되었습니다.");
+      router.push({ name: "diary-list" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function updateDiary() {
+  console.log(diary.value.diaryNo + "번글 수정하자!!", diary.value);
+  const formData = new FormData();
+
+  formData.append("travelTime", diary.value.travelTime);
+  formData.append("attactionName", diary.value.attactionName);
+  formData.append("id", diary.value.id);
+  formData.append("contentId", diary.value.contentId);
+  formData.append("title", diary.value.title);
+  formData.append("content", diary.value.content);
+  formData.append("weather", diary.value.weather);
+  formData.append("emotion", diary.value.emotion);
+  if (diary.value.isPublic == true) {
+    formData.append("isPublic", 1);
+  } else {
+    formData.append("isPublic", 0);
+  }
+
+  const upfileInput = document.getElementById("upfile"); // 새 파일
+  console.log(upfileInput.files[0]);
+
+  if (diary.value.fileInfos.length > 0) {
+    const originFile = diary.value.fileInfos[0].originalFile; // 기존 파일
+    console.log(originFile);
+
+    // 기존 파일이 존해하면, formData에 추가함
+    if (originFile != null && originFile.length > 0) {
+      formData.append("originFile", originFile);
+      console.log("originFile 추가됨");
+    }
+  }
+  if (upfile.value.files.length > 0) {
+    // 업로드할 파일이 존재하면, formData에 추가함
+    formData.append("upfile", upfile.value.files[0]);
+  }
+  console.log(diary);
+  let { diaryNo } = route.params;
+  // API 호출
+  modifyDiary(
+    diaryNo,
+    formData,
+    ({ data }) => {
+      console.log(data);
+      router.push({ name: "diary-view", params: diaryNo });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function deleteDiv() {
+  let fileNameDiv = document.getElementById("fileNameDiv");
+  fileNameDiv.style.display = "none";
+  diary.value.fileInfos[0].originalFile = "";
+  // let originFile = document.getElementById("originFile");
+  // originFile.value = "";
+  // removeFile();
+}
+
 function findAttraction() {
-  if (diary.value.attactionName.length == 0) {
+  if (diary.value.attraction.length == 0) {
     return;
   }
   getAttractionList(
-    diary.value.attactionName,
+    diary.value.attraction,
     ({ data }) => {
       console.log(data);
       attractions.value = data;
@@ -200,7 +299,7 @@ function selectEmotion(emotion) {
               id="name"
               placeholder="관광지.."
               autocomplete="on"
-              v-model="diary.attactionName"
+              v-model="diary.attraction"
             />
             <i
               class="bi bi-search"
@@ -372,8 +471,28 @@ function selectEmotion(emotion) {
       <div class="col-12">
         <fieldset>
           <label for="upfile">사진</label>
-          <input class="form-control" type="file" id="upfile" name="upfile" accept="image/*" />
+          <input
+            ref="upfile"
+            class="form-control"
+            type="file"
+            id="upfile"
+            name="upfile"
+            accept="image/*"
+            @change="fileChange"
+          />
         </fieldset>
+      </div>
+
+      <div
+        class="file-input ms-1"
+        id="fileNameDiv"
+        v-if="diary.fileInfos && diary.fileInfos.length > 0"
+      >
+        <font-awesome-icon icon="fa-solid fa-camera" />
+        {{ diary.fileInfos[0].originalFile }}
+        <a class="text-danger ms-1" @click="deleteDiv">
+          <font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #ec3609" />
+        </a>
       </div>
 
       <div class="col-lg-12 mb-3">
@@ -406,9 +525,10 @@ function selectEmotion(emotion) {
       </div>
       <div class="col-lg-12">
         <fieldset>
-          <button type="submit" id="form-submit" class="orange-button" @click="writeDiary">
+          <button v-if="type == 'regist'" type="submit" id="form-submit" class="orange-button">
             작성하기
           </button>
+          <button v-else type="submit" id="form-submit" class="orange-button">수정하기</button>
         </fieldset>
       </div>
     </div>

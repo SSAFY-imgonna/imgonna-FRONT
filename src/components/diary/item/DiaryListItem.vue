@@ -10,7 +10,7 @@ const { diary } = defineProps({ diary: Object });
 <template>
   <div class="col-lg-4 col-md-6">
     <div class="item">
-      <router-link :to="{ name: 'diary-write' }">
+      <router-link :to="{ name: 'diary-view', params: { diaryNo: diary.diaryNo } }">
         <img
           v-if="diary.fileInfos.length > 0"
           alt=""
@@ -40,7 +40,9 @@ const { diary } = defineProps({ diary: Object });
         </li>
       </ul>
       <div class="main-button">
-        <a href="property-details.html">자세히보기</a>
+        <router-link :to="{ name: 'diary-view', params: { diaryNo: diary.diaryNo } }"
+          >자세히보기</router-link
+        >
       </div>
     </div>
   </div>
