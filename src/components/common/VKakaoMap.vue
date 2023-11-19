@@ -14,7 +14,7 @@ watch(
     // 이동할 위도 경도 위치를 생성합니다
     var moveLatLon = new kakao.maps.LatLng(
       props.selectAttraction.latitude,
-      props.selectAttraction.longtitude
+      props.selectAttraction.longitude
     );
 
     // 지도 중심을 부드럽게 이동시킵니다
@@ -45,7 +45,7 @@ watch(
     overlays.value = [];
     props.attractions.forEach((attraction) => {
       let obj = {};
-      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longtitude);
+      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
       obj.title = attraction.title;
       obj.zipcode = attraction.zipcode;
       obj.firstImage = attraction.firstImage;

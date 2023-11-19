@@ -11,9 +11,9 @@ console.log(member.value);
 </script>
 
 <template>
-  <div class="row d-flex justify-content-center align-items-center">
+  <div v-if="member != null" class="row d-flex justify-content-center align-items-center">
     <div class="col col-lg-6 mb-4 mb-lg-0">
-      <h6 id="greeting" v-if="member != null" class="mt-5">
+      <h6 id="greeting" class="mt-5">
         <SmileOutlined />
         다시 만나뵙게 되어 반갑습니다!
       </h6>
