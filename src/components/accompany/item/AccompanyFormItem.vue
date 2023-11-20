@@ -28,12 +28,13 @@ const accompany = ref({
   addr: "",
   joinTime: "",
   limitNum: "",
-  status: "",
+  date: "",
+  time: "",
+  status: "모집중",
   theme_no: "",
   createdTime: "",
   modifiedTime: "",
   upfile: "",
-  status: "",
   themeNo: "",
   id: "",
 });
@@ -76,13 +77,39 @@ watch(
   { immediate: true }
 );
 
-function onSubmit() {
-  // event.preventDefault();
+const showWarning = (text) => {
+  Swal.fire({
+    icon: "warning",
+    text: text,
+  });
+};
 
-  if (titleErrMsg.value) {
-    alert(titleErrMsg.value);
-  } else if (contentErrMsg.value) {
-    alert(contentErrMsg.value);
+function onSubmit() {
+  console.log(accompany);
+  if (!accompany.value.title) {
+    showWarning("제목은 필수 입력값입니다!");
+    return;
+  } else if (!accompany.value.content) {
+    showWarning("내용은 필수 입력값입니다!");
+    return;
+  } else if (!accompany.value.addr) {
+    showWarning("모임장소는 필수 입력값입니다!");
+    return;
+  } else if (!accompany.value.date) {
+    showWarning("모임날짜는 필수 입력값입니다!");
+    return;
+  } else if (!accompany.value.time) {
+    showWarning("모임시간은 필수 입력값입니다!");
+    return;
+  } else if (!accompany.value.limitNum) {
+    showWarning("모집인원은 필수 입력값입니다!");
+    return;
+  } else if (accompany.value.currentNum > accompany.value.limitNum) {
+    showWarning("현재신청인원이 모집인원보다 많습니다. 확인해주세요.");
+    return;
+  } else if (!accompany.value.themeNo) {
+    showWarning("테마분류는 필수 입력값입니다!");
+    return;
   } else {
     props.type === "regist" ? writeAccompany() : updateAccompany();
   }
@@ -164,7 +191,7 @@ function updateAccompany() {
     formData,
     ({ data }) => {
       console.log(data);
-      router.push({ name: "accompany-view", params: accompanyNo });
+      router.push({ name: "accompany-view", params: { accompanyNo: accompanyNo } });
     },
     (error) => {
       console.log(error);
@@ -176,15 +203,19 @@ function deleteDiv() {
   let fileNameDiv = document.getElementById("fileNameDiv");
   fileNameDiv.style.display = "none";
   accompany.value.fileInfos[0].originalFile = "";
-  // let originFile = document.getElementById("originFile");
-  // originFile.value = "";
-  // removeFile();
 }
 
-// function removeFile() {
-//   let upfile = document.getElementById("upfile");
-//   upfile.value = "";
-// }
+function moveList() {
+  if (confirm("작성중인 글이 사라지는데 정말로 이동하시겠습니까?")) {
+    router.push({ name: "accompany-list" });
+  }
+}
+
+function moveView() {
+  if (confirm("수정중인 글이 사라지는데 정말로 이동하시겠습니까?")) {
+    router.push({ name: "accompany-view" });
+  }
+}
 </script>
 
 <template>
@@ -273,7 +304,6 @@ function deleteDiv() {
             name="status"
             id="inlineRadio1"
             value="모집중"
-            checked
             v-model="accompany.status"
           />
           <label class="form-check-label" for="inlineRadio1">모집중</label>
@@ -303,7 +333,7 @@ function deleteDiv() {
       </div>
     </div>
     <div class="col-12">
-      <label for="status" class="form-label">테마분류</label>
+      <label for="theme" class="form-label">테마분류</label>
       <select
         class="form-select"
         id="themeNo"
@@ -311,7 +341,7 @@ function deleteDiv() {
         aria-label="Default select example"
         v-model="accompany.themeNo"
       >
-        <option selected>테마를 선택해주세요</option>
+        <option value="" selected>테마를 선택해주세요</option>
         <option value="1">가족</option>
         <option value="2">우정</option>
         <option value="3">연인</option>
@@ -324,7 +354,24 @@ function deleteDiv() {
         전송
       </button>
       <button type="submit" id="btn-register" class="btn btn-primary" v-else>글수정</button>
-      <button type="button" id="btn-list" class="btn btn-secondary">취소</button>
+      <button
+        v-if="type == 'regist'"
+        type="button"
+        id="btn-list"
+        class="btn btn-secondary"
+        @click="moveList"
+      >
+        목록으로
+      </button>
+      <button
+        v-else-if="type == 'modify'"
+        type="button"
+        id="btn-list"
+        class="btn btn-secondary"
+        @click="moveView"
+      >
+        돌아가기
+      </button>
     </div>
   </form>
 </template>
