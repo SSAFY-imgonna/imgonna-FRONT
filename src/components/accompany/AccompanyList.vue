@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { getAccompanyList } from "@/api/accompany";
 
@@ -14,16 +14,25 @@ const accompanys = ref([]);
 const currentPage = ref(1);
 const totalPage = ref(0);
 const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
+
 const param = ref({
   pgno: currentPage.value,
   spp: VITE_ARTICLE_LIST_SIZE,
   key: "",
   word: "",
+  cat: "전체",
 });
 
 onMounted(() => {
   AccompanyList();
 });
+
+watch(
+  () => param.value.cat,
+  (value) => {
+    AccompanyList();
+  }
+);
 
 const AccompanyList = () => {
   console.log("서버에서 글목록 얻어오자!!!", param.value);
@@ -86,14 +95,31 @@ const moveWrite = () => {
             name="btnradio"
             id="btnradio1"
             autocomplete="off"
-            checked
+            value="전체"
+            v-model="param.cat"
           />
           <label class="btn btn-outline-dark" for="btnradio1">전체</label>
 
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" />
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio2"
+            autocomplete="off"
+            value="모집중"
+            v-model="param.cat"
+          />
           <label class="btn btn-outline-dark" for="btnradio2">모집중</label>
 
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" />
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio3"
+            autocomplete="off"
+            value="모집임박"
+            v-model="param.cat"
+          />
           <label class="btn btn-outline-dark" for="btnradio3">모집임박</label>
         </div>
       </div>
