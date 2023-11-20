@@ -6,6 +6,8 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import "../js/main.js";
 import { UserOutlined } from "@ant-design/icons-vue";
+import notifyItem from "./item/notifyItem.vue";
+
 const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 
 const isShownLoginModal = ref(false);
@@ -33,7 +35,7 @@ const doLogout = async () => {
 <template>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
+    <div class="container d-flex align-items-center">
       <!-- Uncomment the line below if you also wish to use an image logo -->
       <!-- <img src="assets/img/logo.png" alt=""> -->
 
@@ -82,11 +84,12 @@ const doLogout = async () => {
       </nav>
       <!-- .navbar -->
 
-      <div class="col-md-3 text-end align-items-center">
+      <notifyItem style="margin-left: 100px"></notifyItem>
+      <div class="text-end align-item-center">
         <div v-if="isLogin" class="dropdown">
           <a
             href="#"
-            class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle ms-5"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
