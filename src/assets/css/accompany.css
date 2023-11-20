@@ -1,6 +1,7 @@
 * {
   font-family: 'Nanum Gothic', sans-serif;
 }
+
 /* 목록 부분 */
 .card-img-top {
   width: auto;
@@ -9,7 +10,6 @@
   height: 225px;
 }
 
-
 /* 상세 부분 */
 .imgFile {
   width: auto;
@@ -17,6 +17,7 @@
   max-width: 400px;
   max-height: 400px;
 }
+
 /* 댓글 부분 */
 div.inner-text {
   display: inline-block;

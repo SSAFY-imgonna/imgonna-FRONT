@@ -1,7 +1,13 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { createAccompanyComment } from "@/api/accompanyComment";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const router = useRouter();
 const route = useRoute();
@@ -17,16 +23,19 @@ const comment = ref({
   content: "",
   createdTime: "",
   modifiedTime: "",
-  id: "ssafy", // 이거 나중에 ssafy에서 바꿔야!!
+  id: "",
 });
 
+const commentLength = ref(50);
 const contentErrMsg = ref("");
 watch(
   () => comment.value.content,
   (value) => {
     let len = value.length;
-    if (len == 0 || len > 100) {
-      contentErrMsg.value = "내용을 확인해 주세요!!!";
+    console.log(len);
+    commentLength.value = 50 - len;
+    if (len > 50) {
+      comment.value.content = comment.value.content.substring(0, 50);
     } else contentErrMsg.value = "";
   },
   // 처음 페이지 들어왔을때는 감시 안됨 => immediate:true로 처음 들어오자마자 한번 실행하고 감시
@@ -42,6 +51,9 @@ function onSubmit() {
 }
 
 function writeComment() {
+  if (member.value != null) {
+    comment.value.id = member.value.id;
+  }
   console.log("댓글등록하자!!", comment.value);
   // API 호출
   createAccompanyComment(
@@ -63,7 +75,9 @@ function writeComment() {
   <div id="comment-div" class="mt-0">
     <div class="mb-2 ps-1">
       <span class="comm-title" style="font-size: 15pt">댓글</span>&nbsp;
-      <span id="comm-first"><span class="letter-count">50/50</span></span>
+      <span id="comm-first"
+        ><span class="letter-count">{{ commentLength }}/50</span></span
+      >
     </div>
     <form id="form-comm" @submit.prevent="onSubmit">
       <div class="inner-text">
