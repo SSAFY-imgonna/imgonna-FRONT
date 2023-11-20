@@ -40,6 +40,7 @@ const doLogout = async () => {
       <router-link
         :to="{ name: 'main' }"
         class="logo d-flex align-items-center me-auto me-lg-0 text-decoration-none"
+        replace
       >
         <img src="/img/imgonna_logo.gif" style="width: 40px" class="img-fluid me-2" />
         <!-- <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" /> -->

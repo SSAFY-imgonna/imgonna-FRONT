@@ -1,79 +1,55 @@
 <script setup>
+import { ref, watch } from "vue";
+const props = defineProps({
+  departureTime: String,
+  startTime: String,
+  courses: Array,
+});
 
+const courses = ref({});
+watch(
+  () => props.courses,
+  () => {
+    courses.value = props.courses;
+  },
+  { immediate: true }
+);
+ref;
 </script>
 
 <template>
-<div class="timeline">
-  <div class="container left">
-    <div class="date">15 Dec</div>
-    <i class="icon bi bi-airplane-fill"></i>
-    <div class="content left">
+  <div class="timeline" v-for="(course, index) in courses" :key="course.order">
+    <div v-if="course.order % 2 == 1" class="container left">
+      <div v-if="course.order == 1" class="date">{{ props.startTime }}</div>
+      <i class="icon bi bi-airplane-fill"></i>
+      <div class="content left">
         <div class="col-lg-4">
-        <img
-          src="/img/house.jpg"
-          class="img-fluid"
-          alt="..."
-        />
+          <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
+          <img v-else src="/no_image.png" class="img-fluid" alt="..." />
         </div>
         <div class="col-lg-12">
-            <h2>관광지명</h2>
-            <p class="card-text">서울 특별시 송파구 문정동</p>
+          <h2>{{ course.title }}</h2>
+          <p class="card-text">
+            {{ course.addr1 }} <span v-if="course.zipcode"> ({{ course.zipcode }})</span>
+          </p>
         </div>
+      </div>
     </div>
-  </div>
-  <div class="container right">
-    <div class="date">22 OCT</div>
-    <i class="icon bi bi-backpack2-fill"></i>
-    <div class="content right">
+    <div v-else class="container right">
+      <div v-if="course.order == courses.length" class="date">{{ props.departureTime }}</div>
+      <i class="icon bi bi-backpack2-fill"></i>
+      <div class="content right">
         <div class="col-lg-4">
-        <img
-          src="/img/ocean.png"
-          class="img-fluid"
-          alt="..."
-        />
+          <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
+          <img v-else src="/no_image.png" class="img-fluid" alt="..." />
         </div>
-        <div class="col-lg-12">
-            <h2>관광지명</h2>
-            <p class="card-text">서울 특별시 송파구 문정동</p>
-        </div>
+        <h2>{{ course.title }}</h2>
+        <p class="card-text">
+          {{ course.addr1 }} <span v-if="course.zipcode"> ({{ course.zipcode }})</span>
+        </p>
+      </div>
     </div>
   </div>
-  <!-- 좌우 반복 -->
-  <div class="container left">
-    <div class="date">15 Dec</div>
-    <i class="icon bi bi-airplane-fill"></i>
-    <div class="content left">
-        <div class="col-lg-4">
-        <img
-          src="/img/house.jpg"
-          class="img-fluid"
-          alt="..."
-        />
-        </div>
-        <div class="col-lg-12">
-            <h2>관광지명</h2>
-            <p class="card-text">서울 특별시 송파구 문정동</p>
-        </div>
-    </div>
-  </div>
-  <div class="container right">
-    <div class="date">22 OCT</div>
-    <i class="icon bi bi-backpack2-fill"></i>
-    <div class="content right">
-        <div class="col-lg-4">
-        <img
-          src="/img/ocean.png"
-          class="img-fluid"
-          alt="..."
-        />
-        </div>
-        <div class="col-lg-12">
-            <h2>관광지명</h2>
-            <p class="card-text">서울 특별시 송파구 문정동</p>
-        </div>
-    </div>
-  </div>
-</div>
 </template>
 
 <style scoped>
@@ -90,9 +66,9 @@ img {
   vertical-align: 2em;
 }
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
 }
 
 *,
@@ -111,12 +87,12 @@ body {
   position: relative;
   width: 100%;
   max-width: 1140px;
-  margin: 50px auto;
+  margin: 0 auto;
   padding: 15px 0;
 }
 
 .timeline::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 2px;
   background: #74b359;
@@ -143,7 +119,7 @@ body {
 }
 
 .container::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 16px;
   height: 16px;
@@ -160,7 +136,7 @@ body {
 }
 
 .container::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 50px;
   height: 2px;
@@ -181,18 +157,18 @@ body {
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  color: #006E51;
+  color: #006e51;
   text-transform: uppercase;
   letter-spacing: 1px;
   z-index: 1;
 }
 
 .container.left .date {
-  right: -75px;
+  right: -120px;
 }
 
 .container.right .date {
-  left: -75px;
+  left: -120px;
 }
 
 .container .icon {
@@ -252,7 +228,7 @@ body {
   margin: 10px 0 10px 0;
   font-size: 20px;
   font-weight: normal;
-  color: #006E51;
+  color: #006e51;
 }
 
 .container .content p {
@@ -277,7 +253,7 @@ body {
     left: 0%;
   }
 
-  .container.left::after, 
+  .container.left::after,
   .container.right::after {
     left: 82px;
   }
