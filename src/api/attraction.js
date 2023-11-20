@@ -1,4 +1,4 @@
-import { localAxios } from "@/util/http-commons";
+import { localAxios, festivalAxios } from "@/util/http-commons";
 
 const local = localAxios();
 
@@ -14,4 +14,10 @@ function getGugunList(param, success, fail) {
   local.get(`/attractions/gugun`, { params: param }).then(success).catch(fail);
 }
 
-export { getAttractionList, getSidoList, getGugunList };
+const festival = festivalAxios();
+
+function getFestivalList(param, success, fail) {
+  festival.get().then(success).catch(fail);
+}
+
+export { getAttractionList, getSidoList, getGugunList, getFestivalList };

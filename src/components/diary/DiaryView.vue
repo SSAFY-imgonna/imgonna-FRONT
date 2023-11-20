@@ -1,11 +1,10 @@
 <script setup>
-const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
-
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getDiaryByDiaryNo, deleteDiary } from "@/api/diary";
 import DiaryKakaoMap from "./item/DiaryKakaoMap.vue";
 
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 const route = useRoute();
 const router = useRouter();
 

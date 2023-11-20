@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { VITE_VUE_API_URL } = import.meta.env;
+const { VITE_VUE_API_URL, VITE_FESTIVAL_URL, VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 // local vue api axios instance
 function localAxios() {
@@ -14,4 +14,37 @@ function localAxios() {
   return instance;
 }
 
-export { localAxios };
+function festivalAxios() {
+  var today = new Date();
+
+  var year = today.getFullYear();
+  var month = ("0" + (today.getMonth() + 1)).slice(-2);
+
+  var dateString = year + month;
+
+  let startDate = dateString + "01";
+  let endDate = dateString + "30";
+
+  console.log(
+    VITE_FESTIVAL_URL +
+      `?eventStartDate=${startDate}&eventEndDate=${endDate}&ServiceKey=${VITE_OPEN_API_SERVICE_KEY}&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=100&pageNo=1&_type=json`
+  );
+
+  const instance = axios.create({
+    baseURL:
+      VITE_FESTIVAL_URL +
+      "?eventStartDate=" +
+      startDate +
+      "&eventEndDate=" +
+      endDate +
+      "&ServiceKey=" +
+      VITE_OPEN_API_SERVICE_KEY +
+      "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=100&pageNo=1&_type=json",
+    // headers: {
+    //   "Content-Type": "xml;charset=utf-8",
+    // },
+  });
+  return instance;
+}
+
+export { localAxios, festivalAxios };
