@@ -46,7 +46,7 @@ onMounted(() => {
 });
 
 const initMap = () => {
-  const container = document.getElementById("map2");
+  const container = document.getElementById("detailsMap");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
     level: 4,
@@ -145,7 +145,7 @@ const deleteOverlays = () => {
 </script>
 
 <template>
-  <div id="map2"></div>
+  <div id="detailsMap"></div>
 </template>
 
 <style>

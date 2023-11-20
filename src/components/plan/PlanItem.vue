@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import draggable from "vuedraggable";
+import Plan from "./item/Plan.vue";
 const attractions = ref();
 
 const props = defineProps({ attractions: Array });
@@ -12,6 +13,14 @@ watch(
   },
   { deep: true }
 );
+
+// onMounted(() => {
+//   attractions.value = props.attractions;
+// });
+
+const updateAttractions = (oldIndex, newIndex) => {
+  // 순서 변경
+};
 </script>
 
 <template>
@@ -20,43 +29,20 @@ watch(
     <h6>원하는 장소를 검색해 추가하세요</h6>
     <div>
       <div class="alist">
-        <draggable v-model="attractions" ghost-class="ghost" @start="drag = true" item-key="id">
-          <template #item="{ element }">
-            <div
+        <draggable
+          v-model="attractions"
+          item-key="index"
+          tag="ul"
+          class="card ms-0 mb-3 attraction-info"
+        >
+          <template #item="{ element: attraction }">
+            <!-- <div
               class="card ms-0 mb-3 attraction-info"
               v-for="attraction in attractions"
               :key="attraction.contentId"
               :attraction="element"
-            >
-              <div class="row g-0 col-lg-12" v-if="attraction">
-                <div class="col-md-4">
-                  <img
-                    v-if="attraction.firstImage && attraction.firstImage.length > 0"
-                    :src="attraction.firstImage"
-                    class="img-fluid rounded-start"
-                    alt="..."
-                  />
-                  <img
-                    v-else-if="attraction.firstImage2 && attraction.firstImage2.length > 0"
-                    :src="attraction.firstImage"
-                    class="img-fluid rounded-start"
-                    alt="..."
-                  />
-                  <img v-else src="/img/no_image.png" class="img-fluid rounded-start" alt="..." />
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <b>{{ attraction.title }}</b>
-                    </h5>
-                    <p class="card-text">{{ attraction.addr1 }} {{ attraction.addr2 }}</p>
-                    <!-- <p class="card-text">
-                            <small class="text-body-secondary">{{ attraction.tel }}</small>
-                          </p> -->
-                  </div>
-                </div>
-              </div>
-            </div>
+            > -->
+            <Plan :attraction="attraction" :index="attractions.indexOf(attraction)" />
           </template>
         </draggable>
       </div>

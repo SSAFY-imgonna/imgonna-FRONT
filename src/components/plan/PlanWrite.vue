@@ -22,6 +22,7 @@ const setAttraction = function (attraction) {
 };
 const makePlan = function (attraction) {
   attractions.value.push(attraction);
+  console.log(attractions.value);
 };
 
 const plan = ref({
