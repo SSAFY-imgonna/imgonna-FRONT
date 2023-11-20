@@ -146,7 +146,9 @@ const onSelectTheme = (val) => {
               <div class="col-lg-6 my-4">
                 <KakaoMapItem :attraction="selectAttraction" />
               </div>
-              <div class="col-lg-3"><PlanItem :attractions="attractions" /></div>
+              <div class="col-lg-3">
+                <PlanItem :attractions="attractions" />
+              </div>
             </div>
             <div class="row mt-4">
               <div class="col-lg-9">
