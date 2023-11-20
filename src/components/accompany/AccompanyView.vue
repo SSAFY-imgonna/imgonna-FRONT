@@ -8,7 +8,12 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
 import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
-import { getAccompanyByAccompanyNo, deleteAccompany, createAccompanyJoin } from "@/api/accompany";
+import {
+  getAccompanyByAccompanyNo,
+  deleteAccompany,
+  createAccompanyJoin,
+  deleteAccompanyJoin,
+} from "@/api/accompany";
 import { getCommentListByAccompanyNo } from "@/api/accompanyComment";
 
 const route = useRoute();
@@ -23,11 +28,14 @@ const { accompanyNo } = route.params;
 const accompany = ref({});
 const commentList = ref({});
 
-const param = ref({
-  id: member.value.id,
+const memberInfo = ref({
+  id: null,
 });
 
 onMounted(() => {
+  if (member.value != null) {
+    memberInfo.value.id = member.value.id;
+  }
   getAccompany();
   getComments();
 });
@@ -37,6 +45,7 @@ const getAccompany = () => {
   // API 호출
   getAccompanyByAccompanyNo(
     accompanyNo,
+    memberInfo.value,
     ({ data }) => {
       console.log(data);
       accompany.value = data;
@@ -86,14 +95,34 @@ function onDeleteAccompany() {
 }
 
 function register() {
+  console.log(accompanyNo);
+  console.log(memberInfo.value);
   createAccompanyJoin(
     accompanyNo,
-    param.value,
+    memberInfo.value,
     ({ data }) => {
       console.log(data);
 
       alert("동행 신청이 완료되었습니다.");
-      router.push({ name: "accompany-view", params: { accompanyNo } });
+      getAccompany();
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function cancelRegister() {
+  console.log(accompanyNo);
+  console.log(memberInfo.value);
+  deleteAccompanyJoin(
+    accompanyNo,
+    memberInfo.value,
+    ({ data }) => {
+      console.log(data);
+
+      alert("동행 취소가 완료되었습니다.");
+      getAccompany();
     },
     (error) => {
       console.log(error);
@@ -192,7 +221,7 @@ function register() {
             <!-- 글 작성자가 아닐때 -->
             <span v-else-if="member && member.id != accompany.id">
               <!-- 이미 신청하였을때 -->
-              <span v-if="isJoin == true">
+              <span v-if="accompany.isJoin == true">
                 <button
                   type="button"
                   id="btn-join"
