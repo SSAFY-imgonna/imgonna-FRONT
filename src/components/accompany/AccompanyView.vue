@@ -233,8 +233,7 @@ function cancelRegister() {
               </span>
               <!-- 아직 신청하지 않았을때 -->
               <span v-else>
-                <!-- 정원 아직 꽉 차지 않았다면 신청하기 버튼 -->
-                <span v-if="accompany.currentNum < accompany.limitNum">
+                <span v-if="accompany.status == '모집중'">
                   <button
                     type="button"
                     id="btn-join"
@@ -244,15 +243,24 @@ function cancelRegister() {
                     신청하기
                   </button>
                 </span>
-                <!-- 정원 꽉 찼으면 모집마감 버튼 -->
-                <span v-if="accompany.currentNum == accompany.limitNum">
+                <span v-if="accompany.status == '모집완료'">
                   <button
                     type="button"
                     id="btn-join"
                     class="btn btn-outline-secondary mb-3 ms-1"
                     onclick="return false;"
                   >
-                    모집마감
+                    모집완료
+                  </button>
+                </span>
+                <span v-if="accompany.status == '모집중단'">
+                  <button
+                    type="button"
+                    id="btn-join"
+                    class="btn btn-outline-secondary mb-3 ms-1"
+                    onclick="return false;"
+                  >
+                    모집완료
                   </button>
                 </span>
               </span>

@@ -107,6 +107,13 @@ function onSubmit() {
   } else if (accompany.value.currentNum > accompany.value.limitNum) {
     showWarning("현재신청인원이 모집인원보다 많습니다. 확인해주세요.");
     return;
+  } else if (
+    accompany.value.currentNum == accompany.value.limitNum &&
+    accompany.value.status == "모집중"
+  ) {
+    showWarning("현재 모집인원이 모두 차서 모집중으로 변경 불가합니다.");
+    accompany.value.status = "모집완료";
+    return;
   } else if (!accompany.value.themeNo) {
     showWarning("테마분류는 필수 입력값입니다!");
     return;
@@ -325,10 +332,10 @@ function moveView() {
             type="radio"
             name="status"
             id="inlineRadio3"
-            value="모집종료"
+            value="모집완료"
             v-model="accompany.status"
           />
-          <label class="form-check-label" for="inlineRadio3">모집종료</label>
+          <label class="form-check-label" for="inlineRadio3">모집완료</label>
         </div>
       </div>
     </div>
