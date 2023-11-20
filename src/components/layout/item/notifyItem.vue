@@ -1,73 +1,113 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+// import { getNotifyCount, getNotifyList, updateNotify, deleteNotify } from "@/api/notify";
+import { getNotifyCount, getNotifyList, updateNotifyAll } from "@/api/notify";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import NotifyListItem from "./notifyListItem.vue";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
+
+const param = ref({
+  id: "",
+});
+
+const notifyCount = ref(0);
+onMounted(() => {
+  if (member.value != null) {
+    param.value.id = member.value.id;
+    console.log("NotifyCount 실행한다");
+    NotifyCount();
+    // NotifyList();
+  }
+});
+
+const notifyList = ref([]);
+const NotifyCount = () => {
+  console.log(param.value);
+  getNotifyCount(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      notifyCount.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
+const NotifyList = () => {
+  console.log(param.value);
+  getNotifyList(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      notifyList.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
+const getNotifyAgain = () => {
+  console.log("다시 얻어옴");
+  NotifyCount();
+  NotifyList();
+};
+
+const readAll = () => {
+  console.log("모두읽음");
+  updateNotifyAll(
+    param.value,
+    ({ data }) => {
+      console.log("성공적으로 모두읽음");
+      getNotifyCount();
+      getNotifyAgain();
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+</script>
 
 <template>
   <span class="header-nav">
     <li class="nav-item dropdown">
-      <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+      <a
+        class="nav-link nav-icon"
+        href="#"
+        data-bs-toggle="dropdown"
+        @click="NotifyList"
+        data-bs-auto-close="outside"
+        aria-expanded="false"
+      >
         <i class="bi bi-bell"></i>
-        <span class="badge bg-success badge-number">4</span> </a
+        <span class="badge bg-success badge-number">{{ notifyCount }}</span> </a
       ><!-- End Notification Icon -->
 
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
         <li class="dropdown-header">
-          You have 4 new notifications
-          <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          {{ notifyCount }}개의 새로운 알림이 있습니다.
+          <a href="#"
+            ><span class="badge rounded-pill bg-success p-2 ms-2" @click="readAll"
+              >모두읽음</span
+            ></a
+          >
         </li>
         <li>
           <hr class="dropdown-divider" />
         </li>
-
-        <li class="notification-item">
-          <i class="bi bi-exclamation-circle text-warning"></i>
-          <div>
-            <h4>Lorem Ipsum</h4>
-            <p>Quae dolorem earum veritatis oditseno</p>
-            <p>30 min. ago</p>
-          </div>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
-
-        <li class="notification-item">
-          <i class="bi bi-x-circle text-danger"></i>
-          <div>
-            <h4>Atque rerum nesciunt</h4>
-            <p>Quae dolorem earum veritatis oditseno</p>
-            <p>1 hr. ago</p>
-          </div>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
-
-        <li class="notification-item">
-          <i class="bi bi-check-circle text-success"></i>
-          <div>
-            <h4>Sit rerum fuga</h4>
-            <p>Quae dolorem earum veritatis oditseno</p>
-            <p>2 hrs. ago</p>
-          </div>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
-
-        <li class="notification-item">
-          <i class="bi bi-info-circle text-primary"></i>
-          <div>
-            <h4>Dicta reprehenderit</h4>
-            <p>Quae dolorem earum veritatis oditseno</p>
-            <p>4 hrs. ago</p>
-          </div>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
+        <NotifyListItem
+          v-for="notify in notifyList"
+          :key="notify.notifyNo"
+          :notify="notify"
+          @getNotifyAgain="getNotifyAgain"
+        ></NotifyListItem>
         <li class="dropdown-footer">
           <a href="#">Show all notifications</a>
         </li>
@@ -79,147 +119,5 @@
 </template>
 
 <style scoped>
-li {
-  list-style: none; /* 기본 마커 제거 */
-}
-
-/*--------------------------------------------------------------
-# Header Nav
---------------------------------------------------------------*/
-.header-nav ul {
-  list-style: none;
-}
-
-.header-nav > ul {
-  margin: 0;
-  padding: 0;
-}
-
-.header-nav .nav-icon {
-  font-size: 22px;
-  color: #012970;
-  margin-right: 25px;
-  position: relative;
-}
-
-.header-nav .nav-profile {
-  color: #012970;
-}
-
-.header-nav .nav-profile img {
-  max-height: 36px;
-}
-
-.header-nav .nav-profile span {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.header-nav .badge-number {
-  position: absolute;
-  inset: -2px -5px auto auto;
-  font-weight: normal;
-  font-size: 12px;
-  padding: 3px 6px;
-}
-
-.header-nav .notifications {
-  inset: 8px -15px auto auto !important;
-}
-
-.header-nav .notifications .notification-item {
-  display: flex;
-  align-items: center;
-  padding: 15px 10px;
-  transition: 0.3s;
-}
-
-.header-nav .notifications .notification-item i {
-  margin: 0 20px 0 10px;
-  font-size: 24px;
-}
-
-.header-nav .notifications .notification-item h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.header-nav .notifications .notification-item p {
-  font-size: 13px;
-  margin-bottom: 3px;
-  color: #919191;
-}
-
-.header-nav .notifications .notification-item:hover {
-  background-color: #f6f9ff;
-}
-
-.header-nav .messages {
-  inset: 8px -15px auto auto !important;
-}
-
-.header-nav .messages .message-item {
-  padding: 15px 10px;
-  transition: 0.3s;
-}
-
-.header-nav .messages .message-item a {
-  display: flex;
-}
-
-.header-nav .messages .message-item img {
-  margin: 0 20px 0 10px;
-  max-height: 40px;
-}
-
-.header-nav .messages .message-item h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #444444;
-}
-
-.header-nav .messages .message-item p {
-  font-size: 13px;
-  margin-bottom: 3px;
-  color: #919191;
-}
-
-.header-nav .messages .message-item:hover {
-  background-color: #f6f9ff;
-}
-
-.header-nav .profile {
-  min-width: 240px;
-  padding-bottom: 0;
-  top: 8px !important;
-}
-
-.header-nav .profile .dropdown-header h6 {
-  font-size: 18px;
-  margin-bottom: 0;
-  font-weight: 600;
-  color: #444444;
-}
-
-.header-nav .profile .dropdown-header span {
-  font-size: 14px;
-}
-
-.header-nav .profile .dropdown-item {
-  font-size: 14px;
-  padding: 10px 15px;
-  transition: 0.3s;
-}
-
-.header-nav .profile .dropdown-item i {
-  margin-right: 10px;
-  font-size: 18px;
-  line-height: 0;
-}
-
-.header-nav .profile .dropdown-item:hover {
-  background-color: #f6f9ff;
-}
+@import "@/assets/css/notify.css";
 </style>

@@ -4,7 +4,7 @@ const accompanyCss = new URL("@/assets/css/", import.meta.url).href;
 
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
 import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
@@ -30,6 +30,7 @@ const commentList = ref({});
 
 const memberInfo = ref({
   id: null,
+  writerId: "",
 });
 
 onMounted(() => {
@@ -95,6 +96,7 @@ function onDeleteAccompany() {
 }
 
 function register() {
+  memberInfo.value.writerId = accompany.value.id;
   console.log(accompanyNo);
   console.log(memberInfo.value);
   createAccompanyJoin(
