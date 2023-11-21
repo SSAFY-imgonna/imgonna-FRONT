@@ -2,31 +2,62 @@
 const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 const accompanyCss = new URL("@/assets/css/", import.meta.url).href;
 
-import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
 import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
-import { getAccompanyByAccompanyNo, deleteAccompany } from "@/api/accompany";
+import {
+  getAccompanyByAccompanyNo,
+  deleteAccompany,
+  createAccompanyJoin,
+  deleteAccompanyJoin,
+} from "@/api/accompany";
 import { getCommentListByAccompanyNo } from "@/api/accompanyComment";
 
 const route = useRoute();
 const router = useRouter();
 
-const { accompanyNo } = route.params;
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
+
+const accompanyNo = ref(0);
 
 const accompany = ref({});
 const commentList = ref({});
 
+const memberInfo = ref({
+  id: null,
+  writerId: "",
+});
+
 onMounted(() => {
+  if (member.value != null) {
+    memberInfo.value.id = member.value.id;
+  }
+  accompanyNo.value = route.params.accompanyNo;
   getAccompany();
   getComments();
 });
 
+watch(
+  () => route.params,
+  (value) => {
+    accompanyNo.value = route.params.accompanyNo;
+    console.log("감시", accompanyNo.value);
+    getAccompany();
+    getComments();
+  }
+);
+
 const getAccompany = () => {
-  console.log(accompanyNo + "번글 얻으러 가자!!!");
+  console.log(accompanyNo.value + "번글 얻으러 가자!!!");
   // API 호출
   getAccompanyByAccompanyNo(
-    accompanyNo,
+    accompanyNo.value,
+    memberInfo.value,
     ({ data }) => {
       console.log(data);
       accompany.value = data;
@@ -38,9 +69,9 @@ const getAccompany = () => {
 };
 
 const getComments = () => {
-  console.log(accompanyNo + "번글 댓글 얻으러 가자!!!");
+  console.log(accompanyNo.value + "번글 댓글 얻으러 가자!!!");
   getCommentListByAccompanyNo(
-    accompanyNo,
+    accompanyNo.value,
     ({ data }) => {
       console.log(data);
       commentList.value = data;
@@ -63,11 +94,48 @@ function onDeleteAccompany() {
   console.log(accompanyNo + "번글 삭제하러 가자!!!");
   // API 호출
   deleteAccompany(
-    accompanyNo,
+    accompanyNo.value,
     ({ data }) => {
       console.log(data);
       alert("글 삭제가 완료되었습니다.");
       router.push({ name: "accompany-list" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function register() {
+  memberInfo.value.writerId = accompany.value.id;
+  console.log(accompanyNo);
+  console.log(memberInfo.value);
+  createAccompanyJoin(
+    accompanyNo.value,
+    memberInfo.value,
+    ({ data }) => {
+      console.log(data);
+
+      alert("동행 신청이 완료되었습니다.");
+      getAccompany();
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function cancelRegister() {
+  console.log(accompanyNo);
+  console.log(memberInfo.value);
+  deleteAccompanyJoin(
+    accompanyNo.value,
+    memberInfo.value,
+    ({ data }) => {
+      console.log(data);
+
+      alert("동행 취소가 완료되었습니다.");
+      getAccompany();
     },
     (error) => {
       console.log(error);
@@ -144,54 +212,72 @@ function onDeleteAccompany() {
             >
               글목록
             </button>
-            <!-- 로그인되었을때 -->
-
             <!-- 글 작성자 일때 -->
-
-            <button
-              type="button"
-              id="btn-mv-modify"
-              class="btn btn-outline-success mb-3 ms-1"
-              @click="moveModify"
-            >
-              글수정
-            </button>
-            <button
-              type="button"
-              id="btn-delete"
-              class="btn btn-outline-danger mb-3 ms-1"
-              @click="onDeleteAccompany"
-            >
-              글삭제
-            </button>
-
+            <span v-if="member && member.id == accompany.id">
+              <button
+                type="button"
+                id="btn-mv-modify"
+                class="btn btn-outline-success mb-3 ms-1"
+                @click="moveModify"
+              >
+                글수정
+              </button>
+              <button
+                type="button"
+                id="btn-delete"
+                class="btn btn-outline-danger mb-3 ms-1"
+                @click="onDeleteAccompany"
+              >
+                글삭제
+              </button>
+            </span>
             <!-- 글 작성자가 아닐때 -->
-
-            <!-- 이미 신청하였을때 -->
-
-            <!-- <c:if test="${isJoin == true}">
-                  <button type="button" id="btn-join" class="btn btn-outline-secondary mb-3 ms-1"
-                    onclick="location.href='${root}/accompany/joinCancel?accompanyNo=${accompanyDto.accompanyNo}'"
-                    >
-                      신청취소
-                  </button>                
-                </c:if> -->
-            <!-- 아직 신청하지 않았을때 -->
-
-            <!-- 정원 아직 꽉 차지 않았다면 신청하기 버튼 -->
-            <!-- <c:if test="${accompanyDto.accompanyNum != accompanyDto.accompanyTotal}">
-                    <button type="button" id="btn-join" class="btn btn-outline-success mb-3 ms-1"
-                      onclick="location.href='${root}/accompany/join?accompanyNo=${accompanyDto.accompanyNo}'">
-                        신청하기
-                    </button>                
-                  </c:if> -->
-            <!-- 정원 꽉 찼으면 모집마감 버튼 -->
-            <!-- <c:if test="${accompanyDto.accompanyNum == accompanyDto.accompanyTotal}">
-                    <button type="button" id="btn-join" class="btn btn-outline-secondary mb-3 ms-1"
-                      onclick="return false;">
-                        모집마감
-                    </button> 
-                  </c:if> -->
+            <span v-else-if="member && member.id != accompany.id">
+              <!-- 이미 신청하였을때 -->
+              <span v-if="accompany.isJoin == true">
+                <button
+                  type="button"
+                  id="btn-join"
+                  class="btn btn-outline-secondary mb-3 ms-1"
+                  @click="cancelRegister"
+                >
+                  신청취소
+                </button>
+              </span>
+              <!-- 아직 신청하지 않았을때 -->
+              <span v-else>
+                <span v-if="accompany.status == '모집중'">
+                  <button
+                    type="button"
+                    id="btn-join"
+                    class="btn btn-outline-success mb-3 ms-1"
+                    @click="register"
+                  >
+                    신청하기
+                  </button>
+                </span>
+                <span v-if="accompany.status == '모집완료'">
+                  <button
+                    type="button"
+                    id="btn-join"
+                    class="btn btn-outline-secondary mb-3 ms-1"
+                    onclick="return false;"
+                  >
+                    모집완료
+                  </button>
+                </span>
+                <span v-if="accompany.status == '모집중단'">
+                  <button
+                    type="button"
+                    id="btn-join"
+                    class="btn btn-outline-secondary mb-3 ms-1"
+                    onclick="return false;"
+                  >
+                    모집완료
+                  </button>
+                </span>
+              </span>
+            </span>
           </div>
           <hr class="hr-style col-12 mt-3" size="1" width="100%" />
           <!-- 댓글 폼 -->
@@ -210,6 +296,8 @@ function onDeleteAccompany() {
 </template>
 
 <style scoped>
+@import "@/assets/css/accompany.css";
+
 /* 상세 부분 */
 .imgFile {
   width: auto;

@@ -20,7 +20,7 @@ const moveView = () => {
 </script>
 
 <template>
-  <div class="col">
+  <div class="col-lg-4 col-md-6 mt-3 mb-2">
     <div class="card shadow-sm">
       <!-- 저장된 이미지가 없는 경우 -->
       <span v-if="!accompany.fileInfos || accompany.fileInfos.length === 0">
@@ -54,11 +54,7 @@ const moveView = () => {
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-secondary showDetail"
-              @click="moveView"
-            >
+            <button type="button" class="btn btn-sm btn-outline-dark showDetail" @click="moveView">
               자세히 보기
             </button>
           </div>
@@ -79,6 +75,7 @@ const moveView = () => {
 </template>
 
 <style scoped>
+@import "@/assets/css/accompany.css";
 /* 목록 부분 */
 .card-img-top {
   width: auto;

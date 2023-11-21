@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+const emit = defineEmits(["getNotifyAgain"]);
+
+const getNotifyAgain = () => {
+  console.log("MyPageView에서 수신");
+  emit("getNotifyAgain");
+};
+</script>
 
 <template>
   <section id="menu" class="menu">
@@ -25,12 +32,17 @@
                     >비밀번호 변경</router-link
                   >
                 </li>
+                <li>
+                  <router-link class="nav-link link-body-emphasis" :to="{ name: 'member-notify' }"
+                    >내 알림 조회</router-link
+                  >
+                </li>
               </ol>
             </nav>
           </div>
         </div>
         <div>
-          <RouterView></RouterView>
+          <RouterView @getNotifyAgain="getNotifyAgain"></RouterView>
         </div>
       </div>
     </section>
