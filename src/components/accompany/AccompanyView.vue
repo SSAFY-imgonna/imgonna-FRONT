@@ -23,7 +23,7 @@ const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
 
-const { accompanyNo } = route.params;
+const accompanyNo = ref(0);
 
 const accompany = ref({});
 const commentList = ref({});
@@ -37,15 +37,26 @@ onMounted(() => {
   if (member.value != null) {
     memberInfo.value.id = member.value.id;
   }
+  accompanyNo.value = route.params.accompanyNo;
   getAccompany();
   getComments();
 });
 
+watch(
+  () => route.params,
+  (value) => {
+    accompanyNo.value = route.params.accompanyNo;
+    console.log("감시", accompanyNo.value);
+    getAccompany();
+    getComments();
+  }
+);
+
 const getAccompany = () => {
-  console.log(accompanyNo + "번글 얻으러 가자!!!");
+  console.log(accompanyNo.value + "번글 얻으러 가자!!!");
   // API 호출
   getAccompanyByAccompanyNo(
-    accompanyNo,
+    accompanyNo.value,
     memberInfo.value,
     ({ data }) => {
       console.log(data);
@@ -58,9 +69,9 @@ const getAccompany = () => {
 };
 
 const getComments = () => {
-  console.log(accompanyNo + "번글 댓글 얻으러 가자!!!");
+  console.log(accompanyNo.value + "번글 댓글 얻으러 가자!!!");
   getCommentListByAccompanyNo(
-    accompanyNo,
+    accompanyNo.value,
     ({ data }) => {
       console.log(data);
       commentList.value = data;
@@ -83,7 +94,7 @@ function onDeleteAccompany() {
   console.log(accompanyNo + "번글 삭제하러 가자!!!");
   // API 호출
   deleteAccompany(
-    accompanyNo,
+    accompanyNo.value,
     ({ data }) => {
       console.log(data);
       alert("글 삭제가 완료되었습니다.");
@@ -100,7 +111,7 @@ function register() {
   console.log(accompanyNo);
   console.log(memberInfo.value);
   createAccompanyJoin(
-    accompanyNo,
+    accompanyNo.value,
     memberInfo.value,
     ({ data }) => {
       console.log(data);
@@ -118,7 +129,7 @@ function cancelRegister() {
   console.log(accompanyNo);
   console.log(memberInfo.value);
   deleteAccompanyJoin(
-    accompanyNo,
+    accompanyNo.value,
     memberInfo.value,
     ({ data }) => {
       console.log(data);

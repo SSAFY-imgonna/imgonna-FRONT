@@ -18,7 +18,6 @@ const notifyCount = ref(0);
 onMounted(() => {
   if (member.value != null) {
     param.value.id = member.value.id;
-    console.log("NotifyCount 실행한다");
     NotifyCount();
     // NotifyList();
   }
@@ -26,11 +25,9 @@ onMounted(() => {
 
 const notifyList = ref([]);
 const NotifyCount = () => {
-  console.log(param.value);
   getNotifyCount(
     param.value,
     ({ data }) => {
-      console.log(data);
       notifyCount.value = data;
     },
     (error) => {
@@ -40,11 +37,9 @@ const NotifyCount = () => {
 };
 
 const NotifyList = () => {
-  console.log(param.value);
   getNotifyList(
     param.value,
     ({ data }) => {
-      console.log(data);
       notifyList.value = data;
     },
     (error) => {
@@ -54,17 +49,14 @@ const NotifyList = () => {
 };
 
 const getNotifyAgain = () => {
-  console.log("다시 얻어옴");
   NotifyCount();
   NotifyList();
 };
 
 const readAll = () => {
-  console.log("모두읽음");
   updateNotifyAll(
     param.value,
     ({ data }) => {
-      console.log("성공적으로 모두읽음");
       getNotifyCount();
       getNotifyAgain();
     },
@@ -72,6 +64,10 @@ const readAll = () => {
       console.log(error);
     }
   );
+};
+
+const moveTotalAlarm = () => {
+  console.log("전체 알람 페이지로 이동");
 };
 </script>
 
@@ -84,7 +80,7 @@ const readAll = () => {
         data-bs-toggle="dropdown"
         @click="NotifyList"
         data-bs-auto-close="outside"
-        aria-expanded="false"
+        aria-expanded="dropdownOpen"
       >
         <i class="bi bi-bell"></i>
         <span class="badge bg-success badge-number">{{ notifyCount }}</span> </a
@@ -102,14 +98,32 @@ const readAll = () => {
         <li>
           <hr class="dropdown-divider" />
         </li>
-        <NotifyListItem
-          v-for="notify in notifyList"
-          :key="notify.notifyNo"
-          :notify="notify"
-          @getNotifyAgain="getNotifyAgain"
-        ></NotifyListItem>
+        <span style="max-height: 300px; overflow-y: scroll; display: block">
+          <NotifyListItem
+            v-for="notify in notifyList"
+            :key="notify.notifyNo"
+            :notify="notify"
+            @getNotifyAgain="getNotifyAgain"
+          >
+            ></NotifyListItem
+          >
+        </span>
         <li class="dropdown-footer">
-          <a href="#">Show all notifications</a>
+          <a href="#" style="text-decoration: none">
+            <span
+              style="
+                color: initial;
+                font-size: 10pt;
+                font-weight: 600;
+                text-decoration: none;
+                cursor: pointer;
+              "
+              onmouseover="this.style.color='#3C763D'"
+              onmouseout="this.style.color='initial'"
+              @click="moveTotalAlarm"
+              >전체 알림 보러가기</span
+            >
+          </a>
         </li>
       </ul>
       <!-- End Notification Dropdown Items -->
