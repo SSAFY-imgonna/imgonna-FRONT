@@ -22,6 +22,14 @@ watch(
   },
   { deep: true }
 );
+
+// onMounted(() => {
+//   attractions.value = props.attractions;
+// });
+
+const updateAttractions = (oldIndex, newIndex) => {
+  // 순서 변경
+};
 </script>
 
 <template>

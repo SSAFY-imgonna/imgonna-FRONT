@@ -23,14 +23,14 @@ const contentsList = ref([
     text: "문화시설",
     value: "14",
   },
-  {
-    text: "축제공연행사",
-    value: "15",
-  },
-  {
-    text: "여행코스",
-    value: "25",
-  },
+  // {
+  //   text: "축제공연행사",
+  //   value: "15",
+  // },
+  // {
+  //   text: "여행코스",
+  //   value: "25",
+  // },
   {
     text: "레포츠",
     value: "28",
@@ -137,15 +137,16 @@ const viewAttraction = (attraction) => {
       <VKakaoMap :attractions="attractions" :select-attraction="selectAttraction" />
     </div>
 
-    <!-- <table class="table table-hover" v-show="attractions.length != 0">
+    <table class="table table-hover" v-show="attractions.length != 0">
       <thead>
         <tr class="text-center">
           <th scope="col">관광지명</th>
+          <th scope="col">사진</th>
           <th scope="col">위치</th>
           <th scope="col">전화번호</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-show="attractions.length != 0">
         <tr
           class="text-center"
           v-for="attraction in attractions"
@@ -153,11 +154,20 @@ const viewAttraction = (attraction) => {
           @click="viewAttraction(attraction)"
         >
           <th>{{ attraction.title }}</th>
+          <td>
+            <img v-if="attraction.firstImage" :src="attraction.firstImage" alt="" width="200" />
+            <img v-else src="/no_image.png" alt="" width="50" />
+          </td>
           <td>{{ attraction.addr1 }}</td>
           <td>{{ attraction.tel }}</td>
         </tr>
       </tbody>
-    </table> -->
+      <tbody v-show="attractions.length == 0">
+        <tr class="text-center">
+          <td colspan="4">내용이 없습니다.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
