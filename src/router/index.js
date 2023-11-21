@@ -23,6 +23,19 @@ const router = createRouter({
       path: "/course",
       name: "course",
       component: () => import("@/views/TheCourseView.vue"),
+      redirect: { name: "course-list" },
+      children: [
+        {
+          path: "",
+          name: "course-list",
+          component: () => import("@/components/course/CourseList.vue"),
+        },
+        {
+          path: ":contentId",
+          name: "course-view",
+          component: () => import("@/components/course/CourseView.vue"),
+        },
+      ],
     },
     // accompany
     {
