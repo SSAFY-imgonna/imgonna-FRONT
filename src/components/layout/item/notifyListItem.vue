@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 import { updateNotify } from "@/api/notify";
 
 const { notify } = defineProps({ notify: Object });
-
 const router = useRouter();
 
 const emit = defineEmits(["getNotifyAgain", "closeToggle"]);

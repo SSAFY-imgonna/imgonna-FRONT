@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import MemberLogin from "../members/modal/MemberLogin.vue";
 import MemberSignUp from "../members/modal/MemberSignUp.vue";
 import { storeToRefs } from "pinia";
@@ -7,6 +7,15 @@ import { useMemberStore } from "@/stores/member";
 import "../js/main.js";
 import { UserOutlined } from "@ant-design/icons-vue";
 import notifyItem from "./item/notifyItem.vue";
+
+const props = defineProps({ notifyAgain: Boolean });
+
+watch(
+  () => props.notifyAgain,
+  () => {
+    console.log("nav에서 감시 값바뀜");
+  }
+);
 
 const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 
@@ -84,7 +93,7 @@ const doLogout = async () => {
       </nav>
       <!-- .navbar -->
 
-      <notifyItem style="margin-left: 100px"></notifyItem>
+      <notifyItem style="margin-left: 100px" :notifyAgain="notifyAgain"></notifyItem>
       <div class="text-end align-item-center">
         <div v-if="isLogin" class="dropdown">
           <a

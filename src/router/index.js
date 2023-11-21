@@ -168,6 +168,11 @@ const router = createRouter({
           name: "member-modify-pw",
           component: () => import("@/components/members/MemberModifyPw.vue"),
         },
+        {
+          path: "",
+          name: "member-notify",
+          component: () => import("@/components/members/MemberNotify.vue"),
+        },
       ],
     },
   ],

@@ -1,11 +1,20 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 // import { getNotifyCount, getNotifyList, updateNotify, deleteNotify } from "@/api/notify";
 import { getNotifyCount, getNotifyList, updateNotifyAll } from "@/api/notify";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import NotifyListItem from "./notifyListItem.vue";
 
+const props = defineProps({ notifyAgain: Boolean });
+
+watch(
+  () => props.notifyAgain,
+  (value) => {
+    console.log("값바뀜");
+    NotifyCount();
+  }
+);
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
@@ -29,6 +38,7 @@ const NotifyCount = () => {
     param.value,
     ({ data }) => {
       notifyCount.value = data;
+      console.log("개수 구함 ", notifyCount.value);
     },
     (error) => {
       console.log(error);
