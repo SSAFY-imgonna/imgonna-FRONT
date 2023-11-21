@@ -25,11 +25,6 @@ function festivalAxios() {
   let startDate = dateString + "01";
   let endDate = dateString + "30";
 
-  console.log(
-    VITE_FESTIVAL_URL +
-      `?eventStartDate=${startDate}&eventEndDate=${endDate}&ServiceKey=${VITE_OPEN_API_SERVICE_KEY}&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=100&pageNo=1&_type=json`
-  );
-
   const instance = axios.create({
     baseURL:
       VITE_FESTIVAL_URL +
@@ -39,7 +34,7 @@ function festivalAxios() {
       endDate +
       "&ServiceKey=" +
       VITE_OPEN_API_SERVICE_KEY +
-      "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=100&pageNo=1&_type=json",
+      "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=20&pageNo=1&_type=json",
     // headers: {
     //   "Content-Type": "xml;charset=utf-8",
     // },

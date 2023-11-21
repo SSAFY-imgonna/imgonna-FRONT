@@ -6,7 +6,7 @@ import ProfileCard from "../components/members/ProfileCard.vue";
 <template>
   <FestivalSlider />
   <!-- 프로필카드 시작 -->
-  <ProfileCard />
+  <!-- <ProfileCard /> -->
   <RankingView />
   <!-- 프로필카드 끝 -->
 </template>
