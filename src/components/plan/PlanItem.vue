@@ -1,8 +1,11 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import draggable from "vuedraggable";
-
-const list = ref([]);
+import { storeToRefs } from "pinia";
+import { usePlanStore } from "@/stores/plan";
+const planStore = usePlanStore();
+const { plans } = storeToRefs(planStore);
+const list = ref(plans);
 
 const dragging = ref(false);
 const draggingInfo = computed(() => (dragging.value ? "under drag" : ""));
@@ -14,18 +17,19 @@ const checkMove = (e) => {
 const props = defineProps({ attractions: Array });
 
 // const attractions = ref();
-watch(
-  () => props.attractions,
-  () => {
-    // attractions.value = props.attractions;
-    list.value = props.attractions;
-  },
-  { deep: true }
-);
+// watch(
+//   () => props.attractions,
+//   () => {
+//     // attractions.value = props.attractions;
+//     list.push = props.attractions;
+//   },
+//   { deep: true }
+// );
 
-// onMounted(() => {
-//   attractions.value = props.attractions;
-// });
+onMounted(() => {
+  console.log(list.value);
+  // attractions.value = props.attractions;
+});
 
 const updateAttractions = (oldIndex, newIndex) => {
   // 순서 변경

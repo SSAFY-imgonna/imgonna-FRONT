@@ -25,7 +25,20 @@ onMounted(() => {
 
 const getFestivals = () => {
   getFestivalList(
-    ({ data }) => {},
+    ({ data }) => {
+      console.log(data);
+      // festivals.value = error.data.response.body.items.item;
+      let items = data.response.body.items.item;
+      for (var i = 0; i < items.length; i += 3) {
+        let arr = [];
+        arr.push(items[i]);
+        arr.push(items[i + 1]);
+        arr.push(items[i + 2]);
+        arr.push(items[i + 3]);
+        festivalList.value.push(arr);
+      }
+      console.log(festivalList.value);
+    },
     (error) => {
       console.log(error);
       // festivals.value = error.data.response.body.items.item;

@@ -3,6 +3,10 @@ import { ref, onMounted, watch, nextTick } from "vue";
 import { getCourse, getCourseDetailIntro, getCourseDetailInfo } from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
 import CourseTimelineItem from "./CourseTimelineItem.vue";
+import { storeToRefs } from "pinia";
+import { usePlanStore } from "@/stores/plan";
+import Swal from "sweetalert2";
+const planStore = usePlanStore();
 
 // const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
@@ -67,7 +71,19 @@ const getCourseDetailInfoByContentId = () => {
     detailsParams.value,
     ({ data }) => {
       let attractions = data.response.body.items.item;
-      courseDetail.value.attractions = attractions;
+      let attractionList = [];
+      for (var i = 0; i < attractions.length; i++) {
+        let attraction = {};
+        attraction.firstImage = attractions[i].subdetailimg;
+        attraction.firstImage2 = "";
+        attraction.title = attractions[i].subname;
+        attraction.addr1 = "";
+        attraction.addr2 = "";
+        attraction.contentId = attractions[i].contentid;
+        attraction.subdetailoverview = attractions[i].subdetailoverview;
+        attractionList.push(attraction);
+      }
+      courseDetail.value.attractions = attractionList;
       console.log(courseDetail.value);
     },
     (error) => {
@@ -95,6 +111,16 @@ const getCourseDetailIntroByContentId = () => {
       courseDetail.value.taketime = intro.taketime;
     }
   );
+};
+
+const { updatePlans } = planStore;
+
+const setCourses = () => {
+  updatePlans(courseDetail.value.attractions);
+  Swal.fire({
+    icon: "success",
+    title: "코스 담기 완료",
+  });
 };
 </script>
 
@@ -124,6 +150,7 @@ const getCourseDetailIntroByContentId = () => {
                 ><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
                 ><i class="bi bi-star-fill"></i>
               </div>
+              <button class="btn btn-secondary mt-4" @click="setCourses">코스 담기</button>
             </div>
           </div>
         </div>

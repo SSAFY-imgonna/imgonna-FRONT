@@ -7,21 +7,26 @@ import VSelect from "@/components/common/Vselect.vue";
 import { createPlan } from "@/api/plan";
 import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
-
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import { usePlanStore } from "@/stores/plan";
+
 const selectAttraction = ref({});
 const attractions = ref([]);
 const router = useRouter();
 const memberStore = useMemberStore();
+const planStore = usePlanStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
 
 const setAttraction = function (attraction) {
   selectAttraction.value = attraction;
 };
+
+const { addPlan } = planStore;
+
 const makePlan = function (attraction) {
-  attractions.value.push(attraction);
+  addPlan(attraction);
   console.log(attractions.value);
 };
 
