@@ -19,6 +19,11 @@ const router = createRouter({
       name: "area",
       component: () => import("@/views/TheAreaView.vue"),
     },
+    {
+      path: "/course",
+      name: "course",
+      component: () => import("@/views/TheCourseView.vue"),
+    },
     // accompany
     {
       path: "/accompany",

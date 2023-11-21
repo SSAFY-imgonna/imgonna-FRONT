@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { getFestivalList } from "@/api/attraction";
+import { getCourseList } from "@/api/attraction";
 
 const progressCircle = ref(null);
 const progressContent = ref(null);
@@ -17,14 +17,14 @@ const onAutoplayTimeLeft = (s, time, progress) => {
   progressContent.value.textContent = `${Math.ceil(time / 1000)}s`;
 };
 
-const festivalList = ref([]);
+const courseList = ref([]);
 
 onMounted(() => {
-  getFestivals();
+  getCourses();
 });
 
-const getFestivals = () => {
-  getFestivalList(
+const getCourses = () => {
+  getCourseList(
     ({ data }) => {},
     (error) => {
       console.log(error);
@@ -36,9 +36,9 @@ const getFestivals = () => {
         arr.push(items[i + 1]);
         arr.push(items[i + 2]);
         arr.push(items[i + 3]);
-        festivalList.value.push(arr);
+        courseList.value.push(arr);
       }
-      console.log(festivalList.value);
+      console.log(courseList.value);
     }
   );
 };
@@ -62,22 +62,24 @@ const getFestivals = () => {
         @autoplayTimeLeft="onAutoplayTimeLeft"
         class="mySwiper"
       >
-        <swiper-slide v-for="festivals in festivalList">
+        <swiper-slide v-for="courses in courseList">
           <div class="row">
-            <template v-for="festival in festivals">
+            <template v-for="course in courses">
               <div class="col-3">
                 <div
                   :style="{
                     backgroundImage:
-                      'url(' + (festival.firstimage ? festival.firstimage : '/no_image.png') + ')',
+                      'url(' +
+                      (course.firstimage != undefined ? course.firstimage : '/no_image.png') +
+                      ')',
                   }"
                   class="swiper-slide event-item d-flex flex-column justify-content-end"
                 >
-                  <h3>{{ festival.title }}</h3>
-                  <h3 class="align-self-start">{{ festival.addr1 }}</h3>
-                  <p class="description">
-                    {{ festival.eventstartdate }} - {{ festival.eventenddate }}
-                  </p>
+                  <h3>{{ course.title }}</h3>
+                  <h3 class="align-self-start">{{ course.addr1 }}</h3>
+                  <!-- <p class="description">
+                    {{ course.eventstartdate }} - {{ course.eventenddate }}
+                  </p> -->
                 </div>
               </div>
             </template>

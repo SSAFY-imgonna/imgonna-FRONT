@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const { VITE_VUE_API_URL, VITE_FESTIVAL_URL, VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
+const { VITE_VUE_API_URL, VITE_FESTIVAL_URL, VITE_COURSE_URL, VITE_OPEN_API_SERVICE_KEY } =
+  import.meta.env;
 
 // local vue api axios instance
 function localAxios() {
@@ -42,4 +43,17 @@ function festivalAxios() {
   return instance;
 }
 
-export { localAxios, festivalAxios };
+function courseAxios() {
+  const instance = axios.create({
+    baseURL: VITE_COURSE_URL,
+    // "?ServiceKey=" +
+    // VITE_OPEN_API_SERVICE_KEY +
+    // "&numOfRows=12&pageNo=1&MobileOS=ETC&MobileApp=AppTest&listYN=Y&arrange=A&contentTypeId=&areaCode=&sigunguCode=&cat1=C01&cat2=&cat3=&_type=json",
+    // headers: {
+    //   "Content-Type": "xml;charset=utf-8",
+    // },
+  });
+  return instance;
+}
+
+export { localAxios, festivalAxios, courseAxios };
