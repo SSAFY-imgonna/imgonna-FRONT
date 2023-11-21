@@ -1,14 +1,24 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
+import draggable from "vuedraggable";
 
-const attractions = ref();
+const list = ref([]);
+
+const dragging = ref(false);
+const draggingInfo = computed(() => (dragging.value ? "under drag" : ""));
+
+const checkMove = (e) => {
+  console.log("Future index: " + e.draggedContext.futureIndex);
+};
 
 const props = defineProps({ attractions: Array });
 
+// const attractions = ref();
 watch(
   () => props.attractions,
   () => {
-    attractions.value = props.attractions;
+    // attractions.value = props.attractions;
+    list.value = props.attractions;
   },
   { deep: true }
 );
@@ -20,46 +30,65 @@ watch(
     <h6>원하는 장소를 검색해 추가하세요</h6>
     <div>
       <div class="alist">
-        <div
-          class="card ms-0 mb-3 attraction-info"
-          v-for="attraction in attractions"
-          :key="attraction.contentId"
+        <draggable
+          :list="list"
+          item-key="contentId"
+          class="list-group"
+          ghost-class="ghost"
+          :move="checkMove"
+          @start="dragging = true"
+          @end="dragging = false"
         >
-          <div class="row g-0 col-lg-12" v-if="attraction">
-            <div class="col-md-4">
-              <img
-                v-if="attraction.firstImage && attraction.firstImage.length > 0"
-                :src="attraction.firstImage"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
-              <img
-                v-else-if="attraction.firstImage2 && attraction.firstImage2.length > 0"
-                :src="attraction.firstImage"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
-              <img v-else src="/img/no_image.png" class="img-fluid rounded-start" alt="..." />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <b>{{ attraction.title }}</b>
-                </h5>
-                <p class="card-text">{{ attraction.addr1 }} {{ attraction.addr2 }}</p>
-                <!-- <p class="card-text">
-                            <small class="text-body-secondary">{{ attraction.tel }}</small>
-                          </p> -->
+          <template #item="{ element }">
+            <div class="list-group-item card ms-0 mb-3 attraction-info">
+              <div class="row g-0 col-lg-12" v-if="element">
+                <div class="col-md-4">
+                  <img
+                    v-if="element.firstImage && element.firstImage.length > 0"
+                    :src="element.firstImage"
+                    class="img-fluid rounded-start"
+                    alt="..."
+                  />
+                  <img
+                    v-else-if="element.firstImage2 && element.firstImage2.length > 0"
+                    :src="element.firstImage"
+                    class="img-fluid rounded-start"
+                    alt="..."
+                  />
+                  <img v-else src="/img/no_image.png" class="img-fluid rounded-start" alt="..." />
+                </div>
+
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <b>{{ element.title }}</b>
+                    </h5>
+                    <p class="card-text">{{ element.addr1 }} {{ element.addr2 }}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </draggable>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.buttons {
+  margin-top: 35px;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
+.not-draggable {
+  cursor: no-drop;
+}
+
 h4 {
   font-size: 20px;
   font-weight: 700;
