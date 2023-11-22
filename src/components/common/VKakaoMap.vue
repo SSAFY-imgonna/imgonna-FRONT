@@ -41,6 +41,7 @@ onMounted(() => {
 watch(
   () => props.attractions.value,
   () => {
+    console.log(props.attractions);
     positions.value = [];
     overlays.value = [];
     props.attractions.forEach((attraction) => {
@@ -59,7 +60,7 @@ watch(
 );
 
 const initMap = () => {
-  const container = document.getElementById("map");
+  const container = document.getElementById("kakaoMap");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
     level: 3,
@@ -202,11 +203,11 @@ const deleteOverlays = () => {
 </script>
 
 <template>
-  <div id="map"></div>
+  <div id="kakaoMap"></div>
 </template>
 
 <style>
-#map {
+#kakaoMap {
   width: 80%;
   height: 550px;
   margin-left: 80px;

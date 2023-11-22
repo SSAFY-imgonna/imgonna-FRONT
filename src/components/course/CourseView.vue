@@ -23,7 +23,7 @@ const contentId = route.params.contentId;
 
 onMounted(() => {
   getCourseByContentId();
-  // getCourseDetailIntroByContentId();
+  getCourseDetailIntroByContentId();
   getCourseDetailInfoByContentId();
 });
 

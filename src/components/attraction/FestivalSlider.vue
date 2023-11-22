@@ -43,7 +43,7 @@ const getFestivals = () => {
       // console.log(festivalList.value);
     },
     (error) => {
-      if (error.data.response.body) {
+      if (error.data) {
         let items = error.data.response.body.items.item;
 
         for (var i = 0; i < items.length; i += 4) {

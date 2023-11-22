@@ -16,9 +16,7 @@ export const usePlanStore = defineStore(
     };
 
     const deletePlan = (attraction) => {
-      if (plansCnt.value != 1) {
-        plans.value = plans.value.filter((plan) => plan.contentId != attraction.contentId);
-      }
+      plans.value = plans.value.filter((plan) => plan.contentId != attraction.contentId);
     };
 
     const updatePlans = (newPlans) => {
