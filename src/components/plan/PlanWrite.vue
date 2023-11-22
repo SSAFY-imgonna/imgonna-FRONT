@@ -6,11 +6,13 @@ import PlanItem from "../plan/PlanItem.vue";
 import VSelect from "@/components/common/Vselect.vue";
 import { createPlan } from "@/api/plan";
 import Swal from "sweetalert2";
+import { useRoute, useRouter } from "vue-router";
+
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const selectAttraction = ref({});
 const attractions = ref([]);
-
+const router = useRouter();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
@@ -20,6 +22,7 @@ const setAttraction = function (attraction) {
 };
 const makePlan = function (attraction) {
   attractions.value.push(attraction);
+  console.log(attractions.value);
 };
 
 const plan = ref({
@@ -84,6 +87,8 @@ function registPlan() {
           icon: "success",
           title: "여행계획 등록 완료",
         });
+        let planNo = data.planNo;
+        router.replace({ name: "plan-view", params: { planNo } });
       },
       (error) => {
         Swal.fire({
@@ -142,7 +147,9 @@ const onSelectTheme = (val) => {
               <div class="col-lg-6 my-4">
                 <KakaoMapItem :attraction="selectAttraction" />
               </div>
-              <div class="col-lg-3"><PlanItem :attractions="attractions" /></div>
+              <div class="col-lg-3">
+                <PlanItem :attractions="attractions" />
+              </div>
             </div>
             <div class="row mt-4">
               <div class="col-lg-9">

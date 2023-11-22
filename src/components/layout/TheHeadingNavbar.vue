@@ -51,6 +51,7 @@ const doLogout = async () => {
       <router-link
         :to="{ name: 'main' }"
         class="logo d-flex align-items-center me-auto me-lg-0 text-decoration-none"
+        replace
       >
         <img src="/img/imgonna_logo.gif" style="width: 40px" class="img-fluid me-2" />
         <!-- <font-awesome-icon icon="fa-solid fa-plane-departure" class="me-2" /> -->
@@ -66,7 +67,9 @@ const doLogout = async () => {
             >
           </li>
           <li>
-            <router-link class="text-decoration-none" :to="{ name: 'area' }">여행정보</router-link>
+            <router-link class="text-decoration-none" :to="{ name: 'course' }"
+              >여행코스</router-link
+            >
           </li>
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'accompany' }"

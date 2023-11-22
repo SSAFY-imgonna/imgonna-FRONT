@@ -1,5 +1,32 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import { getPlanByPlanNo } from "@/api/plan";
+import { useRoute, useRouter } from "vue-router";
+
 import TimelineItem from "@/components/plan/item/TimelineItem.vue";
+import PlanMapView from "./PlanMapView.vue";
+
+const route = useRoute();
+const plan = ref({});
+const themeList = ["", "우정 여행", "가족 여행", "데이트"];
+const { planNo } = route.params;
+const mapName = ref("");
+const themeName = ref("");
+
+onMounted(() => {
+  getPlanByPlanNo(
+    planNo,
+    ({ data }) => {
+      mapName.value = "planDetails" + data.planNo;
+      themeName.value = themeList[data.themeNo];
+      plan.value = data;
+      console.log(plan.value.courses);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+});
 </script>
 
 <template>
@@ -9,7 +36,7 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
         <div class="col-lg-4 offset-lg-4">
           <div class="section-heading text-center">
             <h6>| TRAVEL PLAN</h6>
-            <h2>내맘대로 여행코스</h2>
+            <h2>{{ plan.name }}</h2>
           </div>
         </div>
       </div>
@@ -22,14 +49,7 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
         <div class="col-lg-6">
           <div id="map">
             <!-- 여기에 지도 넣으면 됨 -->
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth"
-              width="100%"
-              height="500px"
-              frameborder="0"
-              style="border: 0; border-radius: 10px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15)"
-              allowfullscreen=""
-            ></iframe>
+            <PlanMapView :plan="plan" />
           </div>
         </div>
         <div class="col-lg-6">
@@ -38,48 +58,43 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
               <div class="col-lg-6">
                 <fieldset>
                   <label for="id">등록자</label>
-                  <input type="name" name="id" id="id" value="서지현" disabled />
+                  <input type="name" name="id" id="id" v-model="plan.id" disabled />
                 </fieldset>
               </div>
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="time">등록일</label>
-                  <input type="name" name="time" id="time" value="2023-11-18 21:30:00" disabled />
+                  <label for="time">테마</label>
+                  <input type="name" name="time" id="time" :value="themeName" disabled />
                 </fieldset>
               </div>
-              <div class="col-lg-12">
+              <div class="col-lg-6">
                 <fieldset>
-                  <label for="name">계획이름</label>
+                  <label for="departure">출발일</label>
                   <input
-                    type="name"
-                    name="name"
-                    id="name"
-                    value="하늬와 함께하는 여름방학 계획"
+                    type="text"
+                    name="departure"
+                    id="departure"
+                    v-model="plan.startTime"
                     disabled
                   />
                 </fieldset>
               </div>
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="departure">출발일</label>
-                  <input type="text" name="departure" id="departure" value="2023-11-24" disabled />
-                </fieldset>
-              </div>
-              <div class="col-lg-6">
-                <fieldset>
                   <label for="arrive">도착일</label>
-                  <input type="text" name="arrive" id="arrive" value="2023-12-25" disabled />
+                  <input
+                    type="text"
+                    name="arrive"
+                    id="arrive"
+                    v-model="plan.departureTime"
+                    disabled
+                  />
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
                   <label for="memo">계획 상세</label>
-                  <textarea
-                    name="memo"
-                    id="memo"
-                    value="이번 여름방학은 하늬랑 알차게 보내야지~~"
-                    disabled
-                  ></textarea>
+                  <textarea name="memo" id="memo" v-model="plan.memo" disabled></textarea>
                 </fieldset>
               </div>
               <div class="col-lg-12 button-list">
@@ -96,7 +111,11 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
   </div>
 
   <!-- 여기서부터 타임라인 -->
-  <TimelineItem></TimelineItem>
+  <TimelineItem
+    :courses="plan.courses"
+    :startTime="plan.startTime"
+    :departureTime="plan.departureTime"
+  ></TimelineItem>
 </template>
 
 <style scoped>

@@ -1,8 +1,17 @@
 <script setup>
 import { ref, watch } from "vue";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 const props = defineProps({
-  departureTime: String,
-  startTime: String,
   courses: Array,
 });
 
@@ -12,25 +21,48 @@ watch(
   () => {
     courses.value = props.courses;
   },
-  { immediate: true }
+  { deep: true }
 );
 ref;
 </script>
 
 <template>
-  <div class="timeline" v-for="(course, index) in courses" :key="course.order">
-    <div v-if="course.order % 2 == 1" class="container left">
+  <div class="swipers-wrap">
+    <swiper
+      :modules="[Navigation, Pagination, Scrollbar]"
+      :slides-per-view="3"
+      :space-between="20"
+      navigation
+      :pagination="{ clickable: true }"
+    >
+      <swiper-slide v-for="(course, index) in courses" :key="course.subname">
+        <div class="card" style="width: 18rem">
+          <img v-if="course.subdetailimg" :src="course.subdetailimg" class="img-fluid" alt="..." />
+          <img v-else src="/no_image.png" class="img-fluid" alt="..." />
+          <div class="card-body">
+            <h2>{{ course.subname }}</h2>
+            <p class="card-text">
+              {{ course.subdetailoverview }}
+            </p>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper>
+  </div>
+
+  <!-- <div class="timeline" v-for="(course, index) in courses" :key="course.subname">
+    <div v-if="index % 2 == 1" class="container left">
       <div v-if="course.order == 1" class="date">{{ props.startTime }}</div>
       <i class="icon bi bi-airplane-fill"></i>
       <div class="content left">
         <div class="col-lg-4">
-          <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
+          <img v-if="course.subdetailimg" :src="course.subdetailimg" class="img-fluid" alt="..." />
           <img v-else src="/no_image.png" class="img-fluid" alt="..." />
         </div>
         <div class="col-lg-12">
-          <h2>{{ course.title }}</h2>
+          <h2>{{ course.subname }}</h2>
           <p class="card-text">
-            {{ course.addr1 }} <span v-if="course.zipcode"> ({{ course.zipcode }})</span>
+            {{ course.subdetailoverview }}
           </p>
         </div>
       </div>
@@ -40,19 +72,25 @@ ref;
       <i class="icon bi bi-backpack2-fill"></i>
       <div class="content right">
         <div class="col-lg-4">
-          <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
+          <img v-if="course.subdetailimg" :src="course.subdetailimg" class="img-fluid" alt="..." />
           <img v-else src="/no_image.png" class="img-fluid" alt="..." />
         </div>
-        <h2>{{ course.title }}</h2>
-        <p class="card-text">
-          {{ course.addr1 }} <span v-if="course.zipcode"> ({{ course.zipcode }})</span>
-        </p>
+        <div class="col-lg-12">
+          <h2>{{ course.subname }}</h2>
+          <p class="card-text">
+            {{ course.subdetailoverview }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
+.swipers-wrap {
+  width: 80%;
+  display: inline-block;
+}
 img {
   width: 100%;
   height: 150px;

@@ -1,15 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-// import { getDiaryList } from "@/api/diary";
+
+import { getPlanList } from "@/api/plan";
+import PlanListMapView from "./PlanListMapView.vue";
 
 // import VSelect from "@/components/common/VSelect.vue";
 import PageNavigation from "@/components/common/PageNavigation.vue";
-// import DiaryListItem from "./item/DiaryListItem.vue";
 
-const router = useRouter();
-
-const diarys = ref([]);
+const plans = ref([]);
 
 const currentPage = ref(1);
 const totalPage = ref(0);
@@ -21,33 +19,30 @@ const param = ref({
   word: "",
 });
 
-// onMounted(() => {
-//   DiaryList();
-// });
+onMounted(() => {
+  planList();
+});
 
-// const DiaryList = () => {
-//   console.log("서버에서 글목록 얻어오자!!!", param.value);
-//   // API 호출
-//   getDiaryList(
-//     param.value,
-//     ({ data }) => {
-//       console.log(data);
-//       diarys.value = data.diaryList;
-//       currentPage.value = data.currentPage;
-//       totalPage.value = data.totalPageCount;
-//       console.log(diarys.value);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// };
+const planList = () => {
+  getPlanList(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      plans.value = data.planList;
+      currentPage.value = data.currentPage;
+      totalPage.value = data.totalPageCount;
+      console.log(plans.value);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
 
 const onPageChange = (val) => {
-  console.log(val + "번 페이지로 이동 준비 끝!!!");
   currentPage.value = val;
   param.value.pgno = val;
-  DiaryList();
+  planList();
 };
 </script>
 
@@ -74,9 +69,42 @@ const onPageChange = (val) => {
         </li>
       </ul>
 
-      <!-- <div class="row">
-        <DiaryListItem v-for="diary in diarys" :key="diary.diaryNo" :diary="diary"> </DiaryListItem>
-      </div> -->
+      <section id="chefs" class="chefs">
+        <div class="container" data-aos="fade-up">
+          <div class="row gy-4">
+            <div
+              class="col-lg-4 col-md-6 d-flex align-items-stretch"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              v-for="plan in plans"
+              :key="plan.planNo"
+            >
+              <router-link :to="{ name: 'plan-view', params: { planNo: plan.planNo } }">
+                <div class="chef-member">
+                  <div class="member-img">
+                    <PlanListMapView :plan="plan" />
+                    <!-- <div class="social">
+                    <a href=""><i class="bi bi-twitter"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div> -->
+                  </div>
+                  <div class="member-info">
+                    <h4>{{ plan.name }}</h4>
+                    <span>{{ plan.startTime }} - {{ plan.departureTime }}</span>
+                    <!-- <p>
+                    Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut.
+                    Ipsum exercitationem iure minima enim corporis et voluptate.
+                  </p> -->
+                  </div>
+                </div>
+              </router-link>
+            </div>
+            <!-- End Chefs Member -->
+          </div>
+        </div>
+      </section>
     </div>
     <PageNavigation
       :current-page="currentPage"
@@ -97,6 +125,96 @@ const onPageChange = (val) => {
 </template>
 
 <style scoped>
+.chefs .chef-member {
+  overflow: hidden;
+  text-align: center;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 0 30px rgba(55, 55, 63, 0.08);
+  transition: 0.3s;
+  width: 300px;
+}
+
+.chefs .chef-member .member-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.chefs .chef-member .member-img:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  z-index: 1;
+}
+
+.chefs .chef-member .social {
+  position: absolute;
+  right: -100%;
+  top: 30px;
+  opacity: 0;
+  border-radius: 4px;
+  transition: 0.5s;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 2;
+}
+
+.chefs .chef-member .social a {
+  transition: color 0.3s;
+  color: rgba(55, 55, 63, 0.4);
+  margin: 15px 12px;
+  display: block;
+  line-height: 0;
+  text-align: center;
+}
+
+.chefs .chef-member .social a:hover {
+  color: rgba(55, 55, 63, 0.9);
+}
+
+.chefs .chef-member .social i {
+  font-size: 18px;
+}
+
+.chefs .chef-member .member-info {
+  padding: 10px 15px 20px 15px;
+}
+
+.chefs .chef-member .member-info h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: var(--color-secondary);
+}
+
+.chefs .chef-member .member-info span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(33, 37, 41, 0.4);
+}
+
+.chefs .chef-member .member-info p {
+  font-style: italic;
+  font-size: 14px;
+  padding-top: 15px;
+  line-height: 26px;
+  color: rgba(33, 37, 41, 0.7);
+}
+
+.chefs .chef-member:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 0 30px rgba(55, 55, 63, 0.15);
+}
+
+.chefs .chef-member:hover .social {
+  right: 8px;
+  opacity: 1;
+}
+
 .section-heading h3 {
   /* font-size: 30px; */
   font-weight: 700;
