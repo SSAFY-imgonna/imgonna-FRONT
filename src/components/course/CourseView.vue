@@ -8,6 +8,7 @@ import {
 } from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
 import CourseTimelineItem from "./CourseTimelineItem.vue";
+import CourseMapItem from "./CourseMapItem.vue";
 import { storeToRefs } from "pinia";
 import { usePlanStore } from "@/stores/plan";
 import Swal from "sweetalert2";
@@ -93,6 +94,12 @@ const getCourseDetailInfoByContentId = () => {
           attractionList.push(attraction);
         }
         courseDetail.value.attractions = attractionList;
+
+        attractionList = [];
+        for (var i = 0; i < courseDetail.value.attractions.length; i++) {
+          attractionList.push(courseDetail.value.attractions[i].subcontentid);
+        }
+        getCourseDetailList(attractionList);
       }
     },
     (error) => {
@@ -116,7 +123,6 @@ const getCourseDetailList = (attractions) => {
     ({ data }) => {
       if (data) {
         courseDetailList.value = data;
-        updatePlans(courseDetailList.value);
       }
     },
     (error) => {}
@@ -147,11 +153,8 @@ const { updatePlans, deletePlans } = planStore;
 
 const setCourses = () => {
   deletePlans();
-  let attractionList = [];
-  for (var i = 0; i < courseDetail.value.attractions.length; i++) {
-    attractionList.push(courseDetail.value.attractions[i].subcontentid);
-  }
-  getCourseDetailList(attractionList);
+
+  updatePlans(courseDetailList.value);
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -244,6 +247,7 @@ const setCourses = () => {
           </div>
         </div>
       </div>
+      <CourseMapItem :attractions="courseDetailList" class="mt-2 mb-5" />
       <CourseTimelineItem :courses="courseDetail.attractions" />
     </div>
     <!-- End testimonial item -->
