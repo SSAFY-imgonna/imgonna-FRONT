@@ -36,7 +36,7 @@ ref;
       :pagination="{ clickable: true }"
       :scrollbar="{ clickable: true }"
     >
-      <swiper-slide v-for="(course, index) in courses" :key="course.title">
+      <swiper-slide v-for="(course, index) in courses" :key="course.title" style="height: 100%">
         <div class="card" style="width: 18rem">
           <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
           <img v-else src="/no_image.png" class="img-fluid" alt="..." />
@@ -106,20 +106,16 @@ img {
 }
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-secondary);
   background: #ffffff;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-}
+  font-family: var(--font-secondary);
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
+  box-sizing: border-box;
 }
 
 .timeline {

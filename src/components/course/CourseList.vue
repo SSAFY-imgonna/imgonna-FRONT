@@ -3,6 +3,7 @@ import { ref, onMounted, watch, nextTick } from "vue";
 import { getAttractionList, getSidoList, getGugunList } from "@/api/attraction";
 import { getCourseList, getCourse } from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
+import PageNavigation from "@/components/common/PageNavigation.vue";
 
 // const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
@@ -12,6 +13,9 @@ const gugunList = ref([]);
 const router = useRouter();
 
 const attractions = ref([]);
+
+const currentPage = ref(1);
+const totalPage = ref(10);
 
 const attractionParams = ref({
   sidoCode: 0,
@@ -92,7 +96,7 @@ const onChangeContents = (val) => {
 const coursesParams = ref({
   ServiceKey: VITE_OPEN_API_SERVICE_KEY,
   numOfRows: "12",
-  pageNo: 1,
+  pageNo: currentPage.value,
   MobileOS: "ETC",
   MobileApp: "AppTest",
   listYN: "Y",
@@ -106,9 +110,17 @@ const coursesParams = ref({
   _type: "json",
 });
 
+const onPageChange = (val) => {
+  console.log(val + "번 페이지로 이동 준비 끝!!!");
+  currentPage.value = val;
+  coursesParams.value.pageNo = val;
+  getCourses();
+};
+
 const courseList = ref([]);
 
 const getCourses = () => {
+  console.log(coursesParams.value);
   getCourseList(
     coursesParams.value,
     ({ data }) => {
@@ -200,17 +212,17 @@ const getCourseByContentId = (contentId) => {
             v-for="course in courseList"
             @click="getCourseByContentId(course.contentid)"
           >
-            <div class="chef-member">
+            <div class="chef-member m-2" style="width: 100%">
               <div class="member-img">
                 <img v-if="course.firstimage" :src="course.firstimage" alt="" class="img-fluid" />
                 <img v-else-if="course.firstimage2" :src="course.firstimage2" class="img-fluid" />
-                <img v-else src="/no_image.png" alt="" class="img-fluid" />
-                <div class="social">
+                <img v-else src="/no_image.png" alt="" class="img-fluid" width="180" />
+                <!-- <div class="social">
                   <a href=""><i class="bi bi-twitter"></i></a>
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
                   <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                </div> -->
               </div>
               <div class="member-info">
                 <h4>{{ course.title }}</h4>
@@ -227,6 +239,8 @@ const getCourseByContentId = (contentId) => {
       </div>
     </section>
   </div>
+
+  <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange" />
 </template>
 
 <style scoped>

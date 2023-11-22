@@ -12,6 +12,7 @@ const planStore = usePlanStore();
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const route = useRoute();
+const router = useRouter();
 
 const contentId = route.params.contentId;
 
@@ -113,14 +114,69 @@ const getCourseDetailIntroByContentId = () => {
   );
 };
 
-const { updatePlans } = planStore;
+const { updatePlans, deletePlans } = planStore;
 
 const setCourses = () => {
+  deletePlans();
+
   updatePlans(courseDetail.value.attractions);
-  Swal.fire({
-    icon: "success",
-    title: "코스 담기 완료",
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
   });
+  swalWithBootstrapButtons
+    .fire({
+      title: "코스 담기 완료",
+      text: "방금 담은 코스를 바로 편집할 수 있습니다!",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonText: "바로 편집하러 가기",
+      cancelButtonText: "코스 담기 취소",
+      reverseButtons: false,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        router.push({ name: "plan-write" });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        deletePlans();
+
+        swalWithBootstrapButtons.fire({
+          title: "코스 담기 취소 완료",
+          // text: "Your imaginary file is safe :)",
+          icon: "success",
+        });
+      }
+    });
+
+  // Swal.fire({
+  //   title: "",
+  //   text: "방금 담은 코스를 바로 편집할 수 있습니다!",
+  //   icon: "success",
+  //   showCancelButton: true,
+  //   confirmButtonColor: "#3085d6",
+  //   cancelButtonColor: "#d33",
+  //   confirmButtonText: "바로 편집하러 가기",
+  // }).then((result) => {
+  //   if (result.isConfirmed) {
+  //     Swal.fire({
+  //       title: "코스 담기 취소",
+  //       text: "Your file has been deleted.",
+  //       icon: "success",
+  //     });
+  //   }
+  // });
+
+  // Swal.fire({
+  //   icon: "success",
+  //   title: "코스 담기 완료",
+  // });
 };
 </script>
 

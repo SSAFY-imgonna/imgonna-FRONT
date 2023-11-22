@@ -950,6 +950,8 @@ section {
 .testimonials .testimonial-item .testimonial-content {
   border-left: 3px solid var(--color-primary);
   padding-left: 30px;
+  font-family: var(--font-secondary);
+
 }
 
 .testimonials .testimonial-item .testimonial-img {
@@ -1001,6 +1003,8 @@ section {
 
 .testimonials .testimonial-item p {
   font-style: italic;
+  font-family: var(--font-secondary);
+
 }
 
 .testimonials .swiper-pagination {

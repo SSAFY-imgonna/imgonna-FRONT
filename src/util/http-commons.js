@@ -39,8 +39,8 @@ function festivalAxios() {
       "&eventEndDate=" +
       endDate +
       "&ServiceKey=" +
-      VITE_OPEN_API_SERVICE_KEY +
-      "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=A&numOfRows=20&pageNo=1&_type=json",
+      "MGBvaCV9CcwjcVwyp7LL0%2Bz%2FvFFtP5fvNrcjdrUd13j4DPMW0CIAPSGrzUAREhDrAsC3yz2EscxtkP%2FYwPX5mQ%3D%3D" +
+      "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=R&numOfRows=20&pageNo=1&_type=json",
     // headers: {
     //   "Content-Type": "xml;charset=utf-8",
     // },

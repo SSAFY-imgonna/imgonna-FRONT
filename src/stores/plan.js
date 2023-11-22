@@ -26,12 +26,18 @@ export const usePlanStore = defineStore(
       console.log("담겼음 !!");
     };
 
+    const deletePlans = () => {
+      plans.value = [];
+      console.log("싹 지웠음 !!");
+    };
+
     return {
       plans,
       plansCnt,
       addPlan,
       deletePlan,
       updatePlans,
+      deletePlans,
     };
   },
   { persist: { storage: localStorage } }
