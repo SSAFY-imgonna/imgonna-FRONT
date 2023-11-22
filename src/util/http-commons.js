@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useMemberStore } from "@/stores/member.js";
 
 const {
   VITE_VUE_API_URL,
@@ -17,6 +18,58 @@ function localAxios() {
       "Content-Type": "application/json;charset=utf-8",
     },
   });
+
+  instance.interceptors.request.use(
+    function (config) {
+      const { accessToken } = useMemberStore();
+
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    function (error) {
+      return Promise.reject(error);
+    }
+  );
+
+  instance.interceptors.response.use(
+    function (response) {
+      console.log(response);
+      return response;
+    },
+    function (error) {
+      console.log("ERROR >>>", error.response.data);
+      const originalRequest = error.config;
+      const { refreshToken, updateAccessToken } = useAuthStore();
+      // Unauthorized : request a new accessToken
+      if (error.response.status === 401) {
+        if (refreshToken.length) {
+          return axios
+            .post("http://127.0.0.1:8000/api/accounts/token/refresh/", {
+              username: "로그인된 사용자 이름",
+              refreshToken,
+            })
+            .then((res) => {
+              console.log(res);
+              updateAccessToken(res.data?.accessToken);
+              originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;
+              return axiosInstance(originalRequest);
+            })
+            .catch((error) => {
+              alert("다시 로그인해주세요.");
+              router.push({ name: "admin-index" });
+              return Promise.reject(error);
+            });
+        } else {
+          router.push({ name: "kiosk-index" });
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
   return instance;
 }
 

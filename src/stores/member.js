@@ -11,7 +11,7 @@ export const useMemberStore = defineStore(
   "memberStore",
   () => {
     const router = useRouter();
-
+    const accessToken = ref("");
     const isLogin = ref(false);
     const isLoginError = ref(false);
     const userInfo = ref(null);
@@ -21,14 +21,15 @@ export const useMemberStore = defineStore(
       await doLogin(
         loginUser,
         (response) => {
-          let accessToken = response.data.accessToken;
+          let accessTokenData = response.data.accessToken;
           let refreshToken = response.data.refreshToken;
-          console.log("accessToken", accessToken);
+          console.log("accessToken", accessTokenData);
           console.log("refreshToken", refreshToken);
           isLogin.value = true;
           isLoginError.value = false;
           isValidToken.value = true;
-          sessionStorage.setItem("accessToken", accessToken);
+          accessToken.value = accessTokenData;
+          sessionStorage.setItem("accessToken", accessTokenData);
           sessionStorage.setItem("refreshToken", refreshToken);
         },
         (error) => {
@@ -145,6 +146,7 @@ export const useMemberStore = defineStore(
       isLoginError,
       userInfo,
       isValidToken,
+      accessToken,
       userLogin,
       getUserInfo,
       tokenRegenerate,
