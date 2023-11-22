@@ -30,9 +30,10 @@ onMounted(() => {
   console.log(list.value);
   // attractions.value = props.attractions;
 });
+const { deletePlan } = planStore;
 
-const updateAttractions = (oldIndex, newIndex) => {
-  // 순서 변경
+const deleteAttraction = (attraction) => {
+  deletePlan(attraction);
 };
 </script>
 
@@ -76,6 +77,7 @@ const updateAttractions = (oldIndex, newIndex) => {
                       <b>{{ element.title }}</b>
                     </h5>
                     <p class="card-text">{{ element.addr1 }} {{ element.addr2 }}</p>
+                    <button @click="deleteAttraction(element)">삭제</button>
                   </div>
                 </div>
               </div>
@@ -88,7 +90,7 @@ const updateAttractions = (oldIndex, newIndex) => {
 </template>
 
 <style scoped>
-.buttons {
+-- > .buttons {
   margin-top: 35px;
 }
 

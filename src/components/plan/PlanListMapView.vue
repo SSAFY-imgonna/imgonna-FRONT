@@ -41,7 +41,6 @@ onMounted(() => {
 // );
 
 function initMap() {
-  console.log(`planlist${props.plan.planNo}`);
   const container = document.getElementById(`planlist${props.plan.planNo}`);
   const options = {
     center: new kakao.maps.LatLng(35.5519, 126.9918), // 지도의 중심좌표
@@ -50,7 +49,6 @@ function initMap() {
   map = new kakao.maps.Map(container, options);
 
   let attractions = props.plan.courses;
-  console.log(attractions);
   positions.value = [];
   attractions.forEach((attraction) => {
     let obj = {};

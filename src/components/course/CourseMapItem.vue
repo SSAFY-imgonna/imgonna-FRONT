@@ -6,23 +6,7 @@ const positions = ref([]);
 const markers = ref([]);
 const overlays = ref([]);
 
-const props = defineProps({ attractions: Array, selectAttraction: Object });
-
-watch(
-  () => props.selectAttraction.value,
-  () => {
-    // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(
-      props.selectAttraction.latitude,
-      props.selectAttraction.longitude
-    );
-
-    // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-    map.panTo(moveLatLon);
-  },
-  { deep: true }
-);
+const props = defineProps({ attractions: Array });
 
 onMounted(() => {
   if (window.kakao && window.kakao.maps) {
@@ -37,13 +21,15 @@ onMounted(() => {
     document.head.appendChild(script);
   }
 });
-
+const paths = ref([]);
 watch(
   () => props.attractions.value,
   () => {
     console.log(props.attractions);
     positions.value = [];
+    paths.value = [];
     overlays.value = [];
+    let idx = 1;
     props.attractions.forEach((attraction) => {
       let obj = {};
       obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
@@ -52,20 +38,36 @@ watch(
       obj.firstImage = attraction.firstImage;
       obj.addr1 = attraction.addr1;
       obj.contentTypeId = attraction.contentTypeId;
+      obj.markerImg = `/coursemarker/numbers${idx}.png`;
       positions.value.push(obj);
+      paths.value.push(obj.latlng);
+      idx++;
     });
     loadMarkers();
+    drawLine();
   },
   { deep: true }
 );
 
 const initMap = () => {
-  const container = document.getElementById("kakaoMap");
+  const container = document.getElementById("courseMap");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
-    level: 3,
+    level: 1,
   };
   map = new kakao.maps.Map(container, options);
+};
+
+const drawLine = () => {
+  var polyline = new kakao.maps.Polyline({
+    map: map,
+    path: paths.value,
+    strokeColor: "#74b359",
+    strokeOpacity: 0.8,
+    strokeStyle: "solid",
+    endArrow: true,
+  });
+  polyline.setMap(map);
 };
 
 const loadMarkers = () => {
@@ -85,23 +87,8 @@ const loadMarkers = () => {
 
   positions.value.forEach((position) => {
     var imageSrc;
-    var imageSize = new kakao.maps.Size(35, 35);
-    if (position.contentTypeId == 12) {
-      imageSrc = "/img/marker_attraction.png";
-    } else if (position.contentTypeId == 14) {
-      imageSrc = "/img/marker_culture.png";
-    } else if (position.contentTypeId == 28) {
-      imageSrc = "/img/marker_sports.png";
-    } else if (position.contentTypeId == 32) {
-      imageSrc = "/img/marker_house.png";
-    } else if (position.contentTypeId == 38) {
-      imageSrc = "/img/marker_shopping.png";
-    } else if (position.contentTypeId == 39) {
-      imageSrc = "/img/marker_restaurant.png";
-    } else {
-      imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-    }
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    var imageSize = new kakao.maps.Size(27, 27);
+    var markerImage = new kakao.maps.MarkerImage(position.markerImg, imageSize);
 
     const marker = new kakao.maps.Marker({
       map: map, // 마커를 표시할 지도
@@ -111,43 +98,12 @@ const loadMarkers = () => {
       image: markerImage, // 마커의 이미지
     });
     markers.value.push(marker);
-    // loadOverlay(marker, position);
 
-    // 오버레이
-    // 커스텀 오버레이에 표시할 컨텐츠 입니다
-    // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-    // 별도의 이벤트 메소드를 제공하지 않습니다
-    // console.log(position);
-    let title = position.title;
-    let image = "/img/no_image.png";
-    if (position.firstImage) {
-      image = position.firstImage;
-    }
-    let addr = position.addr1;
-    let zipcode = position.zipcode;
     var content =
-      '<div class="wrap">' +
-      '    <div class="info">' +
-      '        <div class="title">' +
-      "            " +
-      title +
-      "        </div>" +
-      '        <div class="body">' +
-      '            <div class="img">' +
-      '                <img src="' +
-      image +
-      '" width="73" height="70">' +
-      "           </div>" +
-      '            <div class="desc">' +
-      '                <div class="ellipsis">' +
-      addr +
-      "</div>" +
-      '                <div class="jibun ellipsis">(우) ' +
-      zipcode +
-      "</div>" +
-      "            </div>" +
-      "        </div>" +
-      "    </div>" +
+      '<div class="customoverlay">' +
+      "  <a >" +
+      `    <span class="title">${position.title}</span>` +
+      "  </a>" +
       "</div>";
 
     // 마커에 표시할 인포윈도우를 생성합니다
@@ -155,14 +111,15 @@ const loadMarkers = () => {
       content: content, // 인포윈도우에 표시할 내용
       map: map, // 마커를 표시할 지도
       position: marker.getPosition(),
+      yAnchor: 1,
     });
 
-    overlay.setMap(null);
+    // overlay.setMap(null);
 
-    overlays.value.push(overlay);
+    // overlays.value.push(overlay);
 
-    kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, overlay));
-    kakao.maps.event.addListener(marker, "mouseout", makeOutListener(overlay));
+    // kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, overlay));
+    // kakao.maps.event.addListener(marker, "mouseout", makeOutListener(overlay));
 
     // 커스텀오버레이를 표시하는 함수입니다
     function makeOverListener(map, marker, overlay) {
@@ -181,6 +138,10 @@ const loadMarkers = () => {
 
   // 4. 지도를 이동시켜주기
   // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
+  // const bounds = positions.value.reduce(
+  //   (bounds, position) => bounds.extend(position.latlng),
+  //   new kakao.maps.LatLngBounds()
+  // );
   const bounds = positions.value.reduce(
     (bounds, position) => bounds.extend(position.latlng),
     new kakao.maps.LatLngBounds()
@@ -203,14 +164,58 @@ const deleteOverlays = () => {
 </script>
 
 <template>
-  <div id="kakaoMap"></div>
+  <div id="courseMap"></div>
 </template>
 
 <style>
-#kakaoMap {
-  width: 80%;
-  height: 550px;
-  margin-left: 80px;
+.customoverlay {
+  position: relative;
+  bottom: 45px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  float: left;
+}
+.customoverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.customoverlay a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  background: #74b359;
+  background: #74b359 no-repeat right 14px center;
+}
+.customoverlay .title {
+  display: block;
+  text-align: center;
+  background: #fff;
+  margin-right: 25px;
+  padding: 5px 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.customoverlay:after {
+  content: "";
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: -12px;
+  width: 22px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+}
+
+#courseMap {
+  width: 60%;
+  height: 350px;
+  display: inline-block;
 }
 .wrap {
   position: absolute;

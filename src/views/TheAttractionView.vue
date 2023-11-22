@@ -111,6 +111,7 @@ const onChangeContents = (val) => {
   getAttractionList(
     attractionParams.value,
     ({ data }) => {
+      console.log(attractions.value);
       attractions.value = data;
     },
     (err) => {

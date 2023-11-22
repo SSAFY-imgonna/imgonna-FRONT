@@ -10,7 +10,7 @@ import {
 const local = localAxios();
 
 function getAttractionList(param, success, fail) {
-  local.get("/attractions").then(success).catch(fail);
+  local.get("/attractions", { params: param }).then(success).catch(fail);
 }
 
 function getSidoList(success, fail) {
