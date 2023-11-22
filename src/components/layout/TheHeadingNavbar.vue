@@ -95,7 +95,7 @@ const doLogout = async () => {
       </nav>
       <!-- .navbar -->
 
-      <notifyItem style="margin-left: 100px" :notifyAgain="notifyAgain"></notifyItem>
+      <notifyItem v-if="isLogin" style="margin-left: 100px" :notifyAgain="notifyAgain"></notifyItem>
       <div class="text-end align-item-center">
         <div v-if="isLogin" class="dropdown">
           <a
