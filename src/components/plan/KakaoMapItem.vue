@@ -11,6 +11,8 @@ const props = defineProps({ attraction: Object });
 watch(
   () => props.attraction.value,
   () => {
+    console.log(props.attraction);
+
     let attr = props.attraction;
     let lat = attr.latitude;
     let long = attr.longtitude;
@@ -32,6 +34,8 @@ watch(
 );
 
 onMounted(() => {
+  console.log(props.attraction);
+
   if (window.kakao && window.kakao.maps) {
     initMap();
   } else {
@@ -149,7 +153,7 @@ const deleteOverlays = () => {
 </template>
 
 <style>
-#map2 {
+#detailsMap {
   height: 800px;
 }
 .wrap {

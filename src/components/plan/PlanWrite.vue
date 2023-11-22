@@ -12,7 +12,6 @@ import { useMemberStore } from "@/stores/member";
 import { usePlanStore } from "@/stores/plan";
 
 const selectAttraction = ref({});
-const attractions = ref([]);
 const router = useRouter();
 const memberStore = useMemberStore();
 const planStore = usePlanStore();
@@ -24,10 +23,11 @@ const setAttraction = function (attraction) {
 };
 
 const { addPlan } = planStore;
+const { plans } = storeToRefs(planStore);
+const attractions = ref(plans);
 
 const makePlan = function (attraction) {
   addPlan(attraction);
-  console.log(attractions.value);
 };
 
 const plan = ref({

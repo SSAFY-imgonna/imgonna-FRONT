@@ -16,6 +16,10 @@ const contentsList = ref([
     value: "",
   },
   {
+    text: "전체",
+    value: "0",
+  },
+  {
     text: "관광지",
     value: "12",
   },
