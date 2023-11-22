@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getDiaryByDiaryNo, deleteDiary } from "@/api/diary";
 import DiaryKakaoMap from "./item/DiaryKakaoMap.vue";
+import Swal from "sweetalert2";
 
 const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 const route = useRoute();
@@ -40,19 +41,33 @@ function moveModify() {
 }
 
 function onDeleteDiary() {
-  console.log(diaryNo + "번글 삭제하러 가자!!!");
   // API 호출
-  deleteDiary(
-    diaryNo,
-    ({ data }) => {
-      console.log(data);
-      alert("글 삭제가 완료되었습니다.");
-      router.push({ name: "diary-list" });
-    },
-    (error) => {
-      console.log(error);
+  Swal.fire({
+    title: "정말 삭제하시겠습니까?",
+    text: "삭제하시면 되돌릴 수 없습니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 삭제하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteDiary(
+        diaryNo,
+        ({ data }) => {
+          Swal.fire({
+            title: "여행 일기 삭제 완료",
+            icon: "success",
+          });
+          router.push({ name: "diary-list" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
-  );
+  });
 }
 </script>
 

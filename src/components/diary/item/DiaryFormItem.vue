@@ -124,11 +124,19 @@ function writeDiary() {
     formData,
     ({ data }) => {
       console.log(data);
-      alert("글 작성이 완료되었습니다.");
+      Swal.fire({
+        icon: "success",
+        title: "여행 일기 작성 완료",
+      });
       router.push({ name: "diary-list" });
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "여행 일기 작성 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
@@ -175,11 +183,19 @@ function updateDiary() {
     diaryNo,
     formData,
     ({ data }) => {
-      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "여행 일기 수정 완료",
+      });
       router.push({ name: "diary-view", params: diaryNo });
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "여행 일기 수정 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }

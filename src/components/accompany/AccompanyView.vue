@@ -108,17 +108,16 @@ function onDeleteAccompany() {
         accompanyNo.value,
         ({ data }) => {
           console.log(data);
-          alert("글 삭제가 완료되었습니다.");
+          Swal.fire({
+            title: "동행 글 삭제 완료",
+            icon: "success",
+          });
           router.push({ name: "accompany-list" });
         },
         (error) => {
           console.log(error);
         }
       );
-      Swal.fire({
-        title: "동행 글 삭제 완료",
-        icon: "success",
-      });
     }
   });
 }

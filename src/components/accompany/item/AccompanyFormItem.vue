@@ -151,33 +151,18 @@ function writeAccompany() {
     formData,
     ({ data }) => {
       console.log(data);
-      if (props.type == "regist") {
-        Swal.fire({
-          icon: "success",
-          title: "동행 글 작성 완료",
-        });
-      } else if (props.type == "modify") {
-        Swal.fire({
-          icon: "success",
-          title: "동행 글 수정 완료",
-        });
-      }
+      Swal.fire({
+        icon: "success",
+        title: "동행 글 작성 완료",
+      });
       router.push({ name: "accompany-list" });
     },
     (error) => {
-      if (props.type == "regist") {
-        Swal.fire({
-          icon: "error",
-          title: "동행 글 작성 실패",
-          text: "다시 시도해주세요!",
-        });
-      } else if (props.type == "modify") {
-        Swal.fire({
-          icon: "error",
-          title: "동행 글 작성 실패",
-          text: "다시 시도해주세요!",
-        });
-      }
+      Swal.fire({
+        icon: "error",
+        title: "동행 글 작성 실패",
+        text: "다시 시도해주세요!",
+      });
       console.log(error);
     }
   );
