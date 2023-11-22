@@ -1,5 +1,4 @@
 <script setup>
-import CourseSlider from "../components/attraction/CourseSlider.vue";
 import FestivalSlider from "../components/attraction/FestivalSlider.vue";
 import RankingView from "../components/attraction/RankingView.vue";
 import ProfileCard from "../components/members/ProfileCard.vue";

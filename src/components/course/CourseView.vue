@@ -3,11 +3,16 @@ import { ref, onMounted, watch, nextTick } from "vue";
 import { getCourse, getCourseDetailIntro, getCourseDetailInfo } from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
 import CourseTimelineItem from "./CourseTimelineItem.vue";
+import { storeToRefs } from "pinia";
+import { usePlanStore } from "@/stores/plan";
+import Swal from "sweetalert2";
+const planStore = usePlanStore();
 
 // const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const route = useRoute();
+const router = useRouter();
 
 const contentId = route.params.contentId;
 
@@ -50,13 +55,17 @@ const getCourseByContentId = () => {
   getCourse(
     courseParams.value,
     ({ data }) => {
-      course.value = data.response.body.items.item[0];
-      console.log(course.value);
+      if (data) {
+        course.value = data.response.body.items.item[0];
+        console.log(course.value);
+      }
     },
     (error) => {
-      console.log(error);
-      course.value = error.data.response.body.items.item[0];
-      console.log(course.value);
+      if (error.data) {
+        console.log(error);
+        course.value = error.data.response.body.items.item[0];
+        console.log(course.value);
+      }
     }
   );
 };
@@ -66,14 +75,30 @@ const getCourseDetailInfoByContentId = () => {
   getCourseDetailInfo(
     detailsParams.value,
     ({ data }) => {
-      let attractions = data.response.body.items.item;
-      courseDetail.value.attractions = attractions;
-      console.log(courseDetail.value);
+      if (data) {
+        let attractions = data.response.body.items.item;
+        let attractionList = [];
+        for (var i = 0; i < attractions.length; i++) {
+          let attraction = {};
+          attraction.firstImage = attractions[i].subdetailimg;
+          attraction.firstImage2 = "";
+          attraction.title = attractions[i].subname;
+          attraction.addr1 = "";
+          attraction.addr2 = "";
+          attraction.contentId = attractions[i].contentid;
+          attraction.subdetailoverview = attractions[i].subdetailoverview;
+          attractionList.push(attraction);
+        }
+        courseDetail.value.attractions = attractionList;
+        console.log(courseDetail.value);
+      }
     },
     (error) => {
-      let attractions = error.data.response.body.items.item;
-      courseDetail.value.attractions = attractions;
-      console.log(courseDetail.value);
+      if (error.data) {
+        let attractions = error.data.response.body.items.item;
+        courseDetail.value.attractions = attractions;
+        console.log(courseDetail.value);
+      }
     }
   );
 };
@@ -83,18 +108,86 @@ const getCourseDetailIntroByContentId = () => {
   getCourseDetailIntro(
     detailsParams.value,
     ({ data }) => {
-      let intro = data.response.body.items.item[0];
-      courseDetail.value.distance = intro.distance;
-      courseDetail.value.taketime = intro.taketime;
-
-      console.log(courseDetail.value);
+      if (data) {
+        let intro = data.response.body.items.item[0];
+        courseDetail.value.distance = intro.distance;
+        courseDetail.value.taketime = intro.taketime;
+        console.log(courseDetail.value);
+      }
     },
     (error) => {
-      let intro = error.data.response.body.items.item[0];
-      courseDetail.value.distance = intro.distance;
-      courseDetail.value.taketime = intro.taketime;
+      if (error.data) {
+        let intro = error.data.response.body.items.item[0];
+        courseDetail.value.distance = intro.distance;
+        courseDetail.value.taketime = intro.taketime;
+      }
     }
   );
+};
+
+const { updatePlans, deletePlans } = planStore;
+
+const setCourses = () => {
+  deletePlans();
+
+  updatePlans(courseDetail.value.attractions);
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "코스 담기 완료",
+      text: "방금 담은 코스를 바로 편집할 수 있습니다!",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonText: "바로 편집하러 가기",
+      cancelButtonText: "코스 담기 취소",
+      reverseButtons: false,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        router.push({ name: "plan-write" });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        deletePlans();
+
+        swalWithBootstrapButtons.fire({
+          title: "코스 담기 취소 완료",
+          // text: "Your imaginary file is safe :)",
+          icon: "success",
+        });
+      }
+    });
+
+  // Swal.fire({
+  //   title: "",
+  //   text: "방금 담은 코스를 바로 편집할 수 있습니다!",
+  //   icon: "success",
+  //   showCancelButton: true,
+  //   confirmButtonColor: "#3085d6",
+  //   cancelButtonColor: "#d33",
+  //   confirmButtonText: "바로 편집하러 가기",
+  // }).then((result) => {
+  //   if (result.isConfirmed) {
+  //     Swal.fire({
+  //       title: "코스 담기 취소",
+  //       text: "Your file has been deleted.",
+  //       icon: "success",
+  //     });
+  //   }
+  // });
+
+  // Swal.fire({
+  //   icon: "success",
+  //   title: "코스 담기 완료",
+  // });
 };
 </script>
 
@@ -124,6 +217,7 @@ const getCourseDetailIntroByContentId = () => {
                 ><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
                 ><i class="bi bi-star-fill"></i>
               </div>
+              <button class="btn btn-secondary mt-4" @click="setCourses">코스 담기</button>
             </div>
           </div>
         </div>
