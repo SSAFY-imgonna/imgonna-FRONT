@@ -151,17 +151,39 @@ function writeAccompany() {
     formData,
     ({ data }) => {
       console.log(data);
-      alert("글 작성이 완료되었습니다.");
+      if (props.type == "regist") {
+        Swal.fire({
+          icon: "success",
+          title: "동행 글 작성 완료",
+        });
+      } else if (props.type == "modify") {
+        Swal.fire({
+          icon: "success",
+          title: "동행 글 수정 완료",
+        });
+      }
       router.push({ name: "accompany-list" });
     },
     (error) => {
+      if (props.type == "regist") {
+        Swal.fire({
+          icon: "error",
+          title: "동행 글 작성 실패",
+          text: "다시 시도해주세요!",
+        });
+      } else if (props.type == "modify") {
+        Swal.fire({
+          icon: "error",
+          title: "동행 글 작성 실패",
+          text: "다시 시도해주세요!",
+        });
+      }
       console.log(error);
     }
   );
 }
 
 function updateAccompany() {
-  console.log(accompany.value.accompanyNo + "번글 수정하자!!", accompany.value);
   const formData = new FormData();
 
   formData.append("title", accompany.value.title);
@@ -174,34 +196,39 @@ function updateAccompany() {
   formData.append("themeNo", accompany.value.themeNo);
 
   const upfileInput = document.getElementById("upfile"); // 새 파일
-  console.log(upfileInput.files[0]);
 
   if (accompany.value.fileInfos.length > 0) {
     const originFile = accompany.value.fileInfos[0].originalFile; // 기존 파일
-    console.log(originFile);
 
     // 기존 파일이 존해하면, formData에 추가함
     if (originFile != null && originFile.length > 0) {
       formData.append("originFile", originFile);
-      console.log("originFile 추가됨");
     }
   }
   // 업로드할 파일이 존재하면, formData에 추가함
   if (upfile.value.files.length > 0) {
     formData.append("upfile", upfile.value.files[0]);
   }
-  console.log(accompany);
+
   let { accompanyNo } = route.params;
   // API 호출
   modifyAccompany(
     accompanyNo,
     formData,
     ({ data }) => {
-      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "동행 글 수정 완료",
+      });
       router.push({ name: "accompany-view", params: { accompanyNo: accompanyNo } });
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "동핼 글 수정 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
@@ -213,15 +240,37 @@ function deleteDiv() {
 }
 
 function moveList() {
-  if (confirm("작성중인 글이 사라지는데 정말로 이동하시겠습니까?")) {
-    router.push({ name: "accompany-list" });
-  }
+  Swal.fire({
+    title: "정말 이동하시겠습니까?",
+    text: "작성중인 글이 사라집니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 이동하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push({ name: "accompany-list" });
+    }
+  });
 }
 
 function moveView() {
-  if (confirm("수정중인 글이 사라지는데 정말로 이동하시겠습니까?")) {
-    router.push({ name: "accompany-view" });
-  }
+  Swal.fire({
+    title: "정말 이동하시겠습니까?",
+    text: "수정중인 글이 사라집니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 이동하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push({ name: "accompany-view" });
+    }
+  });
 }
 </script>
 
