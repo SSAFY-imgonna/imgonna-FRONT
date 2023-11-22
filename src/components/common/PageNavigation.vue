@@ -84,25 +84,29 @@ li a {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  background-color: #1e1e1e !important;
+  background-color: #1e1e1e;
   color: #fff !important;
   font-size: 15px;
   font-weight: 600;
   border-radius: 50%;
   transition: all 0.3s;
 }
-.properties ul.pagination li {
+ul.pagination li {
   display: inline-block;
   margin: 0px 5px;
 }
 
-.properties ul.pagination li a:hover,
-.properties ul.pagination li a.is_active {
+ul.pagination li a:hover {
   background-color: #74b359 !important;
   color: #fff !important;
 }
 
-.properties ul.pagination {
+ul.pagination li.is_active a {
+  background-color: #74b359 !important;
+  color: #fff !important;
+}
+
+ul.pagination {
   margin-top: 50px;
   text-align: center;
   width: 100%;
