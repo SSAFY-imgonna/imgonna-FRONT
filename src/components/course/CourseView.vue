@@ -55,13 +55,17 @@ const getCourseByContentId = () => {
   getCourse(
     courseParams.value,
     ({ data }) => {
-      course.value = data.response.body.items.item[0];
-      console.log(course.value);
+      if (data) {
+        course.value = data.response.body.items.item[0];
+        console.log(course.value);
+      }
     },
     (error) => {
-      console.log(error);
-      course.value = error.data.response.body.items.item[0];
-      console.log(course.value);
+      if (error.data) {
+        console.log(error);
+        course.value = error.data.response.body.items.item[0];
+        console.log(course.value);
+      }
     }
   );
 };
@@ -71,26 +75,30 @@ const getCourseDetailInfoByContentId = () => {
   getCourseDetailInfo(
     detailsParams.value,
     ({ data }) => {
-      let attractions = data.response.body.items.item;
-      let attractionList = [];
-      for (var i = 0; i < attractions.length; i++) {
-        let attraction = {};
-        attraction.firstImage = attractions[i].subdetailimg;
-        attraction.firstImage2 = "";
-        attraction.title = attractions[i].subname;
-        attraction.addr1 = "";
-        attraction.addr2 = "";
-        attraction.contentId = attractions[i].contentid;
-        attraction.subdetailoverview = attractions[i].subdetailoverview;
-        attractionList.push(attraction);
+      if (data) {
+        let attractions = data.response.body.items.item;
+        let attractionList = [];
+        for (var i = 0; i < attractions.length; i++) {
+          let attraction = {};
+          attraction.firstImage = attractions[i].subdetailimg;
+          attraction.firstImage2 = "";
+          attraction.title = attractions[i].subname;
+          attraction.addr1 = "";
+          attraction.addr2 = "";
+          attraction.contentId = attractions[i].contentid;
+          attraction.subdetailoverview = attractions[i].subdetailoverview;
+          attractionList.push(attraction);
+        }
+        courseDetail.value.attractions = attractionList;
+        console.log(courseDetail.value);
       }
-      courseDetail.value.attractions = attractionList;
-      console.log(courseDetail.value);
     },
     (error) => {
-      let attractions = error.data.response.body.items.item;
-      courseDetail.value.attractions = attractions;
-      console.log(courseDetail.value);
+      if (error.data) {
+        let attractions = error.data.response.body.items.item;
+        courseDetail.value.attractions = attractions;
+        console.log(courseDetail.value);
+      }
     }
   );
 };
@@ -100,16 +108,19 @@ const getCourseDetailIntroByContentId = () => {
   getCourseDetailIntro(
     detailsParams.value,
     ({ data }) => {
-      let intro = data.response.body.items.item[0];
-      courseDetail.value.distance = intro.distance;
-      courseDetail.value.taketime = intro.taketime;
-
-      console.log(courseDetail.value);
+      if (data) {
+        let intro = data.response.body.items.item[0];
+        courseDetail.value.distance = intro.distance;
+        courseDetail.value.taketime = intro.taketime;
+        console.log(courseDetail.value);
+      }
     },
     (error) => {
-      let intro = error.data.response.body.items.item[0];
-      courseDetail.value.distance = intro.distance;
-      courseDetail.value.taketime = intro.taketime;
+      if (error.data) {
+        let intro = error.data.response.body.items.item[0];
+        courseDetail.value.distance = intro.distance;
+        courseDetail.value.taketime = intro.taketime;
+      }
     }
   );
 };

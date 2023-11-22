@@ -41,9 +41,9 @@ function festivalAxios() {
       "&ServiceKey=" +
       "MGBvaCV9CcwjcVwyp7LL0%2Bz%2FvFFtP5fvNrcjdrUd13j4DPMW0CIAPSGrzUAREhDrAsC3yz2EscxtkP%2FYwPX5mQ%3D%3D" +
       "&areaCode=&sigunguCode=&MobileOS=ETC&listYN=Y&MobileApp=AppTest&arrange=R&numOfRows=20&pageNo=1&_type=json",
-    // headers: {
-    //   "Content-Type": "xml;charset=utf-8",
-    // },
+    headers: {
+      Accept: "*/*;q=0.9",
+    },
   });
   return instance;
 }
@@ -51,24 +51,36 @@ function festivalAxios() {
 function coursesAxios() {
   const instance = axios.create({
     baseURL: VITE_COURSES_URL,
+    headers: {
+      Accept: "*/*;q=0.9",
+    },
   });
   return instance;
 }
 function courseAxios() {
   const instance = axios.create({
     baseURL: VITE_COURSE_URL,
+    headers: {
+      Accept: "*/*;q=0.9",
+    },
   });
   return instance;
 }
 function courseDetailIntroAxios() {
   const instance = axios.create({
     baseURL: "http://apis.data.go.kr/B551011/KorService1/detailIntro1",
+    headers: {
+      Accept: "*/*;q=0.9",
+    },
   });
   return instance;
 }
 function courseDetailInfoAxios() {
   const instance = axios.create({
     baseURL: "http://apis.data.go.kr/B551011/KorService1/detailInfo1",
+    headers: {
+      Accept: "*/*;q=0.9",
+    },
   });
   return instance;
 }

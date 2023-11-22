@@ -26,32 +26,38 @@ onMounted(() => {
 const getFestivals = () => {
   getFestivalList(
     ({ data }) => {
-      console.log(data);
-      // festivals.value = error.data.response.body.items.item;
-      let items = data.response.body.items.item;
-      for (var i = 0; i < items.length; i += 3) {
-        let arr = [];
-        arr.push(items[i]);
-        arr.push(items[i + 1]);
-        arr.push(items[i + 2]);
-        arr.push(items[i + 3]);
-        festivalList.value.push(arr);
+      if (data) {
+        let items = data.response.body.items.item;
+        for (var i = 0; i < items.length; i += 4) {
+          let arr = [];
+          arr.push(items[i]);
+          arr.push(items[i + 1]);
+          arr.push(items[i + 2]);
+          arr.push(items[i + 3]);
+          festivalList.value.push(arr);
+        }
       }
-      console.log(festivalList.value);
+      // console.log(data);
+      // // festivals.value = error.data.response.body.items.item;
+
+      // console.log(festivalList.value);
     },
     (error) => {
-      console.log(error);
-      // festivals.value = error.data.response.body.items.item;
-      let items = error.data.response.body.items.item;
-      for (var i = 0; i < items.length; i += 4) {
-        let arr = [];
-        arr.push(items[i]);
-        arr.push(items[i + 1]);
-        arr.push(items[i + 2]);
-        arr.push(items[i + 3]);
-        festivalList.value.push(arr);
+      if (error.data.response.body) {
+        let items = error.data.response.body.items.item;
+
+        for (var i = 0; i < items.length; i += 4) {
+          let arr = [];
+          arr.push(items[i]);
+          arr.push(items[i + 1]);
+          arr.push(items[i + 2]);
+          arr.push(items[i + 3]);
+          festivalList.value.push(arr);
+        }
       }
-      console.log(festivalList.value);
+      // console.log(error);
+      // festivals.value = error.data.response.body.items.item;
+      // console.log(festivalList.value);
     }
   );
 };

@@ -111,7 +111,6 @@ const coursesParams = ref({
 });
 
 const onPageChange = (val) => {
-  console.log(val + "번 페이지로 이동 준비 끝!!!");
   currentPage.value = val;
   coursesParams.value.pageNo = val;
   getCourses();
@@ -120,17 +119,16 @@ const onPageChange = (val) => {
 const courseList = ref([]);
 
 const getCourses = () => {
-  console.log(coursesParams.value);
+  // console.log(coursesParams.value);
   getCourseList(
     coursesParams.value,
     ({ data }) => {
-      console.log(data);
-      courseList.value = data.response.body.items.item;
-
-      console.log(courseList.value);
+      if (data) {
+        courseList.value = data.response.body.items.item;
+        console.log(courseList.value);
+      }
     },
     (error) => {
-      console.log(error);
       if (error.data) {
         courseList.value = error.data.response.body.items.item;
         console.log(courseList.value);
@@ -238,9 +236,14 @@ const getCourseByContentId = (contentId) => {
         </div>
       </div>
     </section>
-  </div>
 
-  <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange" />
+    <PageNavigation
+      class="mt-3 text-align-center"
+      :current-page="currentPage"
+      :total-page="totalPage"
+      @pageChange="onPageChange"
+    />
+  </div>
 </template>
 
 <style scoped>
