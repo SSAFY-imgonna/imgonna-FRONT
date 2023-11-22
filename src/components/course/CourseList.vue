@@ -48,9 +48,14 @@ const getSidoName = (areaCode) => {
 };
 
 const onChangeSido = (val) => {
-  attractionParams.value.sidoCode = val;
+  sidoList.value.forEach((sido) => {
+    sido.active = false;
+  });
+  val.active = true;
+
+  attractionParams.value.sidoCode = val.value;
   getGugunList(
-    { sido: val },
+    { sido: val.value },
     ({ data }) => {
       let options = [];
       data.forEach((gugun) => {
@@ -144,25 +149,29 @@ const getCourseByContentId = (contentId) => {
 
 <template>
   <!-- ======= Breadcrumbs ======= -->
-  <section id="breadcrumbs" class="breadcrumbs">
-    <div class="breadcrumb-hero">
-      <div class="container">
-        <div class="breadcrumb-hero" style="padding-bottom: 0px">
+  <section id="breadcrumbs">
+    <div class="container text-center" data-aos="fade-up">
+      <div class="section-heading mb-5">
+        <h6>| TRAVEL COURSE</h6>
+        <h3>여행 코스 살펴보기</h3>
+      </div>
+      <!-- <div class="breadcrumb-hero" style="padding-bottom: 0px">
           <h2>여행 코스 살펴보기</h2>
           <p>여행 코스를 살펴보세요!</p>
-        </div>
-      </div>
+        </div> -->
     </div>
 
-    <section id="portfolio" class="list" style="background: #94c045">
+    <section id="portfolio" class="list">
       <div class="row">
         <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up">
-          <ul id="portfolio-flters">
+          <ul id="portfolio-flters" class="mb-3">
             <!-- <li data-filter="*" class="filter-active">All</li> -->
             <li
               v-for="sido in sidoList"
               data-filter=".filter-app"
-              @click="onChangeSido(sido.value)"
+              :key="sido.value"
+              :class="{ 'filter-active': sido.active }"
+              @click="onChangeSido(sido)"
             >
               {{ sido.text }}
             </li>
@@ -172,7 +181,7 @@ const getCourseByContentId = (contentId) => {
     </section>
   </section>
   <!-- End Breadcrumbs -->
-
+  <hr class="mb-2" style="color: #74b359; border-width: 2px" />
   <section id="portfolio" class="portfolio">
     <div class="container">
       <div class="row">
@@ -248,8 +257,56 @@ const getCourseByContentId = (contentId) => {
 
 <style scoped>
 @import "@/components/css/indexstyles.css";
+.member-img img {
+  width: 100%;
+  height: 200px;
+}
+.member-info h4 {
+  font-weight: 600 !important;
+  margin-bottom: 5px;
+  font-size: 17px !important;
+  color: var(--color-secondary);
+}
+.filter-active {
+  background-color: #74b359;
+  color: #fff;
+}
+.section-heading h3 {
+  /* font-size: 30px; */
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-top: 20px;
+  line-height: 56px;
+}
+
+.section-heading h6 {
+  color: #74b359;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.section-bg {
+  background-color: white !important;
+}
+
+.img-fluid {
+  border-start-start-radius: 3%;
+  max-height: 250px;
+}
+
+.testimonial-content {
+  height: 250px;
+}
+
+p {
+  font-weight: 600;
+  font-size: 13pt;
+  line-height: 22pt;
+}
+
 section {
-  padding: 20px;
+  padding: 0px !important;
 }
 .list #portfolio-flters li {
   cursor: pointer;
@@ -265,8 +322,8 @@ section {
 
 .list #portfolio-flters li:hover,
 .list #portfolio-flters li.filter-active {
-  color: #444444;
-  background: #fff;
+  color: #fff;
+  background: #74b359;
 }
 
 mark.purple {
