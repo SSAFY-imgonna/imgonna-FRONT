@@ -92,12 +92,16 @@ ref;
 </template>
 
 <style scoped>
-div p {
-  display: block;
+.card {
+  height: 420px;
   overflow: hidden;
-  text-overflow: ellipsis !important;
-  width: 100%;
-  height: 130px !important;
+}
+
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 7; /* 표시하고 싶은 줄 수를 지정 */
 }
 * {
   font-family: "Nanum Gothic", sans-serif !important;
@@ -106,10 +110,6 @@ h2 {
   font-size: 17pt;
   text-transform: uppercase;
   font-weight: 700;
-}
-.card {
-  /* width: 18rem; */
-  height: 420px;
 }
 .swipers-wrap {
   width: 80%;

@@ -220,7 +220,7 @@ const setCourses = () => {
         <h3>{{ course.title }}</h3>
       </div>
 
-      <div class="testimonial-item">
+      <div class="testimonial-item mt-5">
         <div class="row gy-4 mb-5 justify-content-center">
           <div class="col-lg-4 text-center">
             <img :src="course.firstimage" class="img-fluid" alt="" />
@@ -228,7 +228,7 @@ const setCourses = () => {
           <div class="col-lg-6">
             <div class="testimonial-content">
               <i class="bi bi-quote quote-icon-left mb-0"></i>
-              <p class="mb-0">
+              <p class="mb-0 text-content">
                 {{ course.overview }}
               </p>
               <i class="bi bi-quote quote-icon-right mt-0"></i>
@@ -239,7 +239,7 @@ const setCourses = () => {
                 ><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
                 ><i class="bi bi-star-fill"></i>
               </div> -->
-              <button class="btn btn-secondary mt-4" @click="setCourses">코스 담기</button>
+              <button class="btn btn-sm btn-dark mt-2" @click="setCourses">코스 담기</button>
             </div>
           </div>
         </div>
@@ -251,8 +251,17 @@ const setCourses = () => {
 </template>
 
 <style scoped>
+.testimonials .testimonial-item .quote-icon-left {
+  display: inline-block;
+  left: 0px;
+  position: relative;
+}
 .testimonials .testimonial-item .quote-icon-right {
-  left: -5px !important;
+  display: inline-block;
+  right: 0px;
+  position: relative;
+  top: 10px;
+  transform: scale(-1, -1);
 }
 i.quote-icon-right {
   line-height: 0;
