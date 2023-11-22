@@ -27,7 +27,7 @@ ref;
 </script>
 
 <template>
-  <div class="swipers-wrap">
+  <div class="swipers-wrap row">
     <swiper
       :modules="[Navigation, Pagination, Scrollbar]"
       :slides-per-view="3"
@@ -36,8 +36,12 @@ ref;
       :pagination="{ clickable: true }"
       :scrollbar="{ clickable: true }"
     >
-      <swiper-slide v-for="(course, index) in courses" :key="course.title" style="height: 100%">
-        <div class="card" style="width: 18rem">
+      <swiper-slide
+        v-for="(course, index) in courses"
+        :key="course.title"
+        class="col-lg-4 col-md-6"
+      >
+        <div class="card">
           <img v-if="course.firstImage" :src="course.firstImage" class="img-fluid" alt="..." />
           <img v-else src="/no_image.png" class="img-fluid" alt="..." />
           <div class="card-body">
@@ -88,13 +92,32 @@ ref;
 </template>
 
 <style scoped>
+.card {
+  height: 420px;
+  overflow: hidden;
+}
+
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 7; /* 표시하고 싶은 줄 수를 지정 */
+}
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
+h2 {
+  font-size: 17pt;
+  text-transform: uppercase;
+  font-weight: 700;
+}
 .swipers-wrap {
   width: 80%;
   display: inline-block;
 }
 img {
   width: 100%;
-  height: 150px;
+  height: 190px;
   float: left;
   margin-right: 25px;
   margin-bottom: 15px;

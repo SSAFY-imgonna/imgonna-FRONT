@@ -215,30 +215,31 @@ const setCourses = () => {
 <template>
   <section id="testimonials" class="testimonials section-bg">
     <div class="container text-center" data-aos="fade-up">
-      <div class="section-header">
-        <p>{{ course.title }}</p>
+      <div class="section-heading">
+        <h6>| TRAVEL COURSE</h6>
+        <h3>{{ course.title }}</h3>
       </div>
 
-      <div class="testimonial-item">
+      <div class="testimonial-item mt-5">
         <div class="row gy-4 mb-5 justify-content-center">
           <div class="col-lg-4 text-center">
             <img :src="course.firstimage" class="img-fluid" alt="" />
           </div>
           <div class="col-lg-6">
             <div class="testimonial-content">
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
+              <i class="bi bi-quote quote-icon-left mb-0"></i>
+              <p class="mb-0 text-content">
                 {{ course.overview }}
-                <i class="bi bi-quote quote-icon-right"></i>
               </p>
+              <i class="bi bi-quote quote-icon-right mt-0"></i>
               <h3>{{ courseDetail.distance }} - {{ courseDetail.taketime }}</h3>
               <!-- <h4>Ceo &amp; Founder</h4> -->
-              <div class="stars">
+              <!-- <div class="stars">
                 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
                 ><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
                 ><i class="bi bi-star-fill"></i>
-              </div>
-              <button class="btn btn-secondary mt-4" @click="setCourses">코스 담기</button>
+              </div> -->
+              <button class="btn btn-sm btn-dark mt-2" @click="setCourses">코스 담기</button>
             </div>
           </div>
         </div>
@@ -249,4 +250,54 @@ const setCourses = () => {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.testimonials .testimonial-item .quote-icon-left {
+  display: inline-block;
+  left: 0px;
+  position: relative;
+}
+.testimonials .testimonial-item .quote-icon-right {
+  display: inline-block;
+  right: 0px;
+  position: relative;
+  top: 10px;
+  transform: scale(-1, -1);
+}
+i.quote-icon-right {
+  line-height: 0;
+  padding: 0 !important;
+}
+.section-heading h3 {
+  /* font-size: 30px; */
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-top: 20px;
+  line-height: 56px;
+}
+
+.section-heading h6 {
+  color: #74b359;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.section-bg {
+  background-color: white;
+}
+
+.img-fluid {
+  border-radius: 3%;
+  max-height: 250px;
+}
+
+.testimonial-content {
+  height: 250px;
+}
+
+p {
+  font-weight: 600;
+  font-size: 13pt;
+  line-height: 22pt;
+}
+</style>

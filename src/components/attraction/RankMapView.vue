@@ -62,6 +62,7 @@ const initMap = () => {
     obj.zipcode = attraction.zipcode;
     obj.firstImage = attraction.firstImage;
     obj.addr1 = attraction.addr1;
+    obj.contentTypeId = attraction.contentTypeId;
     positions.value.push(obj);
   });
   loadMarkers();
@@ -74,7 +75,24 @@ const loadMarkers = () => {
   var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
   positions.value.forEach((position) => {
+    console.log(position.contentTypeId);
+    var imageSrc;
     var imageSize = new kakao.maps.Size(24, 35);
+    if (position.contentTypeId == 12) {
+      imageSrc = "/img/marker_attraction.png";
+    } else if (position.contentTypeId == 14) {
+      imageSrc = "/img/marker_culture.png";
+    } else if (position.contentTypeId == 28) {
+      imageSrc = "/img/marker_sports.png";
+    } else if (position.contentTypeId == 32) {
+      imageSrc = "/img/marker_house.png";
+    } else if (position.contentTypeId == 38) {
+      imageSrc = "/img/marker_shopping.png";
+    } else if (position.contentTypeId == 39) {
+      imageSrc = "/img/marker_restaurant.png";
+    } else {
+      imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    }
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
     const marker = new kakao.maps.Marker({

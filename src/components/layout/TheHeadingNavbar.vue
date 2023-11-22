@@ -244,6 +244,9 @@ const doLogout = async () => {
 
 <style>
 @import "../css/indexstyles.css";
+button {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
 .text-small {
   font-size: 85%;
 }
