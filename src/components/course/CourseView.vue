@@ -1,6 +1,11 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from "vue";
-import { getCourse, getCourseDetailIntro, getCourseDetailInfo } from "@/api/attraction";
+import {
+  getCourse,
+  getCourseDetailIntro,
+  getCourseDetailInfo,
+  getAttractionInfoList,
+} from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
 import CourseTimelineItem from "./CourseTimelineItem.vue";
 import { storeToRefs } from "pinia";
@@ -18,7 +23,7 @@ const contentId = route.params.contentId;
 
 onMounted(() => {
   getCourseByContentId();
-  getCourseDetailIntroByContentId();
+  // getCourseDetailIntroByContentId();
   getCourseDetailInfoByContentId();
 });
 
@@ -57,14 +62,12 @@ const getCourseByContentId = () => {
     ({ data }) => {
       if (data) {
         course.value = data.response.body.items.item[0];
-        console.log(course.value);
       }
     },
     (error) => {
       if (error.data) {
         console.log(error);
         course.value = error.data.response.body.items.item[0];
-        console.log(course.value);
       }
     }
   );
@@ -85,24 +88,40 @@ const getCourseDetailInfoByContentId = () => {
           attraction.title = attractions[i].subname;
           attraction.addr1 = "";
           attraction.addr2 = "";
-          attraction.contentId = attractions[i].contentid;
+          attraction.subcontentid = attractions[i].subcontentid;
           attraction.subdetailoverview = attractions[i].subdetailoverview;
           attractionList.push(attraction);
         }
         courseDetail.value.attractions = attractionList;
-        console.log(courseDetail.value);
       }
     },
     (error) => {
       if (error.data) {
         let attractions = error.data.response.body.items.item;
-        courseDetail.value.attractions = attractions;
-        console.log(courseDetail.value);
+        let attractionList = [];
+        for (var i = 0; i < attractions.length; i++) {
+          attractionList.push(attractions[i].subcontentid);
+        }
+        getCourseDetailList(attractionList);
       }
     }
   );
 };
 
+const courseDetailList = ref([]);
+
+const getCourseDetailList = (attractions) => {
+  getAttractionInfoList(
+    attractions,
+    ({ data }) => {
+      if (data) {
+        courseDetailList.value = data;
+        updatePlans(courseDetailList.value);
+      }
+    },
+    (error) => {}
+  );
+};
 const getCourseDetailIntroByContentId = () => {
   detailsParams.value.contentId = contentId;
   getCourseDetailIntro(
@@ -112,7 +131,6 @@ const getCourseDetailIntroByContentId = () => {
         let intro = data.response.body.items.item[0];
         courseDetail.value.distance = intro.distance;
         courseDetail.value.taketime = intro.taketime;
-        console.log(courseDetail.value);
       }
     },
     (error) => {
@@ -129,8 +147,11 @@ const { updatePlans, deletePlans } = planStore;
 
 const setCourses = () => {
   deletePlans();
-
-  updatePlans(courseDetail.value.attractions);
+  let attractionList = [];
+  for (var i = 0; i < courseDetail.value.attractions.length; i++) {
+    attractionList.push(courseDetail.value.attractions[i].subcontentid);
+  }
+  getCourseDetailList(attractionList);
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {

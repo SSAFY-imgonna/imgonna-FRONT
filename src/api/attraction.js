@@ -10,7 +10,7 @@ import {
 const local = localAxios();
 
 function getAttractionList(param, success, fail) {
-  local.get("/attractions", { params: param }).then(success).catch(fail);
+  local.get("/attractions").then(success).catch(fail);
 }
 
 function getSidoList(success, fail) {
@@ -19,6 +19,10 @@ function getSidoList(success, fail) {
 
 function getGugunList(param, success, fail) {
   local.get(`/attractions/gugun`, { params: param }).then(success).catch(fail);
+}
+
+function getAttractionInfoList(contentIdList, success, fail) {
+  local.get(`/attractions/${contentIdList}`).then(success).catch(fail);
 }
 
 const festival = festivalAxios();
@@ -58,4 +62,5 @@ export {
   getCourse,
   getCourseDetailInfo,
   getCourseDetailIntro,
+  getAttractionInfoList,
 };
