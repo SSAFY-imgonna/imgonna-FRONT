@@ -257,6 +257,9 @@ const getCourseByContentId = (contentId) => {
 
 <style scoped>
 @import "@/components/css/indexstyles.css";
+.chef-member {
+  cursor: pointer;
+}
 .member-img img {
   width: 100%;
   height: 200px;
