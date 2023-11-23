@@ -5,6 +5,7 @@ import { getNotifyCount, getNotifyList, updateNotifyAll } from "@/api/notify";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import NotifyListItem from "./notifyListItem.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const props = defineProps({ notifyAgain: Boolean });
 
@@ -18,6 +19,9 @@ watch(
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
+
+const router = useRouter();
+const route = useRoute();
 
 const param = ref({
   id: "",
@@ -78,6 +82,14 @@ const readAll = () => {
 
 const moveTotalAlarm = () => {
   console.log("전체 알람 페이지로 이동");
+  closeToggle();
+  router.push({ name: "member-notify" });
+};
+
+const closeToggle = () => {
+  console.log("드롭다운 닫혀랏!!");
+  // 드롭다운을 닫기 위해 Bootstrap 메서드 호출
+  document.getElementById("dropdown-menu").classList.remove("show"); // 'myDropdown'은 드롭다운의 id
 };
 </script>
 
@@ -96,7 +108,10 @@ const moveTotalAlarm = () => {
         <span class="badge bg-success badge-number">{{ notifyCount }}</span> </a
       ><!-- End Notification Icon -->
 
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+      <ul
+        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
+        id="dropdown-menu"
+      >
         <li class="dropdown-header">
           {{ notifyCount }}개의 새로운 알림이 있습니다.
           <a href="#"
@@ -114,6 +129,7 @@ const moveTotalAlarm = () => {
             :key="notify.notifyNo"
             :notify="notify"
             @getNotifyAgain="getNotifyAgain"
+            @closeToggle="closeToggle"
           >
             ></NotifyListItem
           >

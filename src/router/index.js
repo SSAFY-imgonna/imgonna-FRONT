@@ -182,7 +182,7 @@ const router = createRouter({
           component: () => import("@/components/members/MemberModifyPw.vue"),
         },
         {
-          path: "",
+          path: "/notify",
           name: "member-notify",
           component: () => import("@/components/members/MemberNotify.vue"),
         },
