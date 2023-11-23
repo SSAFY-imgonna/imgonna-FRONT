@@ -160,7 +160,7 @@ const doLogout = async () => {
 
 /* 여기서부터 navbar css 추가한 내용 */
 .d-flex {
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 @media (min-width: 992px) {

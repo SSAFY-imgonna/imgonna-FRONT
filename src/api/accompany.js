@@ -8,6 +8,10 @@ function getAccompanyList(param, success, fail) {
   local.get(`${url}`, { params: param }).then(success).catch(fail);
 }
 
+function getAccompanyRankList(param, success, fail) {
+  local.get(`${url}/rank`).then(success).catch(fail);
+}
+
 function getAccompanyByAccompanyNo(accompanyNo, memberInfo, success, fail) {
   local.get(`${url}/${accompanyNo}`, { params: memberInfo }).then(success).catch(fail);
 }
@@ -27,7 +31,7 @@ async function createAccompany(formData, success, fail) {
 
 function getModifyAccompany(accompanyNo, success, fail) {
   local.get(`${url}/${accompanyNo}`).then(success).catch(fail);
-}   
+}
 
 function modifyAccompany(accompanyNo, formData, success, fail) {
   local
@@ -64,4 +68,5 @@ export {
   deleteAccompany,
   createAccompanyJoin,
   deleteAccompanyJoin,
+  getAccompanyRankList,
 };

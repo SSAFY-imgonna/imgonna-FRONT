@@ -167,6 +167,7 @@ const mbtiList = ref([
   { text: "ISTJ", value: "istj" },
   { text: "INTJ", value: "intj" },
   { text: "INFJ", value: "infj" },
+  { text: "CUTE", value: "cute" },
 ]);
 </script>
 

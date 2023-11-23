@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getPlanByPlanNo } from "@/api/plan";
+import { getPlanByPlanNo, deletePlanByPlanNo } from "@/api/plan";
 import { useRoute, useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 import TimelineItem from "@/components/plan/item/TimelineItem.vue";
 import PlanMapView from "./PlanMapView.vue";
@@ -29,6 +30,26 @@ onMounted(() => {
     }
   );
 });
+
+const deletePlan = () => {
+  deletePlanByPlanNo(
+    planNo,
+    ({ data }) => {
+      Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
+        icon: "success",
+        text: "삭제 완료되었습니다.",
+      });
+
+      router.replace({ name: "plan-list" });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
 
 function moveList() {
   router.push({ name: "plan-list" });
@@ -106,7 +127,9 @@ function moveList() {
               <div class="col-lg-12 button-list">
                 <fieldset>
                   <button type="submit" id="form-list" @click="moveList" class="btn">목록</button>
-                  <button type="submit" id="form-delete" class="orange-button">삭제</button>
+                  <button type="submit" id="form-delete" class="orange-button" @click="deletePlan">
+                    삭제
+                  </button>
                 </fieldset>
               </div>
             </div>

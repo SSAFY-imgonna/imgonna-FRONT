@@ -44,7 +44,7 @@ function initMap() {
   const container = document.getElementById(`planlist${props.plan.planNo}`);
   const options = {
     center: new kakao.maps.LatLng(35.5519, 126.9918), // 지도의 중심좌표
-    level: 14,
+    level: 8,
   };
   map = new kakao.maps.Map(container, options);
 
@@ -86,6 +86,15 @@ const loadMarkers = () => {
     });
     markers.value.push(marker);
   });
+
+  // 4. 지도를 이동시켜주기
+  // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
+  const bounds = positions.value.reduce(
+    (bounds, position) => bounds.extend(position.latlng),
+    new kakao.maps.LatLngBounds()
+  );
+
+  map.setBounds(bounds);
 };
 
 const drawLine = () => {

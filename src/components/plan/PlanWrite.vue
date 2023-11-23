@@ -101,7 +101,7 @@ function registPlan() {
           title: "여행계획 등록 완료",
         });
         let planNo = data.planNo;
-        router.replace({ name: "plan-view", params: { planNo } });
+        router.push({ name: "plan-view", params: { planNo } });
       },
       (error) => {
         Swal.fire({

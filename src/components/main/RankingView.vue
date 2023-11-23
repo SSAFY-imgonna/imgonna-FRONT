@@ -1,9 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getRankList } from "@/api/diary";
+import { getAccompanyRankList } from "@/api/accompany";
 import RankMapView from "./RankMapView.vue";
+import router from "../../router";
 
 const rankList = ref();
+const accompanyList = ref();
 
 onMounted(() => {
   getRankList(
@@ -11,6 +14,16 @@ onMounted(() => {
     ({ data }) => {
       console.log(data);
       rankList.value = data;
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  getAccompanyRankList(
+    null,
+    ({ data }) => {
+      console.log(data);
+      accompanyList.value = data.accompanyList;
     },
     (err) => {
       console.log(err);
@@ -63,10 +76,21 @@ onMounted(() => {
         </div>
         <div class="col-3">
           <div class="festival-text text-center">
-            <h3 class="sixth">
+            <h3 class="sixth mb-4">
               인기 동행
               <!-- <img src="/icon/festival_icon.png" width="40" /> -->
             </h3>
+            <template v-for="(accompany, idx) in accompanyList">
+              <div class="customoverlay mb-2">
+                <router-link
+                  :to="{ name: 'accompany-view', params: { accompanyNo: accompany.accompanyNo } }"
+                >
+                  <p class="title" style="font-size: 18px">
+                    {{ idx + 1 }}&nbsp{{ accompany.title }}
+                  </p>
+                </router-link>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -76,6 +100,36 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.customoverlay {
+  /* position: relative; */
+  border-radius: 6px;
+  border: 1px solid #a19e9e;
+  border-bottom: 2px solid #ddd;
+  float: left;
+  width: 100%;
+}
+.customoverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.customoverlay a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  text-align: left;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  overflow: hidden;
+}
+.customoverlay .title {
+  text-align: left;
+  background: #fff;
+  padding: 10px 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 section {
   overflow: hidden;
   padding: 0px 0;

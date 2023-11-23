@@ -32,8 +32,8 @@ const diary = ref({
   title: "",
   content: "",
   createdTime: "",
-  weather: "",
-  emotion: "",
+  weather: "sun",
+  emotion: "fun",
   upfile: "",
   isPublic: false,
 });
@@ -104,7 +104,7 @@ function writeDiary() {
   const formData = new FormData();
 
   formData.append("travelTime", diary.value.travelTime);
-  formData.append("attactionName", diary.value.attactionName);
+  formData.append("attractionName", diary.value.attraction);
   formData.append("id", diary.value.id);
   formData.append("contentId", diary.value.contentId);
   formData.append("title", diary.value.title);
@@ -155,7 +155,7 @@ function updateDiary() {
   const formData = new FormData();
 
   formData.append("travelTime", diary.value.travelTime);
-  formData.append("attactionName", diary.value.attactionName);
+  formData.append("attractionName", diary.value.attraction);
   formData.append("id", diary.value.id);
   formData.append("contentId", diary.value.contentId);
   formData.append("title", diary.value.title);
@@ -244,7 +244,7 @@ function findAttraction() {
 function setAttractionInfo(contentId, title) {
   console.log(contentId, title);
   diary.value.contentId = contentId;
-  diary.value.attactionName = title;
+  diary.value.attraction = title;
   console.log(diary.value);
 
   const closeBtn = document.querySelector(".btn-close");

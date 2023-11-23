@@ -89,7 +89,7 @@ const createPlan = () => {
               v-for="plan in plans"
               :key="plan.planNo"
             >
-              <router-link :to="{ name: 'plan-view', params: { planNo: plan.planNo } }" replace>
+              <router-link :to="{ name: 'plan-view', params: { planNo: plan.planNo } }">
                 <div class="chef-member">
                   <div class="member-img">
                     <PlanListMapView :plan="plan" />
