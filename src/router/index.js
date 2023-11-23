@@ -223,6 +223,15 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/404",
+      name: "not-found",
+      component: () => import("@/components/common/error404.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/404",
+    },
   ],
 });
 

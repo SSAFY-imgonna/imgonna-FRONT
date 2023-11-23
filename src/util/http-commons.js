@@ -46,8 +46,8 @@ function localAxios() {
           icon: "error",
           text: "로그인이 필요한 서비스입니다. 로그인 후 다시 이용해주세요!",
         });
+        isShownLoginModal.value = true;
       }
-      isShownLoginModal.value = true;
 
       return Promise.reject(error);
     }
