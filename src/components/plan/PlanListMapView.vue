@@ -9,7 +9,6 @@ const positions = ref([]);
 const markers = ref([]);
 
 onMounted(() => {
-  console.log(props.plan);
   if (window.kakao && window.kakao.maps) {
     initMap();
   } else {
@@ -39,6 +38,7 @@ onMounted(() => {
 //   },
 //   { deep: true }
 // );
+const paths = ref([]);
 
 function initMap() {
   const container = document.getElementById(`planlist${props.plan.planNo}`);
@@ -50,6 +50,9 @@ function initMap() {
 
   let attractions = props.plan.courses;
   positions.value = [];
+  paths.value = [];
+  let idx = 1;
+
   attractions.forEach((attraction) => {
     let obj = {};
     obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
@@ -57,30 +60,43 @@ function initMap() {
     obj.zipcode = attraction.zipcode;
     obj.firstImage = attraction.firstImage;
     obj.addr1 = attraction.addr1;
+    obj.markerImg = `/coursemarker/numbers${idx}.png`;
     positions.value.push(obj);
+    paths.value.push(obj.latlng);
+    idx++;
   });
   loadMarkers();
+  drawLine();
 }
 
 const loadMarkers = () => {
   deleteMarkers();
 
   markers.value = [];
-  var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
   positions.value.forEach((position) => {
-    var imageSize = new kakao.maps.Size(24, 35);
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    var imageSize = new kakao.maps.Size(15, 15);
+    var markerImage = new kakao.maps.MarkerImage(position.markerImg, imageSize);
 
     const marker = new kakao.maps.Marker({
       map: map, // 마커를 표시할 지도
       position: position.latlng, // 마커를 표시할 위치
-      clickable: false, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+      title: position.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨.
+      clickable: true, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
       image: markerImage, // 마커의 이미지
     });
-
     markers.value.push(marker);
   });
+};
+
+const drawLine = () => {
+  var polyline = new kakao.maps.Polyline({
+    map: map,
+    path: paths.value,
+    strokeColor: "#74b359",
+    strokeOpacity: 0.8,
+    strokeStyle: "solid",
+  });
+  polyline.setMap(map);
 };
 
 const deleteMarkers = () => {

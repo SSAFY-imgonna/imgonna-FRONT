@@ -7,6 +7,8 @@ import TimelineItem from "@/components/plan/item/TimelineItem.vue";
 import PlanMapView from "./PlanMapView.vue";
 
 const route = useRoute();
+const router = useRouter();
+
 const plan = ref({});
 const themeList = ["", "우정 여행", "가족 여행", "데이트"];
 const { planNo } = route.params;
@@ -27,6 +29,10 @@ onMounted(() => {
     }
   );
 });
+
+function moveList() {
+  router.push({ name: "plan-list" });
+}
 </script>
 
 <template>
@@ -92,14 +98,14 @@ onMounted(() => {
                 </fieldset>
               </div>
               <div class="col-lg-12">
-                <fieldset>
+                <fieldset v-if="plan.memo">
                   <label for="memo">계획 상세</label>
                   <textarea name="memo" id="memo" v-model="plan.memo" disabled></textarea>
                 </fieldset>
               </div>
               <div class="col-lg-12 button-list">
                 <fieldset>
-                  <button type="submit" id="form-list" class="orange-button">목록</button>
+                  <button type="submit" id="form-list" @click="moveList" class="btn">목록</button>
                   <button type="submit" id="form-delete" class="orange-button">삭제</button>
                 </fieldset>
               </div>

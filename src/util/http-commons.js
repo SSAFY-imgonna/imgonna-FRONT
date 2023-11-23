@@ -41,15 +41,13 @@ function localAxios() {
     },
     function (error) {
       console.log("ERROR >>>", error.response.data);
-      const originalRequest = error.config;
-      const { refreshToken, updateAccessToken } = useAuthStore();
-      // Unauthorized : request a new accessToken
       if (error.response.status === 401) {
         Swal.fire({
           icon: "error",
           text: "로그인이 필요한 서비스입니다. 로그인 후 다시 이용해주세요!",
         });
       }
+      isShownLoginModal.value = true;
 
       return Promise.reject(error);
     }

@@ -9,14 +9,26 @@ export const usePlanStore = defineStore(
     const plansCnt = computed(() => plans.value.length);
 
     const addPlan = (attraction) => {
-      const isValid = plans.value.some((plan) => plan.contentId == attraction.contentId);
-      if (!isValid) {
-        plans.value.push(attraction);
+      const duplicate = plans.value.some((plan) => plan.contentId == attraction.contentId);
+      if (duplicate) {
+        Swal.fire({
+          icon: "error",
+          text: "이미 존재하는 관광지입니다!",
+        });
+        return;
       }
+      plans.value.push(attraction);
     };
 
     const deletePlan = (attraction) => {
-      plans.value = plans.value.filter((plan) => plan.contentId != attraction.contentId);
+      if (plans.value.length == 0) {
+        Swal.fire({
+          icon: "error",
+          text: "관광지는 최소 1개가 존재해야 합니다!",
+        });
+      } else {
+        plans.value = plans.value.filter((plan) => plan.contentId != attraction.contentId);
+      }
     };
 
     const updatePlans = (newPlans) => {

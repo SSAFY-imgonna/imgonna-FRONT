@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import SearchAttractionItem from "../attraction/searchAttractionItem.vue";
 import KakaoMapItem from "../plan/KakaoMapItem.vue";
+import CourseMapItem from "../course/CourseMapItem.vue";
 import PlanItem from "../plan/PlanItem.vue";
 import VSelect from "@/components/common/Vselect.vue";
 import { createPlan } from "@/api/plan";
@@ -27,6 +28,7 @@ const { plans } = storeToRefs(planStore);
 const attractions = ref(plans);
 
 const makePlan = function (attraction) {
+  console.log("add", attraction);
   addPlan(attraction);
 };
 
@@ -150,7 +152,8 @@ const onSelectTheme = (val) => {
                 />
               </div>
               <div class="col-lg-6 my-4">
-                <KakaoMapItem :attraction="selectAttraction" />
+                <KakaoMapItem :attraction="selectAttraction" class="mt-5" />
+                <CourseMapItem :attractions="plans" class="mt-4 mb-3" />
               </div>
               <div class="col-lg-3">
                 <PlanItem :attractions="attractions" />

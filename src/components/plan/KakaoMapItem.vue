@@ -15,7 +15,7 @@ watch(
 
     let attr = props.attraction;
     let lat = attr.latitude;
-    let long = attr.longtitude;
+    let long = attr.longitude;
     var moveLatLon = new kakao.maps.LatLng(lat, long);
 
     map.panTo(moveLatLon);
@@ -34,7 +34,7 @@ watch(
 );
 
 onMounted(() => {
-  console.log(props.attraction);
+  // console.log(props.attraction);
 
   if (window.kakao && window.kakao.maps) {
     initMap();
@@ -154,7 +154,7 @@ const deleteOverlays = () => {
 
 <style>
 #detailsMap {
-  height: 800px;
+  height: 380px;
 }
 .wrap {
   position: absolute;

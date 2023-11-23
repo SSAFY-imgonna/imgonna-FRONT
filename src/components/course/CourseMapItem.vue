@@ -23,26 +23,10 @@ onMounted(() => {
 });
 const paths = ref([]);
 watch(
-  () => props.attractions.value,
+  () => props.attractions,
   () => {
     console.log(props.attractions);
-    positions.value = [];
-    paths.value = [];
-    overlays.value = [];
-    let idx = 1;
-    props.attractions.forEach((attraction) => {
-      let obj = {};
-      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
-      obj.title = attraction.title;
-      obj.zipcode = attraction.zipcode;
-      obj.firstImage = attraction.firstImage;
-      obj.addr1 = attraction.addr1;
-      obj.contentTypeId = attraction.contentTypeId;
-      obj.markerImg = `/coursemarker/numbers${idx}.png`;
-      positions.value.push(obj);
-      paths.value.push(obj.latlng);
-      idx++;
-    });
+
     loadMarkers();
     drawLine();
   },
@@ -53,9 +37,11 @@ const initMap = () => {
   const container = document.getElementById("courseMap");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
-    level: 1,
+    level: 4,
   };
   map = new kakao.maps.Map(container, options);
+  loadMarkers();
+  drawLine();
 };
 
 const drawLine = () => {
@@ -65,12 +51,29 @@ const drawLine = () => {
     strokeColor: "#74b359",
     strokeOpacity: 0.8,
     strokeStyle: "solid",
-    endArrow: true,
   });
   polyline.setMap(map);
 };
 
 const loadMarkers = () => {
+  positions.value = [];
+  paths.value = [];
+  overlays.value = [];
+  let idx = 1;
+  props.attractions.forEach((attraction) => {
+    let obj = {};
+    obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
+    obj.title = attraction.title;
+    obj.zipcode = attraction.zipcode;
+    obj.firstImage = attraction.firstImage;
+    obj.addr1 = attraction.addr1;
+    obj.contentTypeId = attraction.contentTypeId;
+    obj.markerImg = `/coursemarker/numbers${idx}.png`;
+    positions.value.push(obj);
+    paths.value.push(obj.latlng);
+    idx++;
+  });
+
   // 현재 표시되어있는 marker들이 있다면 map에 등록된 marker를 제거한다.
   deleteMarkers();
   deleteOverlays();
@@ -86,8 +89,7 @@ const loadMarkers = () => {
   overlays.value = [];
 
   positions.value.forEach((position) => {
-    var imageSrc;
-    var imageSize = new kakao.maps.Size(27, 27);
+    var imageSize = new kakao.maps.Size(20, 20);
     var markerImage = new kakao.maps.MarkerImage(position.markerImg, imageSize);
 
     const marker = new kakao.maps.Marker({
@@ -213,9 +215,7 @@ const deleteOverlays = () => {
 }
 
 #courseMap {
-  width: 60%;
   height: 350px;
-  display: inline-block;
 }
 .wrap {
   position: absolute;

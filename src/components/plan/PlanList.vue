@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
-
+import { useRouter } from "vue-router";
 import { getPlanList } from "@/api/plan";
+import { usePlanStore } from "@/stores/plan";
 import PlanListMapView from "./PlanListMapView.vue";
 
 // import VSelect from "@/components/common/VSelect.vue";
 import PageNavigation from "@/components/common/PageNavigation.vue";
-
+const planStore = usePlanStore();
+const router = useRouter();
 const plans = ref([]);
 
 const currentPage = ref(1);
@@ -44,6 +46,13 @@ const onPageChange = (val) => {
   param.value.pgno = val;
   planList();
 };
+
+const { deletePlans } = planStore;
+
+const createPlan = () => {
+  deletePlans();
+  router.push({ name: "plan-write" });
+};
 </script>
 
 <template>
@@ -63,9 +72,10 @@ const onPageChange = (val) => {
 
       <ul class="properties-filter">
         <li>
-          <router-link :to="{ name: 'plan-write' }" class="is_active"
+          <!-- <router-link :to="{ name: 'plan-write' }" class="is_active"
             >여행 계획하러 가기</router-link
-          >
+          > -->
+          <a class="is_active" @click="createPlan">여행 계획하러 가기</a>
         </li>
       </ul>
 
@@ -79,7 +89,7 @@ const onPageChange = (val) => {
               v-for="plan in plans"
               :key="plan.planNo"
             >
-              <router-link :to="{ name: 'plan-view', params: { planNo: plan.planNo } }">
+              <router-link :to="{ name: 'plan-view', params: { planNo: plan.planNo } }" replace>
                 <div class="chef-member">
                   <div class="member-img">
                     <PlanListMapView :plan="plan" />

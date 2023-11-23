@@ -5,12 +5,14 @@ import { storeToRefs } from "pinia";
 import { usePlanStore } from "@/stores/plan";
 const planStore = usePlanStore();
 const { plans } = storeToRefs(planStore);
+const { updatePlans } = planStore;
 const list = ref(plans);
 
 const dragging = ref(false);
 const draggingInfo = computed(() => (dragging.value ? "under drag" : ""));
 
 const checkMove = (e) => {
+  updatePlans(list.value);
   console.log("Future index: " + e.draggedContext.futureIndex);
 };
 
