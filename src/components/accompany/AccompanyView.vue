@@ -171,9 +171,16 @@ function cancelRegister() {
           <hr class="hr-style col-12" size="1" width="100%" />
           <div class="col-8 align-content-center">
             <div class="clearfix align-content-center">
+              <i
+                v-if="!accompany.photo"
+                class="bi bi-person-circle avatar me-2 float-md-start p-2"
+              ></i>
               <img
-                class="avatar me-2 float-md-start bg-light p-2"
-                src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                v-else
+                :src="`${imageUrl}/${accompany.photo}`"
+                alt=""
+                width="30"
+                class="rounded-circle img-fluid avatar me-2 float-md-start"
               />
               <div>
                 <span class="fw-bold">{{ accompany.id }}</span> <br />

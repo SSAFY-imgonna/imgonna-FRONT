@@ -9,6 +9,8 @@ import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
 import { getCommentListByInquiryNo, deleteComment } from "@/api/qnaComment";
 import Swal from "sweetalert2";
 
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
+
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
@@ -127,9 +129,16 @@ function onDeleteInquiry() {
         <div class="row">
           <div class="col-md-8">
             <div class="clearfix align-content-center">
+              <i
+                v-if="!inquiry.photo"
+                class="bi bi-person-circle avatar me-2 float-md-start p-2"
+              ></i>
               <img
-                class="avatar me-2 float-md-start bg-light p-2"
-                src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                v-else
+                :src="`${imageUrl}/${inquiry.photo}`"
+                alt=""
+                width="30"
+                class="rounded-circle img-fluid avatar me-2 float-md-start"
               />
               <p>
                 <span class="fw-bold">{{ inquiry.id }}</span> <br />
