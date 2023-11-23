@@ -1,4 +1,5 @@
 <script setup>
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 defineProps({ inquiry: Object });
 </script>
 
@@ -13,7 +14,17 @@ defineProps({ inquiry: Object });
         {{ inquiry.title }}
       </router-link>
     </td>
-    <td>{{ inquiry.id }}</td>
+    <td>
+      <i v-if="!inquiry.photo" class="bi bi-person-circle me-2"></i>
+      <img
+        v-else
+        :src="`${imageUrl}/${inquiry.photo}`"
+        alt=""
+        width="25"
+        class="rounded-circle img-fluid me-1"
+      />
+      {{ inquiry.id }}
+    </td>
     <td>{{ inquiry.createdTime }}</td>
   </tr>
 </template>
