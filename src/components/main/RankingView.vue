@@ -20,37 +20,55 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="chefs" class="chefs section-bg">
+  <section id="chefs" class="chefs">
     <div class="container" data-aos="fade-up">
-      <div class="row gy-4">
-        <div
-          class="col-lg-4 col-md-6 d-flex align-items-stretch"
-          data-aos="fade-up"
-          data-aos-delay="100"
-          v-for="(rank, index) in rankList"
-        >
-          <div class="chef-member">
-            <div class="member-img">
-              <RankMapView :attractions="rank.attractions" :map-name="`mapName${index}`" />
-              <!-- <img src="assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="" /> -->
-              <div class="social">
-                <a href=""><i class="bi bi-twitter"></i></a>
-                <a href=""><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info">
-              <h4>{{ rank.member.nickname }}님</h4>
-              <span>총 방문지 수: {{ rank.attractions.length }}</span>
-              <!-- <p>
+      <div class="row justify-content-center">
+        <div class="col-8 px-5">
+          <div class="festival-text text-center">
+            <h3 class="sixth">
+              발자취 랭킹
+              <!-- <img src="/icon/festival_icon.png" width="40" /> -->
+            </h3>
+          </div>
+          <div class="row gy-4">
+            <div
+              class="col-lg-4 col-md-6 d-flex align-items-stretch"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              v-for="(rank, index) in rankList"
+            >
+              <div class="chef-member">
+                <div class="member-img">
+                  <RankMapView :attractions="rank.attractions" :map-name="`mapName${index}`" />
+                  <!-- <img src="assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="" /> -->
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>{{ rank.member.nickname }}님</h4>
+                  <span>총 방문지 수: {{ rank.attractions.length }}</span>
+                  <!-- <p>
                 Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut.
                 Ipsum exercitationem iure minima enim corporis et voluptate.
               </p> -->
+                </div>
+              </div>
             </div>
+            <!-- End Chefs Member -->
           </div>
         </div>
-        <!-- End Chefs Member -->
+        <div class="col-3">
+          <div class="festival-text text-center">
+            <h3 class="sixth">
+              인기 동행
+              <!-- <img src="/icon/festival_icon.png" width="40" /> -->
+            </h3>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -58,6 +76,44 @@ onMounted(() => {
 </template>
 
 <style scoped>
+section {
+  overflow: hidden;
+  padding: 0px 0;
+}
+.festival-text {
+  margin-bottom: 3%;
+}
+
+.festival-text .sixth {
+  position: relative;
+  font-weight: 800;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.sixth:before,
+.sixth:after {
+  content: "[";
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  height: 100%;
+  font-size: 1.25em;
+  color: #74b359;
+
+  transition: all 0.5s ease;
+}
+
+.sixth:after {
+  content: "]";
+}
+
+.sixth:hover:before {
+  transform: translateX(-5px);
+}
+
+.sixth:hover:after {
+  transform: translateX(5px);
+}
 /*--------------------------------------------------------------
 # Chefs Section
 --------------------------------------------------------------*/

@@ -1037,7 +1037,7 @@ section {
   padding: 30px;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 475px) {
   .events .event-item {
     min-height: 500px;
   }

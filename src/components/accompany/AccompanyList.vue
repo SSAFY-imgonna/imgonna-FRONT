@@ -35,7 +35,6 @@ watch(
 );
 
 const AccompanyList = () => {
-  console.log("서버에서 글목록 얻어오자!!!", param.value);
   // API 호출
   getAccompanyList(
     param.value,
@@ -53,7 +52,6 @@ const AccompanyList = () => {
 };
 
 const onPageChange = (val) => {
-  console.log(val + "번 페이지로 이동 준비 끝!!!");
   currentPage.value = val;
   param.value.pgno = val;
   AccompanyList();
