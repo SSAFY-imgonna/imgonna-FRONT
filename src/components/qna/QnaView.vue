@@ -86,6 +86,9 @@ function moveModify() {
 
 function onDeleteInquiry() {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 삭제하시겠습니까?",
     text: "삭제하시면 되돌릴 수 없습니다!",
     icon: "warning",
@@ -102,6 +105,9 @@ function onDeleteInquiry() {
         ({ data }) => {
           console.log(data);
           Swal.fire({
+            scrollbarPadding: false,
+            // optional
+            heightAuto: false,
             title: "Q&A 삭제 완료",
             icon: "success",
           });

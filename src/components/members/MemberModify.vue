@@ -14,6 +14,9 @@ console.log(modifyParam.value);
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -56,12 +59,18 @@ const modifySubmit = () => {
         console.log(data);
         userInfo.value = data;
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "success",
           title: "회원정보 수정 성공",
         });
       },
       (error) => {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "회원정보 수정 실패",
           text: "다시 시도해주세요!",

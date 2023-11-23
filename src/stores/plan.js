@@ -12,6 +12,9 @@ export const usePlanStore = defineStore(
       const duplicate = plans.value.some((plan) => plan.contentId == attraction.contentId);
       if (duplicate) {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           text: "이미 존재하는 관광지입니다!",
         });
@@ -23,6 +26,9 @@ export const usePlanStore = defineStore(
     const deletePlan = (attraction) => {
       if (plans.value.length == 0) {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           text: "관광지는 최소 1개가 존재해야 합니다!",
         });

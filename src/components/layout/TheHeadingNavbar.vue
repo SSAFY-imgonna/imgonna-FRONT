@@ -147,7 +147,7 @@ const doLogout = async () => {
 
 <style>
 @import "../css/indexstyles.css";
-button {
+* {
   font-family: "Nanum Gothic", sans-serif !important;
 }
 .text-small {
@@ -156,5 +156,16 @@ button {
 
 .dropdown-toggle:not(:focus) {
   outline: 0;
+}
+
+/* 여기서부터 navbar css 추가한 내용 */
+.d-flex {
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+  a.logo {
+    margin-right: 72px !important;
+  }
 }
 </style>

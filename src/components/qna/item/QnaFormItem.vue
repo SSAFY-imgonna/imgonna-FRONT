@@ -87,6 +87,9 @@ function writeInquiry() {
     ({ data }) => {
       console.log(data);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "Q&A 작성 완료",
       });
@@ -95,6 +98,9 @@ function writeInquiry() {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "Q&A 작성 실패",
         text: "다시 시도해주세요!",
@@ -113,6 +119,9 @@ function updateInquiry() {
     ({ data }) => {
       console.log(data);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "Q&A 수정 완료",
       });
@@ -121,6 +130,9 @@ function updateInquiry() {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "Q&A 수정 실패",
         text: "다시 시도해주세요!",
@@ -132,6 +144,9 @@ function updateInquiry() {
 function moveList() {
   let temp = props.type == "regist" ? "작성" : "수정";
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 이동하시겠습니까?",
     text: temp + "중인 글이 사라집니다!",
     icon: "warning",

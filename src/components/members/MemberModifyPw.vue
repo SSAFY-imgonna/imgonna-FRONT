@@ -16,6 +16,9 @@ const modifyParams = ref({
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -37,6 +40,9 @@ const modifyPassword = () => {
       ({ data }) => {
         console.log(data);
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "success",
           title: "비밀번호 변경 성공",
           text: "다시 로그인 해주세요!",
@@ -51,6 +57,9 @@ const modifyPassword = () => {
           showWarning("기존 비밀번호를 정확하게 입력해주세요!");
         } else {
           Swal.fire({
+            scrollbarPadding: false,
+            // optional
+            heightAuto: false,
             icon: "error",
             title: "비밀번호 변경 실패",
             text: "다시 시도해주세요!",

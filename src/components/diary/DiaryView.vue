@@ -85,6 +85,12 @@ function moveModify() {
 function onDeleteDiary() {
   // API 호출
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 삭제하시겠습니까?",
     text: "삭제하시면 되돌릴 수 없습니다!",
     icon: "warning",

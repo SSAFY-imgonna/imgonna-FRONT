@@ -93,6 +93,9 @@ function moveModify() {
 
 function onDeleteAccompany() {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 삭제하시겠습니까?",
     text: "삭제하시면 되돌릴 수 없습니다!",
     icon: "warning",
@@ -109,6 +112,9 @@ function onDeleteAccompany() {
         ({ data }) => {
           console.log(data);
           Swal.fire({
+            scrollbarPadding: false,
+            // optional
+            heightAuto: false,
             title: "동행 글 삭제 완료",
             icon: "success",
           });

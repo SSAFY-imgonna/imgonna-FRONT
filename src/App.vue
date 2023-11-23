@@ -38,4 +38,9 @@ const getNotifyAgain = () => {
   justify-content: center;
   color: #74b359 !important;
 }
+
+.swal2-shown {
+  overflow: unset !important;
+  padding-right: 0px !important;
+}
 </style>

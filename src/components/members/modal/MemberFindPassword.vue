@@ -11,6 +11,9 @@ const modalType = ref("findPw");
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -36,6 +39,9 @@ const findPw = async () => {
       },
       (error) => {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "비밀번호 재설정",
           text: "일치하는 정보가 없습니다. 다시 시도해주세요!",

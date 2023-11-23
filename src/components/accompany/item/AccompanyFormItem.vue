@@ -79,6 +79,9 @@ watch(
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -152,6 +155,9 @@ function writeAccompany() {
     ({ data }) => {
       console.log(data);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "동행 글 작성 완료",
       });
@@ -159,6 +165,9 @@ function writeAccompany() {
     },
     (error) => {
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "동행 글 작성 실패",
         text: "다시 시도해주세요!",
@@ -202,6 +211,9 @@ function updateAccompany() {
     formData,
     ({ data }) => {
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "동행 글 수정 완료",
       });
@@ -210,6 +222,9 @@ function updateAccompany() {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "동핼 글 수정 실패",
         text: "다시 시도해주세요!",
@@ -226,6 +241,9 @@ function deleteDiv() {
 
 function moveList() {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 이동하시겠습니까?",
     text: "작성중인 글이 사라집니다!",
     icon: "warning",
@@ -243,6 +261,9 @@ function moveList() {
 
 function moveView() {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     title: "정말 이동하시겠습니까?",
     text: "수정중인 글이 사라집니다!",
     icon: "warning",

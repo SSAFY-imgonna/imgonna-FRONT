@@ -157,6 +157,9 @@ const setCourses = () => {
   updatePlans(courseDetailList.value);
 
   const swalWithBootstrapButtons = Swal.mixin({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     customClass: {
       confirmButton: "btn btn-success",
       cancelButton: "btn btn-danger",
@@ -165,6 +168,9 @@ const setCourses = () => {
   });
   swalWithBootstrapButtons
     .fire({
+      scrollbarPadding: false,
+      // optional
+      heightAuto: false,
       title: "코스 담기 완료",
       text: "방금 담은 코스를 바로 편집할 수 있습니다!",
       icon: "success",
@@ -183,6 +189,9 @@ const setCourses = () => {
         deletePlans();
 
         swalWithBootstrapButtons.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           title: "코스 담기 취소 완료",
           // text: "Your imaginary file is safe :)",
           icon: "success",
