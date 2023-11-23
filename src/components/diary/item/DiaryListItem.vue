@@ -12,14 +12,25 @@ const { diary } = defineProps({ diary: Object });
     <div class="item">
       <router-link :to="{ name: 'diary-view', params: { diaryNo: diary.diaryNo } }">
         <img
+          class="card-img"
           v-if="diary.fileInfos.length > 0"
           alt=""
           :src="`${imageUrl}/${diary.fileInfos[0].saveFolder}/${diary.fileInfos[0].saveFile}`"
         />
-        <img v-else alt="" src="/img/no_image.png" />
+        <img v-else alt="" class="card-img" src="/img/no_image.png" />
       </router-link>
-      <span class="category">Luxury Villa</span>
-      <h6><i class="bi bi-person-circle"></i> {{ diary.id }}</h6>
+      <span class="category">{{ diary.contentTypeId }}</span>
+      <h6>
+        <i v-if="!diary.photo" class="bi bi-person-circle"></i>
+        <img
+          v-else
+          :src="`${imageUrl}/${diary.photo}`"
+          alt=""
+          width="30"
+          class="rounded-circle img-fluid"
+        />
+        {{ diary.id }}
+      </h6>
       <h4>
         <span style="font-weight: 600">{{ diary.title }}</span>
       </h4>
@@ -65,7 +76,7 @@ a {
   text-decoration: none !important;
 }
 
-img {
+img.card-img {
   width: 100%;
   height: 200px;
   overflow: hidden;

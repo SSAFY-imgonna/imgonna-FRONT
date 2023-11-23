@@ -21,18 +21,63 @@ const param = ref({
   word: "",
 });
 
+const contentsList = ref([
+  {
+    text: "관광지",
+    value: "12",
+  },
+  {
+    text: "문화시설",
+    value: "14",
+  },
+  {
+    text: "축제공연행사",
+    value: "15",
+  },
+  {
+    text: "여행코스",
+    value: "25",
+  },
+  {
+    text: "레포츠",
+    value: "28",
+  },
+  {
+    text: "숙박",
+    value: "32",
+  },
+  {
+    text: "쇼핑",
+    value: "38",
+  },
+  {
+    text: "음식점",
+    value: "39",
+  },
+]);
+
 onMounted(() => {
   DiaryList();
 });
 
 const DiaryList = () => {
-  console.log("서버에서 글목록 얻어오자!!!", param.value);
   // API 호출
   getDiaryList(
     param.value,
     ({ data }) => {
-      console.log(data);
-      diarys.value = data.diaryList;
+      diarys.value = data.diaryList.filter((diary) => {
+        const foundContent = contentsList.value.find(
+          (content) => content.value === String(diary.contentTypeId)
+        );
+
+        if (foundContent) {
+          diary.contentTypeId = foundContent.text;
+          return true;
+        }
+
+        return false;
+      });
+
       currentPage.value = data.currentPage;
       totalPage.value = data.totalPageCount;
       console.log(diarys.value);

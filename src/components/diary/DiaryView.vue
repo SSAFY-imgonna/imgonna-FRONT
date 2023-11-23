@@ -17,14 +17,56 @@ onMounted(() => {
   getDiary();
 });
 
+const contentsList = ref([
+  {
+    text: "관광지",
+    value: "12",
+  },
+  {
+    text: "문화시설",
+    value: "14",
+  },
+  {
+    text: "축제공연행사",
+    value: "15",
+  },
+  {
+    text: "여행코스",
+    value: "25",
+  },
+  {
+    text: "레포츠",
+    value: "28",
+  },
+  {
+    text: "숙박",
+    value: "32",
+  },
+  {
+    text: "쇼핑",
+    value: "38",
+  },
+  {
+    text: "음식점",
+    value: "39",
+  },
+]);
+
 const getDiary = () => {
   console.log(diaryNo + "번글 얻으러 가자!!!");
   // API 호출
   getDiaryByDiaryNo(
     diaryNo,
     ({ data }) => {
-      console.log(data);
       diary.value = data;
+
+      const foundContent = contentsList.value.find(
+        (content) => content.value === String(data.contentTypeId)
+      );
+
+      if (foundContent) {
+        diary.value.contentTypeId = foundContent.text;
+      }
     },
     (error) => {
       console.log(error);
@@ -82,15 +124,22 @@ function onDeleteDiary() {
         </div>
         <div class="col-lg-12">
           <div class="main-content">
-            <span class="category">EnjoyTrip</span>
+            <span class="category">{{ diary.contentTypeId }}</span>
           </div>
           <div class="section-heading">
             <h2>{{ diary.title }}</h2>
             <div class="col-md-8">
               <div class="clearfix align-content-center">
+                <i
+                  v-if="!diary.photo"
+                  class="bi bi-person-circle avatar me-2 float-md-start p-2"
+                ></i>
                 <img
-                  class="avatar me-2 float-md-start bg-light p-2"
-                  src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                  v-else
+                  :src="`${imageUrl}/${diary.photo}`"
+                  alt=""
+                  width="30"
+                  class="rounded-circle img-fluid avatar me-2 float-md-start"
                 />
                 <p>
                   <span class="fw-bold">{{ diary.id }}</span
