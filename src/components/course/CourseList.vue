@@ -5,35 +5,35 @@ import { getCourseList, getCourse } from "@/api/attraction";
 import { useRoute, useRouter } from "vue-router";
 import PageNavigation from "@/components/common/PageNavigation.vue";
 
-// const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const sidoList = ref([]);
 const gugunList = ref([]);
 const router = useRouter();
-
+const isMoreThan1Page = true;
 const attractions = ref([]);
 
 const currentPage = ref(1);
 const totalPage = ref(10);
 
-const attractionParams = ref({
-  sidoCode: 0,
-  gugunCode: 0,
-  contentTypeId: 25,
-});
-
 onMounted(() => {
-  loadSidoList();
+  loadAreaList();
   getCourses();
 });
 
-const loadSidoList = () => {
+const loadAreaList = () => {
   getSidoList(
     ({ data }) => {
       let options = [];
+      options.push({ text: "전체", value: "" });
       data.forEach((sido) => {
-        options.push({ text: sido.sidoName, value: sido.sidoCode });
+        let sidoName = sido.sidoName;
+        if (sido.sidoName.length == 4) {
+          sidoName = sidoName.charAt(0) + sidoName.charAt(2);
+        } else if (sido.sidoName.length > 2) {
+          sidoName = sidoName.substr(0, 2);
+        }
+        options.push({ text: sidoName, value: sido.sidoCode });
       });
       sidoList.value = options;
     },
@@ -47,55 +47,29 @@ const getSidoName = (areaCode) => {
   return sidoList.value.filter((sido) => sido.value == areaCode);
 };
 
+const cat2List = [
+  { text: "전체", value: "" },
+  { text: "가족코스", value: "C0112" },
+  { text: "나홀로코스", value: "C0113" },
+  { text: "힐링코스", value: "C0114" },
+  { text: "도보코스", value: "C0115" },
+  { text: "캠핑코스", value: "C0116" },
+  { text: "맛코스", value: "C0117" },
+];
+
 const onChangeSido = (val) => {
   sidoList.value.forEach((sido) => {
     sido.active = false;
   });
   val.active = true;
-
-  attractionParams.value.sidoCode = val.value;
-  getGugunList(
-    { sido: val.value },
-    ({ data }) => {
-      let options = [];
-      data.forEach((gugun) => {
-        options.push({ text: gugun.gugunName, value: gugun.gugunCode });
-      });
-      gugunList.value = options;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
+  coursesParams.value.areaCode = val.value;
+  gugunList.value = cat2List;
 };
 
-const onChangeGugun = (val) => {
-  attractionParams.value.gugunCode = val;
-  console.log(attractionParams.value);
-
-  getAttractionList(
-    attractionParams.value,
-    ({ data }) => {
-      attractions.value = data;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-};
-
-const onChangeContents = (val) => {
-  attractionParams.value.contentTypeId = val;
-  console.log(attractionParams.value);
-  getAttractionList(
-    attractionParams.value,
-    ({ data }) => {
-      attractions.value = data;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
+const onChangeSiGungu = (val) => {
+  coursesParams.value.cat2 = val;
+  console.log(coursesParams.value);
+  getCourses();
 };
 
 const coursesParams = ref({
@@ -124,13 +98,15 @@ const onPageChange = (val) => {
 const courseList = ref([]);
 
 const getCourses = () => {
-  // console.log(coursesParams.value);
   getCourseList(
     coursesParams.value,
     ({ data }) => {
       if (data) {
         courseList.value = data.response.body.items.item;
-        console.log(courseList.value);
+        // console.log(courseList.value);
+        // if (courseList.value.length <= 12) {
+        //   totalPage.value = 1;
+        // }
       }
     },
     (error) => {
@@ -191,7 +167,7 @@ const getCourseByContentId = (contentId) => {
             <li
               v-for="gugun in gugunList"
               data-filter=".filter-app"
-              @click="onChangeGugun(gugun.value)"
+              @click="onChangeSiGungu(gugun.value)"
             >
               {{ gugun.text }}
             </li>
