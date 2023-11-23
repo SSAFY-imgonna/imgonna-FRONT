@@ -16,6 +16,7 @@ export const useMemberStore = defineStore(
     const isLoginError = ref(false);
     const userInfo = ref(null);
     const isValidToken = ref(false);
+    const isShownLoginModal = ref(false);
 
     const userLogin = async (loginUser) => {
       await doLogin(
@@ -151,6 +152,7 @@ export const useMemberStore = defineStore(
       getUserInfo,
       tokenRegenerate,
       userLogout,
+      isShownLoginModal,
     };
   },
   { persist: { storage: sessionStorage } }

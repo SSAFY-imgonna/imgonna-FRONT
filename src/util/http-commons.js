@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMemberStore } from "@/stores/member.js";
+import Swal from "sweetalert2";
 
 const {
   VITE_VUE_API_URL,
@@ -21,9 +22,9 @@ function localAxios() {
 
   instance.interceptors.request.use(
     function (config) {
-      const { accessToken } = useMemberStore();
+      const { isLogin, accessToken } = useMemberStore();
 
-      if (accessToken) {
+      if (isLogin && accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
@@ -44,26 +45,10 @@ function localAxios() {
       const { refreshToken, updateAccessToken } = useAuthStore();
       // Unauthorized : request a new accessToken
       if (error.response.status === 401) {
-        if (refreshToken.length) {
-          return axios
-            .post("http://127.0.0.1:8000/api/accounts/token/refresh/", {
-              username: "로그인된 사용자 이름",
-              refreshToken,
-            })
-            .then((res) => {
-              console.log(res);
-              updateAccessToken(res.data?.accessToken);
-              originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;
-              return axiosInstance(originalRequest);
-            })
-            .catch((error) => {
-              alert("다시 로그인해주세요.");
-              router.push({ name: "admin-index" });
-              return Promise.reject(error);
-            });
-        } else {
-          router.push({ name: "kiosk-index" });
-        }
+        Swal.fire({
+          icon: "error",
+          text: "로그인이 필요한 서비스입니다. 로그인 후 다시 이용해주세요!",
+        });
       }
 
       return Promise.reject(error);

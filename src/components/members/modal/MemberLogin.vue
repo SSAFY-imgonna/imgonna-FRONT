@@ -7,21 +7,22 @@ import Swal from "sweetalert2";
 import MemberFindId from "./MemberFindId.vue";
 import MemberFindPassword from "./MemberFindPassword.vue";
 
-defineProps({
-  isShownLoginModal: Boolean,
-});
+// defineProps({
+//   isShownLoginModal: Boolean,
+// });
 
 const memberStore = useMemberStore();
 
-const { isLogin } = storeToRefs(memberStore);
+const { isLogin, isShownLoginModal } = storeToRefs(memberStore);
 const { userLogin, getUserInfo } = memberStore;
 
-const emit = defineEmits(["closeModal"]);
+// const emit = defineEmits(["closeModal"]);
 
 const closeModal = () => {
+  console.log("isShownLoginModal", isShownLoginModal);
   loginParam.value.id = "";
   loginParam.value.password = "";
-  emit("closeModal");
+  isShownLoginModal.value = !isShownLoginModal.value;
   modalType.value = "login";
 };
 

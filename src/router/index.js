@@ -1,6 +1,33 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TheMainView from "@/views/TheMainView.vue";
 
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+
+const onlyAuthUser = async (to, from, next) => {
+  const memberStore = useMemberStore();
+  const { userInfo, isValidToken, isShownLoginModal } = storeToRefs(memberStore);
+  const { getUserInfo } = memberStore;
+
+  let token = sessionStorage.getItem("accessToken");
+  console.log("로그인 처리 전", userInfo.value, token);
+
+  if (userInfo != null && token) {
+    // console.log("토큰 유효성 체크하러 가자!!!!");
+    await getUserInfo(token);
+  }
+  if (!isValidToken.value || userInfo.value == null) {
+    isShownLoginModal.value = true;
+    // alert("로그인이 필요한 페이지입니다..");
+    // // next({ name: "login" });
+    router.push(from);
+  } else {
+    // console.log("로그인 했다!!!!!!!!!!!!!.");
+    next();
+  }
+  next();
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -53,11 +80,13 @@ const router = createRouter({
           path: "",
           name: "accompany-write",
           component: () => import("@/components/accompany/AccompanyWrite.vue"),
+          beforeEnter: onlyAuthUser,
         },
         {
           path: ":accompanyNo",
           name: "accompany-modify",
           component: () => import("@/components/accompany/AccompanyModify.vue"),
+          beforeEnter: onlyAuthUser,
         },
       ],
     },
@@ -82,11 +111,13 @@ const router = createRouter({
           path: "",
           name: "diary-write",
           component: () => import("@/components/diary/DiaryWrite.vue"),
+          beforeEnter: onlyAuthUser,
         },
         {
           path: ":diaryNo",
           name: "diary-modify",
           component: () => import("@/components/diary/DiaryModify.vue"),
+          beforeEnter: onlyAuthUser,
         },
       ],
     },
@@ -124,6 +155,7 @@ const router = createRouter({
           path: "/create",
           name: "plan-write",
           component: () => import("@/components/plan/PlanWrite.vue"),
+          beforeEnter: onlyAuthUser,
         },
         // // {
         // //   path: "",
@@ -152,11 +184,13 @@ const router = createRouter({
           path: "",
           name: "qna-write",
           component: () => import("@/components/qna/QnaWrite.vue"),
+          beforeEnter: onlyAuthUser,
         },
         {
           path: ":qnaNo",
           name: "qna-modify",
           component: () => import("@/components/qna/QnaModify.vue"),
+          beforeEnter: onlyAuthUser,
         },
       ],
     },
@@ -164,6 +198,7 @@ const router = createRouter({
       path: "/mypage",
       name: "mypage",
       component: () => import("@/views/MyPageView.vue"),
+      beforeEnter: onlyAuthUser,
       redirect: { name: "member-info" },
       children: [
         {
