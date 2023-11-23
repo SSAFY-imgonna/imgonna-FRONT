@@ -1,7 +1,14 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { createInquiry, getModifyInquiry, modifyInquiry } from "@/api/qna";
+import Swal from "sweetalert2";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const router = useRouter();
 const route = useRoute();
@@ -17,7 +24,7 @@ const inquiry = ref({
   content: "",
   createdTime: "",
   modifiedTime: "",
-  id: "ssafy", // 이거 나중에 ssafy에서 바꿔야!!
+  id: "",
 });
 
 if (props.type === "modify") {
@@ -57,6 +64,9 @@ watch(
 );
 
 function onSubmit() {
+  if (member.value != null) {
+    inquiry.value.id = member.value.id;
+  }
   // event.preventDefault();
 
   if (titleErrMsg.value) {
@@ -76,11 +86,19 @@ function writeInquiry() {
     inquiry.value,
     ({ data }) => {
       console.log(data);
-      alert("글 작성이 완료되었습니다.");
+      Swal.fire({
+        icon: "success",
+        title: "Q&A 작성 완료",
+      });
       router.push({ name: "qna-list" });
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Q&A 작성 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
@@ -94,31 +112,44 @@ function updateInquiry() {
     inquiry.value,
     ({ data }) => {
       console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Q&A 수정 완료",
+      });
       router.push({ name: "qna-view", params: qnaNo });
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Q&A 수정 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
 
 function moveList() {
-  router.push({ name: "qna-list" });
+  let temp = props.type == "regist" ? "작성" : "수정";
+  Swal.fire({
+    title: "정말 이동하시겠습니까?",
+    text: temp + "중인 글이 사라집니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 이동하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push({ name: "qna-list" });
+    }
+  });
 }
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label for="id" class="form-label">작성자 ID : </label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="inquiry.id"
-        :disabled="isUseId"
-        placeholder="작성자ID"
-      />
-    </div>
     <div class="mb-3">
       <label for="title" class="form-label">제목 : </label>
       <input type="text" class="form-control" v-model="inquiry.title" placeholder="제목" />

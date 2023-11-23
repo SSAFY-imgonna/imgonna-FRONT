@@ -86,11 +86,11 @@ const doLogout = async () => {
           <li>
             <router-link class="text-decoration-none" :to="{ name: 'qna' }">QnA</router-link>
           </li>
-          <li>
+          <!-- <li>
             <router-link class="text-decoration-none" :to="{ name: 'plan' }"
               >여행계획상세</router-link
             >
-          </li>
+          </li> -->
         </ul>
       </nav>
       <!-- .navbar -->

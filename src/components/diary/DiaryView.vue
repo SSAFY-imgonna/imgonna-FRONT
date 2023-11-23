@@ -173,6 +173,9 @@ function onDeleteDiary() {
 </template>
 
 <style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
 .main-content-section {
   margin-top: 40px;
 }
@@ -240,7 +243,6 @@ Best Deal Style
 */
 
 .best-deal {
-  background-color: #fafafa;
   padding: 100px 0px;
 }
 

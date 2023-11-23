@@ -125,6 +125,10 @@ const onPageChange = (val) => {
 </template>
 
 <style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
+
 .chefs .chef-member {
   overflow: hidden;
   text-align: center;

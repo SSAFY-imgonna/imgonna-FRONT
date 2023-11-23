@@ -128,4 +128,8 @@ function onDeleteInquiry() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
+</style>

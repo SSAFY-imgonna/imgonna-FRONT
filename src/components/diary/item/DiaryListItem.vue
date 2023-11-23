@@ -49,6 +49,9 @@ const { diary } = defineProps({ diary: Object });
 </template>
 
 <style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
 .emotion i {
   font-size: 13pt;
 }
