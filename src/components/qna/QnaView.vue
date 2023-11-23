@@ -1,29 +1,55 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import QnaCommentFormItem from "./item/QnaCommentFormItem.vue";
 import QnaCommentListItem from "./item/QnaCommentListItem.vue";
 import { getInquiryByInquiryNo, deleteInquiry } from "@/api/qna";
 import { getCommentListByInquiryNo, deleteComment } from "@/api/qnaComment";
+import Swal from "sweetalert2";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const route = useRoute();
 const router = useRouter();
 
-const { qnaNo } = route.params;
+const inquiryNo = ref(0);
 
 const inquiry = ref({});
 const commentList = ref({});
 
+const memberInfo = ref({
+  id: null,
+  writerId: "",
+});
+
 onMounted(() => {
+  if (member.value != null) {
+    memberInfo.value.id = member.value.id;
+  }
+  inquiryNo.value = route.params.qnaNo;
   getInquiry();
   getComments();
 });
 
+watch(
+  () => route.params,
+  (value) => {
+    inquiryNo.value = route.params.inquiryNo;
+    console.log("감시", inquiryNo.value);
+    getInquiry();
+    getComments();
+  }
+);
+
 const getInquiry = () => {
-  console.log(qnaNo + "번글 얻으러 가자!!!");
+  console.log(inquiryNo.value + "번글 얻으러 가자!!!");
   // API 호출
   getInquiryByInquiryNo(
-    qnaNo,
+    inquiryNo.value,
     ({ data }) => {
       console.log(data);
       inquiry.value = data;
@@ -35,9 +61,9 @@ const getInquiry = () => {
 };
 
 const getComments = () => {
-  console.log(qnaNo + "번글 댓글 얻으러 가자!!!");
+  console.log(inquiryNo.value + "번글 댓글 얻으러 가자!!!");
   getCommentListByInquiryNo(
-    qnaNo,
+    inquiryNo.value,
     ({ data }) => {
       console.log(data);
       commentList.value = data;
@@ -53,23 +79,38 @@ function moveList() {
 }
 
 function moveModify() {
-  router.push({ name: "qna-modify", params: { qnaNo } });
+  router.push({ name: "qna-modify", params: inquiryNo.value });
 }
 
 function onDeleteInquiry() {
-  console.log(qnaNo + "번글 삭제하러 가자!!!");
-  // API 호출
-  deleteInquiry(
-    qnaNo,
-    ({ data }) => {
-      console.log(data);
-      alert("글 삭제가 완료되었습니다.");
-      router.push({ name: "qna-list" });
-    },
-    (error) => {
-      console.log(error);
+  Swal.fire({
+    title: "정말 삭제하시겠습니까?",
+    text: "삭제하시면 되돌릴 수 없습니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 삭제하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // API 호출
+      deleteInquiry(
+        inquiryNo.value,
+        ({ data }) => {
+          console.log(data);
+          Swal.fire({
+            title: "Q&A 삭제 완료",
+            icon: "success",
+          });
+          router.push({ name: "qna-list" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
-  );
+  });
 }
 </script>
 

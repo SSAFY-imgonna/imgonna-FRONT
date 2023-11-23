@@ -28,12 +28,18 @@ const onDeleteComment = (comment) => {
     accompanyNo,
     commentNo,
     ({ data }) => {
-      console.log(data);
-      alert("댓글 삭제가 완료되었습니다.");
+      Swal.fire({
+        icon: "success",
+        title: "댓글 삭제 완료",
+      });
       getComments();
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "댓글 삭제 실패",
+      });
     }
   );
 };
@@ -45,13 +51,13 @@ const ModifyComment = () => {
 
 const editingContent = ref(props.comment.content);
 
-const editingLength = ref(50);
+const editingLength = ref(0);
 watch(
   () => editingContent.value,
   (value) => {
     let len = value.length;
     console.log(len);
-    editingLength.value = 50 - len;
+    editingLength.value = len;
     if (len > 50) {
       editingContent.value = editingContent.value.substring(0, 50);
     }
