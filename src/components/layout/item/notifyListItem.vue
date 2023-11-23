@@ -20,9 +20,9 @@ function moveAccompany() {
   console.log("동행 페이지로 이동 : ", notify.pkNo);
 
   console.log("동행 페이지로 이동 : ", notify.tableName);
-  closeEvent();
   // 동행 알림이라면
   if (notify.tableName == 1) {
+    closeEvent();
     router.push({ name: "accompany-view", params: { accompanyNo: notify.pkNo } });
   }
 }

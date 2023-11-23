@@ -60,6 +60,7 @@ const deleteSelected = () => {
     selected.value,
     ({ data }) => {
       console.log("삭제됨");
+      emit("getNotifyAgain");
       NotifyListAll();
     },
     (error) => {
@@ -102,18 +103,27 @@ function readEvent(notify) {
       </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="notify in notifyList"
-        :key="notify.notifyNo"
-        class="mouseOn"
-        @click="moveAccompany(notify)"
-      >
+      <tr v-for="notify in notifyList" :key="notify.notifyNo" class="mouseOn">
         <td><input type="checkbox" v-model="selected" :value="notify.notifyNo" /></td>
-        <th :class="{ readColor: notify.isRead == 1 }" scope="row">{{ notify.notifyNo }}</th>
-        <td :class="{ readColor: notify.isRead == 1 }" v-if="notify.tableName == 1">동행</td>
-        <td :class="{ readColor: notify.isRead == 1 }">{{ notify.pkNo }}</td>
-        <td :class="{ readColor: notify.isRead == 1 }">{{ notify.content }}</td>
-        <td :class="{ readColor: notify.isRead == 1 }">{{ notify.send }}</td>
+        <th :class="{ readColor: notify.isRead == 1 }" scope="row" @click="moveAccompany(notify)">
+          {{ notify.notifyNo }}
+        </th>
+        <td
+          :class="{ readColor: notify.isRead == 1 }"
+          v-if="notify.tableName == 1"
+          @click="moveAccompany(notify)"
+        >
+          동행
+        </td>
+        <td :class="{ readColor: notify.isRead == 1 }" @click="moveAccompany(notify)">
+          {{ notify.pkNo }}
+        </td>
+        <td :class="{ readColor: notify.isRead == 1 }" @click="moveAccompany(notify)">
+          {{ notify.content }}
+        </td>
+        <td :class="{ readColor: notify.isRead == 1 }" @click="moveAccompany(notify)">
+          {{ notify.send }}
+        </td>
       </tr>
     </tbody>
   </table>

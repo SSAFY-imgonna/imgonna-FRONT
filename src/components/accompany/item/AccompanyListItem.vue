@@ -76,6 +76,9 @@ const moveView = () => {
 
 <style scoped>
 @import "@/assets/css/accompany.css";
+* {
+  font-family: "Nanum Gothic" !important;
+}
 /* 목록 부분 */
 .card-img-top {
   width: auto;

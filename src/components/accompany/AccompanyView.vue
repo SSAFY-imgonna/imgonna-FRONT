@@ -8,6 +8,7 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import AccompanyCommentFormItem from "./item/AccompanyCommentFormItem.vue";
 import AccompanyCommentListItem from "./item/AccompanyCommentListItem.vue";
+import Swal from "sweetalert2";
 import {
   getAccompanyByAccompanyNo,
   deleteAccompany,
@@ -87,23 +88,38 @@ function moveList() {
 }
 
 function moveModify() {
-  router.push({ name: "accompany-modify", params: { accompanyNo } });
+  router.push({ name: "accompany-modify", params: accompanyNo.value });
 }
 
 function onDeleteAccompany() {
-  console.log(accompanyNo + "번글 삭제하러 가자!!!");
-  // API 호출
-  deleteAccompany(
-    accompanyNo.value,
-    ({ data }) => {
-      console.log(data);
-      alert("글 삭제가 완료되었습니다.");
-      router.push({ name: "accompany-list" });
-    },
-    (error) => {
-      console.log(error);
+  Swal.fire({
+    title: "정말 삭제하시겠습니까?",
+    text: "삭제하시면 되돌릴 수 없습니다!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#d33",
+    confirmButtonColor: "#198754",
+    confirmButtonText: "네, 삭제하겠습니다!",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // API 호출
+      deleteAccompany(
+        accompanyNo.value,
+        ({ data }) => {
+          console.log(data);
+          Swal.fire({
+            title: "동행 글 삭제 완료",
+            icon: "success",
+          });
+          router.push({ name: "accompany-list" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
-  );
+  });
 }
 
 function register() {

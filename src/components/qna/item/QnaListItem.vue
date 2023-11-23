@@ -19,6 +19,9 @@ defineProps({ inquiry: Object });
 </template>
 
 <style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
 a {
   text-decoration: none;
 }

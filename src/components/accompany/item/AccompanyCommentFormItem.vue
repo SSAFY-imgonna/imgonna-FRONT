@@ -33,7 +33,7 @@ watch(
   (value) => {
     let len = value.length;
     console.log(len);
-    commentLength.value = 50 - len;
+    commentLength.value = len;
     if (len > 50) {
       comment.value.content = comment.value.content.substring(0, 50);
     } else contentErrMsg.value = "";
@@ -80,29 +80,29 @@ function writeComment() {
       >
     </div>
     <form id="form-comm" @submit.prevent="onSubmit">
-      <div class="inner-text">
+      <div class="inner-text" v-if="member">
         <textarea
           class="form-control comm-content inner-text"
           name="commContent"
           id="commContent"
           v-model="comment.content"
         ></textarea>
-        <button type="submit" class="btn btn-outline-primary" id="inner-submit">
+        <button type="submit" class="btn btn-outline-dark" id="inner-submit">
           <font-awesome-icon icon="fa-solid fa-reply" />
         </button>
-        <!-- <c:if test="${empty sessionScope.memberDto}">
-          <textarea
-            class="form-control comm-content inner-text"
-            name="commContent"
-            id="commContent"
-            disabled="disabled"
-          >
-로그인 후 작성가능합니다</textarea
-          > 
-          <button type="submit" class="btn btn-outline-primary" id="inner-submit">
-            <i class="bi bi-send-fill" style="display: none"></i>
-          </button>
-         </c:if> -->
+      </div>
+      <div class="inner-text" v-else>
+        <textarea
+          class="form-control comm-content inner-text"
+          name="commContent"
+          id="commContent"
+          disabled="disabled"
+        >
+  로그인 후 작성가능합니다</textarea
+        >
+        <button type="submit" class="btn btn-outline-dark" id="inner-submit">
+          <i class="bi bi-send-fill" style="display: none"></i>
+        </button>
       </div>
     </form>
   </div>

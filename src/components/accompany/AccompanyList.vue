@@ -13,11 +13,11 @@ const accompanys = ref([]);
 
 const currentPage = ref(1);
 const totalPage = ref(0);
-const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
+const { VITE_CARD_LIST_SIZE } = import.meta.env;
 
 const param = ref({
   pgno: currentPage.value,
-  spp: VITE_ARTICLE_LIST_SIZE,
+  spp: VITE_CARD_LIST_SIZE,
   key: "",
   word: "",
   cat: "전체",
@@ -41,7 +41,7 @@ const AccompanyList = () => {
     param.value,
     ({ data }) => {
       console.log(data);
-      accompanys.value = data;
+      accompanys.value = data.accompanyList;
       currentPage.value = data.currentPage;
       totalPage.value = data.totalPageCount;
       console.log(accompanys.value);
@@ -56,7 +56,7 @@ const onPageChange = (val) => {
   console.log(val + "번 페이지로 이동 준비 끝!!!");
   currentPage.value = val;
   param.value.pgno = val;
-  InquiryList();
+  AccompanyList();
 };
 
 const moveWrite = () => {

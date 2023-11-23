@@ -1,6 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { ref, watch } from "vue";
 import { deleteComment, modifyQnaComment } from "@/api/qnaComment";
+import Swal from "sweetalert2";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const member = ref(userInfo);
 
 const props = defineProps({
   comment: Object,
@@ -22,12 +29,18 @@ const onDeleteComment = (comment) => {
     qnaNo,
     commentNo,
     ({ data }) => {
-      console.log(data);
-      alert("댓글 삭제가 완료되었습니다.");
+      Swal.fire({
+        icon: "success",
+        title: "댓글 삭제 완료",
+      });
       getComments();
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "댓글 삭제 실패",
+      });
     }
   );
 };
@@ -38,6 +51,21 @@ const ModifyComment = () => {
 };
 
 const editingContent = ref(props.comment.content);
+
+const editingLength = ref(0);
+watch(
+  () => editingContent.value,
+  (value) => {
+    let len = value.length;
+    console.log(len);
+    editingLength.value = len;
+    if (len > 50) {
+      editingContent.value = editingContent.value.substring(0, 50);
+    }
+  },
+  // 처음 페이지 들어왔을때는 감시 안됨 => immediate:true로 처음 들어오자마자 한번 실행하고 감시
+  { immediate: true }
+);
 
 const saveChanges = () => {
   const qnaNo = props.comment.qnaNo;
@@ -62,6 +90,7 @@ const saveChanges = () => {
 };
 
 const cancelEditing = () => {
+  editingContent.value = props.comment.content;
   // 수정을 취소하면 isEditing을 false로 설정
   isEditing.value = false;
 };
@@ -80,28 +109,33 @@ const cancelEditing = () => {
       <span class="reg-date">{{ comment.createdTime }} </span>
 
       <!-- 로그인한 회원과 댓글 작성자의 회원번호 일치한다면 => 수정과 삭제 버튼 보이게 -->
-      <div style="float: right; margin-bottom: 10px">
-        <button
-          type="button"
-          class="modify-btn btn btn-outline-primary me-1"
-          @click="ModifyComment"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="delete-btn btn btn-outline-danger"
-          @click="onDeleteComment(comment)"
-        >
-          삭제
-        </button>
-      </div>
+      <!-- 로그인한 회원과 댓글 작성자의 회원번호 일치한다면 => 수정과 삭제 버튼 보이게 -->
+      <span v-if="member && member.id == comment.id">
+        <div style="float: right; margin-bottom: 10px">
+          <button
+            type="button"
+            class="modify-btn btn btn-outline-primary me-1"
+            @click="ModifyComment"
+          >
+            수정
+          </button>
+          <button
+            type="button"
+            class="delete-btn btn btn-outline-danger"
+            @click="onDeleteComment(comment)"
+          >
+            삭제
+          </button>
+        </div>
+      </span>
       <hr size="1" noshade="noshade" width="100%" />
     </div>
 
     <!-- 수정중인 댓글 -->
     <div v-else class="sub-item">
-      <div id="comm-first"><span class="letter-count">50/50</span></div>
+      <div id="comm-first">
+        <span class="letter-count">{{ editingLength }}/50</span>
+      </div>
       <div class="inner-text">
         <textarea
           class="form-control mcomm-content inner-text"
@@ -124,7 +158,7 @@ const cancelEditing = () => {
           </button>
         </div>
       </div>
-      <hr size="1" noshade="noshade" width="100%" />
+      <hr size="1" noshade="noshade" width="100%" style="margin-top: 40px" />
     </div>
   </div>
   <!-- <div class="paging-button" style="display: none">
@@ -135,4 +169,9 @@ const cancelEditing = () => {
   </div> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+@import "@/assets/css/accompany.css";
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
+</style>

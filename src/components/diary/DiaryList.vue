@@ -99,6 +99,9 @@ const moveWrite = () => {
 </template>
 
 <style scoped>
+* {
+  font-family: "Nanum Gothic", sans-serif !important;
+}
 .section-heading h3 {
   /* font-size: 30px; */
   font-weight: 700;
