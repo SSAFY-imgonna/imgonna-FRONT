@@ -135,6 +135,11 @@ const createPlan = () => {
 </template>
 
 <style scoped>
+section {
+  overflow: hidden;
+  padding: 0px 0;
+}
+
 * {
   font-family: "Nanum Gothic", sans-serif !important;
 }
