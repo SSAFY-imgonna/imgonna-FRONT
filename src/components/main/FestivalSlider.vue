@@ -46,7 +46,7 @@ const getFestivals = () => {
       if (error.data) {
         let items = error.data.response.body.items.item;
 
-        for (var i = 0; i < items.length; i += 3) {
+        for (var i = 0; i < items.length; i += 4) {
           let arr = [];
           arr.push(items[i]);
           arr.push(items[i + 1]);

@@ -35,6 +35,9 @@ export const useMemberStore = defineStore(
         },
         (error) => {
           Swal.fire({
+            scrollbarPadding: false,
+            // optional
+            heightAuto: false,
             icon: "error",
             title: "로그인 실패",
             text: "다시 로그인해주세요!",
@@ -122,6 +125,9 @@ export const useMemberStore = defineStore(
             userInfo.value = null;
             isValidToken.value = false;
             Swal.fire({
+              scrollbarPadding: false,
+              // optional
+              heightAuto: false,
               icon: "success",
               title: "로그아웃 성공",
               text: "이용해주셔서 감사합니다!",
@@ -133,6 +139,9 @@ export const useMemberStore = defineStore(
         },
         (error) => {
           Swal.fire({
+            scrollbarPadding: false,
+            // optional
+            heightAuto: false,
             icon: "error",
             title: "로그아웃 실패",
             text: "다음에 다시 시도해주세요!",

@@ -8,6 +8,9 @@ const emit = defineEmits(["finished"]);
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -25,6 +28,9 @@ const findId = async () => {
       ({ data }) => {
         console.log(data);
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "info",
           title: "아이디 찾기 결과",
           text: data,
@@ -33,6 +39,9 @@ const findId = async () => {
       },
       (error) => {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "아이디 찾기 결과",
           text: "일치하는 정보가 없습니다. 다시 시도해주세요!",

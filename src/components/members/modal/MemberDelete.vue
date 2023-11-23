@@ -24,6 +24,9 @@ const closeModal = () => {
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -44,6 +47,9 @@ const deleteSubmit = () => {
         isValidToken.value = false;
         console.log(data);
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "info",
           title: "회원 탈퇴",
           text: "정상처리 되었습니다. 그동안 이용해주셔서 감사합니다.",
@@ -53,6 +59,9 @@ const deleteSubmit = () => {
       },
       (error) => {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "회원 탈퇴",
           text: "회원 탈퇴가 정상적으로 처리되지 않았습니다. 다시 시도해주세요!",

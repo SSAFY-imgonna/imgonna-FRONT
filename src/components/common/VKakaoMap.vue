@@ -99,6 +99,7 @@ const loadMarkers = () => {
     } else if (position.contentTypeId == 39) {
       imageSrc = "/img/marker_restaurant.png";
     } else {
+      imageSize = new kakao.maps.Size(25, 30);
       imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
     }
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -207,10 +208,15 @@ const deleteOverlays = () => {
 </template>
 
 <style>
+/* .img {
+  width: 73 !important;
+  height: 70 !important;
+} */
 #kakaoMap {
   width: 80%;
   height: 550px;
-  margin-left: 80px;
+  margin: 0 auto;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 .wrap {
   position: absolute;

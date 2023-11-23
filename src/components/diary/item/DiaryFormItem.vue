@@ -70,6 +70,9 @@ if (props.type === "modify") {
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -125,6 +128,9 @@ function writeDiary() {
     ({ data }) => {
       console.log(data);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "여행 일기 작성 완료",
       });
@@ -133,6 +139,9 @@ function writeDiary() {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "여행 일기 작성 실패",
         text: "다시 시도해주세요!",
@@ -184,6 +193,9 @@ function updateDiary() {
     formData,
     ({ data }) => {
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "여행 일기 수정 완료",
       });
@@ -192,6 +204,9 @@ function updateDiary() {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "여행 일기 수정 실패",
         text: "다시 시도해주세요!",

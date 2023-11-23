@@ -44,6 +44,9 @@ const plan = ref({
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -91,6 +94,9 @@ function registPlan() {
       ({ data }) => {
         console.log(data);
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "success",
           title: "여행계획 등록 완료",
         });
@@ -99,6 +105,9 @@ function registPlan() {
       },
       (error) => {
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "여행계획 등록 실패",
           text: "다시 시도해주세요!",

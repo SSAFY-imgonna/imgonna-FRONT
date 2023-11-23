@@ -71,6 +71,9 @@ const checkDuplicateId = () => {
 
 const showWarning = (text) => {
   Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
     icon: "warning",
     text: text,
   });
@@ -123,6 +126,9 @@ const signUpSubmit = () => {
         console.log(data);
         closeModal();
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "success",
           title: "회원가입 성공",
           text: "로그인 해주세요!",
@@ -131,6 +137,9 @@ const signUpSubmit = () => {
       (error) => {
         closeModal();
         Swal.fire({
+          scrollbarPadding: false,
+          // optional
+          heightAuto: false,
           icon: "error",
           title: "회원가입 실패",
           text: "다시 시도해주세요!",

@@ -30,6 +30,9 @@ const onDeleteComment = (comment) => {
     commentNo,
     ({ data }) => {
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "success",
         title: "댓글 삭제 완료",
       });
@@ -38,6 +41,9 @@ const onDeleteComment = (comment) => {
     (error) => {
       console.log(error);
       Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
         icon: "error",
         title: "댓글 삭제 실패",
       });
