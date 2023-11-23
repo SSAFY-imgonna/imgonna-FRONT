@@ -64,7 +64,14 @@ const moveView = () => {
               ><b>내가 쓴 글</b></span
             >
             <span class="text-body-secondary">
-              <font-awesome-icon icon="fa-solid fa-circle-user" />
+              <i v-if="!accompany.photo" class="bi bi-person-circle"></i>
+              <img
+                v-else
+                :src="`${imageUrl}/${accompany.photo}`"
+                alt=""
+                width="30"
+                class="rounded-circle img-fluid"
+              />
               {{ accompany.id }}
             </span>
           </div>

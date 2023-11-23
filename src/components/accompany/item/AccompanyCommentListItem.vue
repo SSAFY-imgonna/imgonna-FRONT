@@ -4,6 +4,7 @@ import { useMemberStore } from "@/stores/member";
 import { ref, watch } from "vue";
 import { deleteComment, modifyAccompanyComment } from "@/api/accompanyComment";
 
+const imageUrl = new URL("@/assets/img/springboot/upload/", import.meta.url).href;
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const member = ref(userInfo);
@@ -101,6 +102,14 @@ const cancelEditing = () => {
     <!-- <b><h5>data.list[idx].id</h5></b> -->
     <!-- 기존 댓글 -->
     <div v-if="!isEditing" class="sub-item">
+      <i v-if="!comment.photo" class="bi bi-person-circle avatar me-2 float-md-start p-2"></i>
+      <img
+        v-else
+        :src="`${imageUrl}/${comment.photo}`"
+        alt=""
+        width="30"
+        class="rounded-circle img-fluid avatar me-2 float-md-start"
+      />
       <b
         ><h5>{{ comment.id }}</h5></b
       >
