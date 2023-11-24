@@ -169,7 +169,7 @@ const deleteOverlays = () => {
   <div id="courseMap"></div>
 </template>
 
-<style>
+<style scoped>
 .customoverlay {
   position: relative;
   bottom: 45px;

@@ -165,7 +165,7 @@ const deleteOverlays = () => {
   <div :id="`planDetails${planNo}`" style="width: 100%; height: 400px"></div>
 </template>
 
-<style>
+<style scoped>
 .customoverlay {
   position: relative;
   bottom: 45px;
