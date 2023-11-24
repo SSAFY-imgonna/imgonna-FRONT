@@ -41,11 +41,11 @@ const getDeleteModal = () => {
           <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
           <div class="d-flex justify-content-center mb-2">
             <button class="btn btn-danger" @click="getDeleteModal">회원 탈퇴</button>
-            <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+            <!-- <button type="button" class="btn btn-outline-primary ms-1">Message</button> -->
           </div>
         </div>
       </div>
-      <div class="card mb-4 mb-lg-0">
+      <!-- <div class="card mb-4 mb-lg-0">
         <div class="card-body p-0">
           <ul class="list-group list-group-flush rounded-3">
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
@@ -70,7 +70,7 @@ const getDeleteModal = () => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="col-lg-8">
       <div class="card mb-4">
@@ -121,7 +121,7 @@ const getDeleteModal = () => {
           </div>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-6">
           <div class="card mb-4 mb-md-0">
             <div class="card-body">
@@ -250,7 +250,7 @@ const getDeleteModal = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <MemberDelete :is-shown-delete-modal="isShownDeleteModal" @close-modal="getDeleteModal" />

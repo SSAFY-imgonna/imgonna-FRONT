@@ -200,9 +200,9 @@ function cancelRegister() {
             </div>
           </div>
           <!-- 댓글 개수 부분 나중에 동적으로 수정해야 -->
-          <div class="col-4 align-self-center text-end">
+          <!-- <div class="col-4 align-self-center text-end">
             댓글 : <span id="commentCount">1개</span>
-          </div>
+          </div> -->
           <div class="divider mb-3"></div>
           <hr class="hr-style col-12" size="1" width="100%" />
           <div class="divider mb-3"></div>
