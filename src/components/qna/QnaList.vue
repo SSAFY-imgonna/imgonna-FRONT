@@ -60,7 +60,7 @@ const moveWrite = () => {
       <div class="row">
         <div class="col-lg- mx-auto">
           <div class="section-heading text-center">
-            <h6>| Q&A</h6>
+            <h6>| COMMUNITY</h6>
             <h3>
               여행자간 상호 질의 및 응답할 수 있는 공개 Q&A 게시판입니다.<br />
               자유롭게 의견을 나눠보세요!
