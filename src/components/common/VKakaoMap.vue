@@ -54,7 +54,9 @@ watch(
       obj.contentTypeId = attraction.contentTypeId;
       positions.value.push(obj);
     });
-    loadMarkers();
+    if (props.attractions.length != 0) {
+      loadMarkers();
+    }
   },
   { deep: true }
 );

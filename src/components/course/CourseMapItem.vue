@@ -26,9 +26,7 @@ watch(
   () => props.attractions,
   () => {
     console.log(props.attractions);
-
-    loadMarkers();
-    drawLine();
+    initMap();
   },
   { deep: true }
 );
@@ -40,8 +38,10 @@ const initMap = () => {
     level: 4,
   };
   map = new kakao.maps.Map(container, options);
-  loadMarkers();
-  drawLine();
+  if (props.attractions.length != 0) {
+    loadMarkers();
+    drawLine();
+  }
 };
 
 const drawLine = () => {
