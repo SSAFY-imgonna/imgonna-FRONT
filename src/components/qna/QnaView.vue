@@ -126,7 +126,7 @@ function onDeleteInquiry() {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">QnA 글보기</h2>
+        <!-- <h2 class="my-3 py-3 shadow-sm bg-light text-center">QnA 글보기</h2> -->
       </div>
       <div class="col-lg-10 text-start">
         <div class="row my-3">
@@ -154,7 +154,7 @@ function onDeleteInquiry() {
               </p>
             </div>
           </div>
-          <div class="col-md-4 align-self-center text-end">댓글 : 17</div>
+          <div class="col-md-4 align-self-center text-end"></div>
           <div class="divider mb-3"></div>
           <div class="text-secondary">
             {{ inquiry.content }}
