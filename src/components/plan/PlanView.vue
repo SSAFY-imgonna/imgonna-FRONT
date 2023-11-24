@@ -34,21 +34,21 @@ onMounted(() => {
 const deletePlan = () => {
   deletePlanByPlanNo(
     planNo,
-    ({ data }) => {
-      Swal.fire({
-        scrollbarPadding: false,
-        // optional
-        heightAuto: false,
-        icon: "success",
-        text: "삭제 완료되었습니다.",
-      });
-
-      router.replace({ name: "plan-list" });
-    },
+    ({ data }) => {},
     (error) => {
       console.log(error);
     }
   );
+  Swal.fire({
+    scrollbarPadding: false,
+    // optional
+    heightAuto: false,
+    icon: "success",
+    text: "삭제 완료되었습니다.",
+  });
+
+  router.push({ name: "plan-list" });
+  // location.reload();
 };
 
 function moveList() {

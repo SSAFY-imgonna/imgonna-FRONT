@@ -86,7 +86,8 @@ onMounted(() => {
                   :to="{ name: 'accompany-view', params: { accompanyNo: accompany.accompanyNo } }"
                 >
                   <p class="title" style="font-size: 18px">
-                    {{ idx + 1 }}&nbsp{{ accompany.title }}
+                    <span class="numGreen">{{ idx + 1 }}</span
+                    >&nbsp{{ accompany.title }}
                   </p>
                 </router-link>
               </div>
@@ -167,6 +168,11 @@ section {
 
 .sixth:hover:after {
   transform: translateX(5px);
+}
+
+.numGreen {
+  color: #74b359;
+  font-weight: 1000;
 }
 /*--------------------------------------------------------------
 # Chefs Section

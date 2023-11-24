@@ -32,8 +32,8 @@ const diary = ref({
   title: "",
   content: "",
   createdTime: "",
-  weather: "sun",
-  emotion: "fun",
+  weather: "",
+  emotion: "",
   upfile: "",
   isPublic: false,
 });

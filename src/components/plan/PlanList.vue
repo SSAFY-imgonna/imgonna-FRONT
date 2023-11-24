@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
 import { useRouter } from "vue-router";
 import { getPlanList } from "@/api/plan";
 import { usePlanStore } from "@/stores/plan";
@@ -40,6 +40,9 @@ const planList = () => {
     }
   );
 };
+// onUpdated(() => {
+//   location.reload();
+// });
 
 const onPageChange = (val) => {
   currentPage.value = val;

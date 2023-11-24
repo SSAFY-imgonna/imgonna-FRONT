@@ -17,7 +17,7 @@ function getPlanByPlanNo(planNo, success, fail) {
 }
 
 function deletePlanByPlanNo(planNo, success, fail) {
-  local.delete(`${url}/${planNo}`).then(success).catch(fail);
+  local.post(`${url}/${planNo}`).then(success).catch(fail);
 }
 
 export { createPlan, getPlanList, getPlanByPlanNo, deletePlanByPlanNo };

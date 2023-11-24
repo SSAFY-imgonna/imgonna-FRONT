@@ -42,7 +42,7 @@ const router = createRouter({
       component: () => import("@/views/TheAttractionView.vue"),
     },
     {
-      path: "/course",
+      path: "/courses",
       name: "course",
       component: () => import("@/views/TheCourseView.vue"),
       redirect: { name: "course-list" },
@@ -136,7 +136,7 @@ const router = createRouter({
     //   ],
     // },
     {
-      path: "/plan",
+      path: "/plans",
       name: "plan",
       component: () => import("../views/ThePlanView.vue"),
       redirect: { name: "plan-list" },
