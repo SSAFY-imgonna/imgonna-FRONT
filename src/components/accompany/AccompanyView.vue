@@ -137,12 +137,25 @@ function register() {
     memberInfo.value,
     ({ data }) => {
       console.log(data);
-
-      alert("동행 신청이 완료되었습니다.");
+      Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
+        icon: "success",
+        title: "동행 신청이 완료되었습니다.",
+      });
       getAccompany();
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
+        icon: "error",
+        title: "동행 신청 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
@@ -155,12 +168,25 @@ function cancelRegister() {
     memberInfo.value,
     ({ data }) => {
       console.log(data);
-
-      alert("동행 취소가 완료되었습니다.");
+      Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
+        icon: "success",
+        title: "동행 취소가 완료되었습니다.",
+      });
       getAccompany();
     },
     (error) => {
       console.log(error);
+      Swal.fire({
+        scrollbarPadding: false,
+        // optional
+        heightAuto: false,
+        icon: "error",
+        title: "동행 취소 실패",
+        text: "다시 시도해주세요!",
+      });
     }
   );
 }
